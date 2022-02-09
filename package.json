@@ -1,0 +1,27 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs",
+    "prettier": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LoTwT/notes.git"
+  },
+  "keywords": [],
+  "author": "LoTwT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LoTwT/notes/issues"
+  },
+  "homepage": "https://github.com/LoTwT/notes#readme",
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.5",
+    "vuepress": "^2.0.0-beta.35"
+  }
+}
