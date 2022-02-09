@@ -6,6 +6,7 @@ export default defineUserConfig<DefaultThemeOptions>({
   lang: "zh",
   title: "Ayingott's notes...",
   description: "useless and naive...",
+  base: "/notes/",
 
   // 主题和它的配置
   theme: "@vuepress/theme-default",
