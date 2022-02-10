@@ -1,16 +1,29 @@
 import { defineUserConfig } from "vuepress"
 import type { DefaultThemeOptions } from "vuepress"
+import { navbar } from "./configs"
 
 export default defineUserConfig<DefaultThemeOptions>({
-  // 站点配置
-  lang: "zh",
-  title: "Ayingott's notes...",
-  description: "useless and naive...",
   base: "/notes/",
 
-  // 主题和它的配置
+  locales: {
+    "/": {
+      lang: "zh-CN",
+      title: "Ayingott's notes...",
+      description: "useless and naive...",
+    },
+  },
+
   theme: "@vuepress/theme-default",
+
   themeConfig: {
     logo: "/mea.jpg",
+
+    repo: "LoTwT/notes",
+
+    locales: {
+      "/": {
+        navbar: navbar.zh,
+      },
+    },
   },
 })
