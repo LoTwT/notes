@@ -19,7 +19,7 @@ export const zh: SidebarConfig = {
     },
     {
       text: "Rollup",
-      children: ["/zh/tools/rollup/README.md"],
+      children: ["/zh/tools/rollup/README.md", "/zh/tools/rollup/tspackage.md"],
     },
   ],
 }
