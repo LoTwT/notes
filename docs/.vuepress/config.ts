@@ -1,6 +1,6 @@
 import { defineUserConfig } from "vuepress"
 import type { DefaultThemeOptions } from "vuepress"
-import { navbar } from "./configs"
+import { navbar, sidebar } from "./configs"
 
 export default defineUserConfig<DefaultThemeOptions>({
   base: "/notes/",
@@ -23,6 +23,7 @@ export default defineUserConfig<DefaultThemeOptions>({
     locales: {
       "/": {
         navbar: navbar.zh,
+        sidebar: sidebar.zh,
       },
     },
   },
