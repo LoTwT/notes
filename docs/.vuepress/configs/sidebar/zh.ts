@@ -12,6 +12,7 @@ export const zh: SidebarConfig = {
           children: [
             "/zh/dataAndAlgorithm/algorithm/README.md",
             "/zh/dataAndAlgorithm/algorithm/1-twoSum.md",
+            "/zh/dataAndAlgorithm/algorithm/203-removeLinkedListElements.md",
           ],
         },
       ],
