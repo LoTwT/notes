@@ -1,10 +1,20 @@
 import type { SidebarConfig } from "@vuepress/theme-default"
 
 export const zh: SidebarConfig = {
-  "/zh/algorithm": [
+  "/zh/dataAndAlgorithm": [
     {
-      text: "算法",
-      children: ["/zh/algorithm/README.md", "/zh/algorithm/1-twoSum.md"],
+      text: "数据结构和算法",
+      link: "/zh/dataAndAlgorithm/README.md",
+      children: [
+        { text: "数据结构", children: ["/zh/dataAndAlgorithm/data/linkedList.md"] },
+        {
+          text: "算法",
+          children: [
+            "/zh/dataAndAlgorithm/algorithm/README.md",
+            "/zh/dataAndAlgorithm/algorithm/1-twoSum.md",
+          ],
+        },
+      ],
     },
   ],
 

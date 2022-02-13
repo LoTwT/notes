@@ -18,7 +18,7 @@ export const zh: NavbarConfig = [
     link: "/zh/tools/",
   },
   {
-    text: "算法",
-    link: "/zh/algorithm/",
+    text: "数据结构和算法",
+    link: "/zh/dataAndAlgorithm/",
   },
 ]
