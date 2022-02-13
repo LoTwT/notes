@@ -12,4 +12,6 @@
 
 ---
 
-- [两数之和](./1-twoSum.md)
+- [1-两数之和](./1-twoSum.md)
+- [141-环形链表](./141-linkedListCycle.md)
+- [203-移除链表元素](./203-removeLinkedListElements.md)
