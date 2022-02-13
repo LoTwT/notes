@@ -6,7 +6,13 @@ export const zh: SidebarConfig = {
       text: "数据结构和算法",
       link: "/zh/dataAndAlgorithm/README.md",
       children: [
-        { text: "数据结构", children: ["/zh/dataAndAlgorithm/data/linkedList.md"] },
+        {
+          text: "数据结构",
+          children: [
+            "/zh/dataAndAlgorithm/data/linkedList.md",
+            "/zh/dataAndAlgorithm/data/bitwiseOperation.md",
+          ],
+        },
         {
           text: "算法",
           children: [
