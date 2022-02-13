@@ -14,4 +14,5 @@
 
 - [1-两数之和](./1-twoSum.md)
 - [141-环形链表](./141-linkedListCycle.md)
+- [146-LRU 缓存](./146-LRUCache.md)
 - [203-移除链表元素](./203-removeLinkedListElements.md)
