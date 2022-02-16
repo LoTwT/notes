@@ -46,4 +46,12 @@ export const zh: SidebarConfig = {
       children: ["/zh/tools/rollup/README.md", "/zh/tools/rollup/tspackage.md"],
     },
   ],
+
+  "/zh/others": [
+    {
+      text: "杂项",
+      link: "/zh/others/README.md",
+      children: ["/zh/others/docker.md"],
+    },
+  ],
 }
