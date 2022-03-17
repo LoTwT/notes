@@ -12,9 +12,9 @@
 
 - 构建 + 上传
 
-  1. 使用 `yarn build:deploy` 命令生成 `deploy` 文件夹，其中包含：
+  1. 使用 `pnpm build:deploy` 命令生成 `deploy` 文件夹，其中包含：
 
-     1. `yarn build` 构建的 `dist` 文件夹
+     1. `pnpm build` 构建的 `dist` 文件夹
      1. 存放 nginx 配置文件 `default.conf` 的 `nginx` 文件夹
      1. Dockerfile
 
@@ -22,7 +22,7 @@
 
 - docker 操作
 
-  1.  `docker container ls -a` 查看当前运行容器，得到原先的容器 id，可以通过 `IMAGE` 和 `NAMES` 区分
+  1.  `docker ps` 查看当前运行容器 ( `docker container ls -a` 查看所有容器 ) ，得到原先的容器 id，可以通过 `IMAGE` 和 `NAMES` 区分
   1.  `docker stop 容器id` 停止容器
   1.  `docker rm 容器id` 移除容器
   1.  `docker images` 查看镜像
@@ -61,10 +61,10 @@ server {
         index  index.html index.htm;
     }
 
-    # location /api/ {
-    #     rewrite /api/(.*) /$1 break;
-    #     proxy_pass 你的 proxy 代理;
-    # }
+    location /api/ {
+        rewrite /api/(.*) /$1 break;
+        proxy_pass 你的 proxy 代理;
+    }
 
     #error_page  404              /404.html;
 
@@ -120,7 +120,7 @@ COPY dist/ /usr/share/nginx/html/
 
 ### build:deploy
 
-`build:deploy` 是定义在 `package.json` 中，使用 vue3 自带的 build 构建，运行自定义脚本文件，以达到生成需要的 `deploy` 文件夹的命令
+`build:deploy` 是定义在 `package.json` 中，使用 `vite build` 构建，运行自定义脚本文件，以达到生成需要的 `deploy` 文件夹的命令
 
 ```shell
 # deploy 文件夹的大致结构
