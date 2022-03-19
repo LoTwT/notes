@@ -1,6 +1,6 @@
 # 原地快排
 
-快速排序的优化：
+以 `number[]` 为例，快速排序的优化：
 
 1. 选择一个标志位
 1. 使用双指针，左指针找到**最接近但小于**标志位的元素，右侧指针找到**最接近但大于**标志位的元素
@@ -12,7 +12,7 @@
 空间复杂度：`O(1)`
 
 ```ts{4,7,19-23}
-function sort<T>(arr: T[], start: number, end: number) {
+function sort<T = number>(arr: T[], start: number, end: number) {
   // 取标志位
   const init = start
   const flag = arr[init]
@@ -42,7 +42,7 @@ function sort<T>(arr: T[], start: number, end: number) {
   return start
 }
 
-function quickSortInPlace<T>(arr: T[], start: number, end: number): T[] {
+function quickSortInPlace<T = number>(arr: T[], start: number, end: number): T[] {
   if (start < end) {
     const index = sort(arr, start, end)
     quickSortInPlace(arr, start, index - 1)
