@@ -16,6 +16,7 @@
 - [快速排序](./quickSort.md)
 - [原地快排](./quickSortInPlace.md)
 - [1-两数之和](./1-twoSum.md)
+- [15-三数之和](./15-3sum.md)
 - [20-有效的括号](./20-validParentheses.md)
 - [71-简化括号](./71-simplifyPath.md)
 - [100-相同的数](./100-sameTree.md)

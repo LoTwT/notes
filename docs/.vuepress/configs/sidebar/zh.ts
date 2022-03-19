@@ -21,6 +21,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/quickSort.md",
             "/zh/dataAndAlgorithm/algorithm/quickSortInPlace.md",
             "/zh/dataAndAlgorithm/algorithm/1-twoSum.md",
+            "/zh/dataAndAlgorithm/algorithm/15-3sum.md",
             "/zh/dataAndAlgorithm/algorithm/20-validParentheses.md",
             "/zh/dataAndAlgorithm/algorithm/71-simplifyPath.md",
             "/zh/dataAndAlgorithm/algorithm/100-sameTree.md",
