@@ -18,6 +18,7 @@ export const zh: SidebarConfig = {
           children: [
             "/zh/dataAndAlgorithm/algorithm/README.md",
             "/zh/dataAndAlgorithm/algorithm/bubbleSort.md",
+            "/zh/dataAndAlgorithm/algorithm/quickSort.md",
             "/zh/dataAndAlgorithm/algorithm/1-twoSum.md",
             "/zh/dataAndAlgorithm/algorithm/20-validParentheses.md",
             "/zh/dataAndAlgorithm/algorithm/71-simplifyPath.md",

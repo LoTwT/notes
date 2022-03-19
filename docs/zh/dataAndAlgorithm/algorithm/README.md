@@ -13,6 +13,7 @@
 ---
 
 - [冒泡排序](./bubbleSort.md)
+- [快速排序](./quickSort.md)
 - [1-两数之和](./1-twoSum.md)
 - [20-有效的括号](./20-validParentheses.md)
 - [71-简化括号](./71-simplifyPath.md)
