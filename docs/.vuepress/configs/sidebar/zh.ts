@@ -17,6 +17,7 @@ export const zh: SidebarConfig = {
           text: "算法",
           children: [
             "/zh/dataAndAlgorithm/algorithm/README.md",
+            "/zh/dataAndAlgorithm/algorithm/bubbleSort.md",
             "/zh/dataAndAlgorithm/algorithm/1-twoSum.md",
             "/zh/dataAndAlgorithm/algorithm/20-validParentheses.md",
             "/zh/dataAndAlgorithm/algorithm/71-simplifyPath.md",
