@@ -22,10 +22,10 @@ function permute(nums: number[]): number[][] {
       if (temp.includes(nums[i])) continue
       temp.push(nums[i])
 
-      // 下一次回溯 + 递归
+      // 递归 ( 继续找符合要求的数字 )
       backtrack(result, temp, nums)
 
-      // 将已经操作完数字弹出
+      // 回溯 ( 将已经操作完的数字弹出 )
       temp.pop()
     }
   }
