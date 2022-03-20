@@ -15,6 +15,7 @@
 - [冒泡排序](./bubbleSort.md)
 - [快速排序](./quickSort.md)
 - [原地快排](./quickSortInPlace.md)
+- [二分优化 leftpad](./leftpad.md)
 - [1-两数之和](./1-twoSum.md)
 - [15-三数之和](./15-3sum.md)
 - [20-有效的括号](./20-validParentheses.md)
