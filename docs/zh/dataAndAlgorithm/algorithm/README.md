@@ -21,6 +21,7 @@
 - [20-有效的括号](./20-validParentheses.md)
 - [20-有效的括号](./46-permutations.md)
 - [71-简化括号](./71-simplifyPath.md)
+- [79-单词搜索](./79-wordSearch.md)
 - [100-相同的数](./100-sameTree.md)
 - [104-二叉树的最大深度](./104-maximumDepthOfBinaryTree.md)
 - [136-只出现一次的数字](./136-singleNumber.md)
