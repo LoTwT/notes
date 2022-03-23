@@ -4,6 +4,25 @@
 
 [回溯算法](https://baike.baidu.com/item/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/9258495?fr=aladdin) 是深度优先的。
 
+```ts
+function permute(nums: number[]): number[][] {
+  const res: number[][] = []
+  backtrack([]) // 从空路径开始
+  return res
+
+  // 回溯
+  function backtrack(path: number[]) {
+    if (path.length === nums.length) res.push(path)
+
+    // 递归
+    nums.forEach((n) => {
+      if (path.includes(n)) return
+      backtrack(path.concat(n))
+    })
+  }
+}
+```
+
 ```ts{9-11,15-16,22}
 function permute(nums: number[]): number[][] {
   const result: number[][] = []
