@@ -35,6 +35,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/203-removeLinkedListElements.md",
             "/zh/dataAndAlgorithm/algorithm/226-invertBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/231-powerOfTwo.md",
+            "/zh/dataAndAlgorithm/algorithm/860-lemonadeChange.md",
           ],
         },
       ],
