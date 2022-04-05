@@ -28,6 +28,7 @@
 - [104-二叉树的最大深度](./104-maximumDepthOfBinaryTree.md)
 - [136-只出现一次的数字](./136-singleNumber.md)
 - [141-环形链表](./141-linkedListCycle.md)
+- [144-二叉树的前序遍历](./144-binaryTreePreorderTraversal.md)
 - [146-LRU 缓存](./146-LRUCache.md)
 - [203-移除链表元素](./203-removeLinkedListElements.md)
 - [226-翻转二叉树](./226-invertBinaryTree.md)
