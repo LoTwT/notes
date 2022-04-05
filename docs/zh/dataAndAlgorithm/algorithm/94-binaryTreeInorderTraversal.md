@@ -1,6 +1,6 @@
 # [94-二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
 
-思路：递归
+思路：遍历
 
 ```ts
 function inorderTraversal(root: TreeNode | null): number[] {
