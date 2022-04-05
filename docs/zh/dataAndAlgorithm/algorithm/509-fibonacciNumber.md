@@ -10,6 +10,7 @@
 1. 确定遍历顺序
 
 ```ts
+// 动态规划
 function fib(n: number): number {
   // 初始值
   const dp = [0, 1]
@@ -21,5 +22,38 @@ function fib(n: number): number {
   }
 
   return dp[n]
+}
+
+// 动态规划 (空间优化)
+function fib(n: number): number {
+  if (n <= 1) return n
+
+  let dp1 = 0
+  let dp2 = 1
+  let dp3
+
+  for (let i = 2; i <= n; i++) {
+    dp3 = dp1 + dp2
+    dp1 = dp2
+    dp2 = dp3
+  }
+
+  return dp3
+}
+
+// 递归 + 缓存
+function fib(n: number): number {
+  // 缓存
+  const memo = []
+  return helper(memo, n)
+
+  function helper(memo: number[], n: number) {
+    if (n <= 1) return n
+    if (memo[n]) return memo[n]
+
+    // 递归计算
+    memo[n] = helper(memo, n - 1) + helper(memo, n - 2)
+    return memo[n]
+  }
 }
 ```
