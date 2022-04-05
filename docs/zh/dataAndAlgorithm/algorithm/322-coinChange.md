@@ -35,6 +35,7 @@ function coinChange(coins: number[], amount: number): number {
       // dp[j] 之前的解
       // 两者取小值，为当前最优解 (局部最优解)，循环结束时的结果为全局最优解
       dp[j] = Math.min(dp[j - coins[i]] + 1, dp[j])
+      // console.log(`i => ${i} | j => ${j} | dp => ${dp}`)
     }
   }
 
