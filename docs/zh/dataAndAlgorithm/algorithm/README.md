@@ -20,6 +20,7 @@
 - [15-三数之和](./15-3sum.md)
 - [20-有效的括号](./20-validParentheses.md)
 - [26-删除有序数组中的重复项](./26-removeDuplicatesFromSortedArray.md)
+- [27-移除元素](./27-removeElement.md.md)
 - [46-全排列](./46-permutations.md)
 - [55-跳跃游戏](./55-jumpGame.md)
 - [71-简化括号](./71-simplifyPath.md)
