@@ -38,6 +38,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/144-binaryTreePreorderTraversal.md",
             "/zh/dataAndAlgorithm/algorithm/145-binaryTreePostorderTraversal.md",
             "/zh/dataAndAlgorithm/algorithm/146-LRUCache.md",
+            "/zh/dataAndAlgorithm/algorithm/167-twoSum2InputIsSortedArray.md",
             "/zh/dataAndAlgorithm/algorithm/203-removeLinkedListElements.md",
             "/zh/dataAndAlgorithm/algorithm/226-invertBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/231-powerOfTwo.md",
