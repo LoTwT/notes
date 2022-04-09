@@ -46,6 +46,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/283-moveZeros.md",
             "/zh/dataAndAlgorithm/algorithm/300-longestIncreasingSubsequence.md",
             "/zh/dataAndAlgorithm/algorithm/322-coinChange.md",
+            "/zh/dataAndAlgorithm/algorithm/344-reverseString.md",
             "/zh/dataAndAlgorithm/algorithm/455-assignCookies.md",
             "/zh/dataAndAlgorithm/algorithm/509-fibonacciNumber.md",
             "/zh/dataAndAlgorithm/algorithm/860-lemonadeChange.md",
