@@ -53,6 +53,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/455-assignCookies.md",
             "/zh/dataAndAlgorithm/algorithm/509-fibonacciNumber.md",
             "/zh/dataAndAlgorithm/algorithm/860-lemonadeChange.md",
+            "/zh/dataAndAlgorithm/algorithm/876-middleOfTheLinkedList.md",
             "/zh/dataAndAlgorithm/algorithm/977-squaresOfASortedArray.md",
           ],
         },
