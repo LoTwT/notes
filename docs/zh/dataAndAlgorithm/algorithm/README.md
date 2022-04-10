@@ -27,6 +27,7 @@
 - [55-跳跃游戏](./55-jumpGame.md)
 - [71-简化括号](./71-simplifyPath.md)
 - [79-单词搜索](./79-wordSearch.md)
+- [92-反转链表 II](./92-reverseLinkedList2.md)
 - [94-二叉树的中序遍历](./94-binaryTreeInorderTraversal.md)
 - [100-相同的数](./100-sameTree.md)
 - [104-二叉树的最大深度](./104-maximumDepthOfBinaryTree.md)
