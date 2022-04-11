@@ -35,6 +35,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/92-reverseLinkedList2.md",
             "/zh/dataAndAlgorithm/algorithm/94-binaryTreeInorderTraversal.md",
             "/zh/dataAndAlgorithm/algorithm/100-sameTree.md",
+            "/zh/dataAndAlgorithm/algorithm/101-symmetricTree.md",
             "/zh/dataAndAlgorithm/algorithm/104-maximumDepthOfBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/136-singleNumber.md",
             "/zh/dataAndAlgorithm/algorithm/141-linkedListCycle.md",
