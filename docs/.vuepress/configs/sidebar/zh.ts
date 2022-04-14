@@ -88,4 +88,12 @@ export const zh: SidebarConfig = {
       children: ["/zh/others/docker.md"],
     },
   ],
+
+  "/zh/typescript": [
+    {
+      text: "typescript",
+      link: "/zh/typescript/README.md",
+      children: ["/zh/typescript/distributedDts.md"],
+    },
+  ],
 }

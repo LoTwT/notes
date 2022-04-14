@@ -9,13 +9,13 @@ export const zh: NavbarConfig = [
   //   text: "vue3",
   //   link: "/zh/vue3/",
   // },
-  // {
-  //   text: "typescript",
-  //   link: "/zh/typescript/",
-  // },
   {
     text: "数据结构和算法",
     link: "/zh/dataAndAlgorithm/",
+  },
+  {
+    text: "typescript",
+    link: "/zh/typescript/",
   },
   {
     text: "构建工具",
