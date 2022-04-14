@@ -48,7 +48,7 @@ export function defineConfig(config: UserConfig) {
 
 这里清楚的发现，`vitest` 扩展了 `vite` 的 `UserConfig`。
 
-众所周知，TypeScript 的 `interface` 是可以自动合并的。只是没想到，跨 npm 包的声明也能正确链接。
+众所周知，[TypeScript 的 `interface` 是可以自动合并的](https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces)。只是没想到，跨 npm 包的声明也能正确链接。
 
 下面是同一个 repo 下 `interface` 合并的 demo
 
