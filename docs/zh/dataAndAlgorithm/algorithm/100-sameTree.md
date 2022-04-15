@@ -15,7 +15,7 @@ class TreeNode {
   }
 }
 
-// 递归
+// 递归 1
 function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
   if (p === null && q === null) return true
   if (p === null || q === null) return false
@@ -24,8 +24,7 @@ function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
   return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
 }
 
-// 迭代
-
+// 递归 2
 function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
   return traverse(p, q)
 
@@ -41,9 +40,37 @@ function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
     return false
   }
 }
+
+// 迭代
+function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
+  if (p === null && q === null) return true
+  if (p === null || q === null) return false
+
+  const queueP = [p]
+  const queueQ = [q]
+
+  while (queueP.length && queueQ.length) {
+    const nodeP = queueP.pop()
+    const nodeQ = queueQ.pop()
+
+    if (nodeP.val !== nodeQ.val) return false
+
+    if (nodeP.left && nodeQ.left) {
+      queueP.push(nodeP.left)
+      queueQ.push(nodeQ.left)
+    } else if (nodeP.left || nodeQ.left) return false
+
+    if (nodeP.right && nodeQ.right) {
+      queueP.push(nodeP.right)
+      queueQ.push(nodeQ.right)
+    } else if (nodeP.right || nodeQ.right) return false
+  }
+
+  return queueP.length === 0 && queueQ.length === 0
+}
 ```
 
-递归解法理解：
+递归 1 解法理解：
 
 1. 递归比较，左子树和左子树比较，右子树和右子树比较
 1. 终止条件
