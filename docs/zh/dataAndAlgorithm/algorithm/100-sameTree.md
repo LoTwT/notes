@@ -1,6 +1,6 @@
 # [100-相同的树](https://leetcode-cn.com/problems/same-tree/)
 
-思路：递归
+思路：递归 / 迭代
 
 ```typescript
 // Definition for a binary tree node.
@@ -15,6 +15,7 @@ class TreeNode {
   }
 }
 
+// 递归
 function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
   if (p === null && q === null) return true
   if (p === null || q === null) return false
@@ -22,9 +23,27 @@ function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
 
   return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
 }
+
+// 迭代
+
+function isSameTree(p: TreeNode | null, q: TreeNode | null): boolean {
+  return traverse(p, q)
+
+  function traverse(p: TreeNode | null, q: TreeNode | null) {
+    if (p === null && q === null) return true
+    if (p === null || q === null) return false
+
+    const left = traverse(p.left, q.left)
+    const right = traverse(p.right, q.right)
+
+    if (p.val === q.val && left && right) return true
+
+    return false
+  }
+}
 ```
 
-解法理解：
+递归解法理解：
 
 1. 递归比较，左子树和左子树比较，右子树和右子树比较
 1. 终止条件
