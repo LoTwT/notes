@@ -33,6 +33,7 @@
 - [101-对称二叉树](./101-symmetricTree.md)
 - [104-二叉树的最大深度](./104-maximumDepthOfBinaryTree.md)
 - [111-二叉树的最小深度](./111-minimunDepthOfBinaryTree.md)
+- [114-二叉树展开为链表](./114-flattenBinaryTreeToLinkedList.md)
 - [136-只出现一次的数字](./136-singleNumber.md)
 - [141-环形链表](./141-linkedListCycle.md)
 - [142-环形链表 II](./142-linkedListCycle2.md)
