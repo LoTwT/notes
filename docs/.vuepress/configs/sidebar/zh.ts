@@ -105,7 +105,10 @@ export const zh: SidebarConfig = {
         },
         {
           text: "类型体操",
-          children: ["/zh/typescript/challenges/README.md"],
+          children: [
+            "/zh/typescript/challenges/README.md",
+            "/zh/typescript/challenges/twoSum.md",
+          ],
         },
       ],
     },
