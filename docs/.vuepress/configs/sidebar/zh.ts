@@ -98,7 +98,16 @@ export const zh: SidebarConfig = {
     {
       text: "typescript",
       link: "/zh/typescript/README.md",
-      children: ["/zh/typescript/distributedDts.md"],
+      children: [
+        {
+          text: "有趣的 typescript",
+          children: ["/zh/typescript/fun/distributedDts.md"],
+        },
+        {
+          text: "类型体操",
+          children: ["/zh/typescript/challenges/README.md"],
+        },
+      ],
     },
   ],
 }
