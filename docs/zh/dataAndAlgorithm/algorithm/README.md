@@ -32,6 +32,7 @@
 - [100-相同的数](./100-sameTree.md)
 - [101-对称二叉树](./101-symmetricTree.md)
 - [104-二叉树的最大深度](./104-maximumDepthOfBinaryTree.md)
+- [110-平衡二叉树](./110-balancedBinaryTree.md)
 - [111-二叉树的最小深度](./111-minimunDepthOfBinaryTree.md)
 - [114-二叉树展开为链表](./114-flattenBinaryTreeToLinkedList.md)
 - [136-只出现一次的数字](./136-singleNumber.md)
