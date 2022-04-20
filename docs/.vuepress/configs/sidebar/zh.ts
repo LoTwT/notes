@@ -117,4 +117,12 @@ export const zh: SidebarConfig = {
       ],
     },
   ],
+
+  "/zh/translate": [
+    {
+      text: "翻译",
+      link: "/zh/translate/README.md",
+      // children: ["/zh/others/docker.md"],
+    },
+  ],
 }

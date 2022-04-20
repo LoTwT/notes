@@ -25,4 +25,8 @@ export const zh: NavbarConfig = [
     text: "杂项",
     link: "/zh/others",
   },
+  {
+    text: "翻译",
+    link: "/zh/translate/",
+  },
 ]
