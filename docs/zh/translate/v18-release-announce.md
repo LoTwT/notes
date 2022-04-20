@@ -2,7 +2,7 @@
 
 > 原文链接：[v18-release-announce](https://nodejs.org/en/blog/announcements/v18-release-announce/)
 
-我们很高兴地宣布，Node.js 18 今天发布了！其亮点包括将 V8 JavaScript 引擎更新到 10.1 。亮点包括将 V8 JavaScript 引擎更新到 10.1，默认启用全局 fetch，以及一个核心的 Test runner module 。
+我们很高兴地宣布，Node.js 18 今天发布了！亮点包括将 V8 JavaScript 引擎更新到 10.1，默认启用全局 fetch，以及一个核心的 Test runner module 。
 
 最初，Node.js 18 将取代 Node.js 17 ，成为我们的 "当前" 发布版本。根据发布时间表，Node.js 18 将在未来 6 个月内作为 "当前" 版本，然后在 2022 年 10 月晋升为长期支持版（LTS）。一旦晋升为长期支持版，该版本将被指定 "Hydrogen" 的代号。Node.js 18 将被支持到 2025 年 4 月。
 
