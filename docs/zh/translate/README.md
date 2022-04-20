@@ -4,4 +4,4 @@
 
 ## node
 
-1. [node v18 发布公告](./v18-release-announce.md)
+1. [Node.js 18 发布公告](./v18-release-announce.md)

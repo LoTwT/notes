@@ -1,4 +1,4 @@
-# node v18 发布公告
+# Node.js 18 发布公告
 
 > 原文链接：[v18-release-announce](https://nodejs.org/en/blog/announcements/v18-release-announce/)
 
