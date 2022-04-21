@@ -50,6 +50,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/146-LRUCache.md",
             "/zh/dataAndAlgorithm/algorithm/160-intersectionOfTwoLinkedList.md",
             "/zh/dataAndAlgorithm/algorithm/167-twoSum2InputIsSortedArray.md",
+            "/zh/dataAndAlgorithm/algorithm/199-binaryTreeRightSideView.md",
             "/zh/dataAndAlgorithm/algorithm/203-removeLinkedListElements.md",
             "/zh/dataAndAlgorithm/algorithm/206-reverseLinkedList.md",
             "/zh/dataAndAlgorithm/algorithm/209-minimumSizeSubarraySum.md",
