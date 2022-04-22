@@ -18,8 +18,8 @@ export const zh: NavbarConfig = [
     link: "/zh/typescript/",
   },
   {
-    text: "构建工具",
-    link: "/zh/tools/",
+    text: "工具链",
+    link: "/zh/toolchain/",
   },
   {
     text: "杂项",
