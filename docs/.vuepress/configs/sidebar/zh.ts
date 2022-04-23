@@ -97,7 +97,7 @@ export const zh: SidebarConfig = {
     {
       text: "Babel",
       link: "/zh/toolchain/babel/README.md",
-      children: [],
+      children: ["/zh/toolchain/babel/AST.md"],
     },
   ],
 
