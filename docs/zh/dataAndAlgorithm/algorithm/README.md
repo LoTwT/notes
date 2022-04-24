@@ -62,6 +62,7 @@
 - [300-最长递增子序列](./300-longestIncreasingSubsequence.md)
 - [322-零钱兑换](./322-coinChange.md)
 - [344-反转字符串](./344-reverseString.md)
+- [404-左叶子之和](./404-sumOfLeftLeaves.md)
 - [429-N 叉树的层序遍历](./429-nAryTreeLevelOrderTraversal.md)
 - [455-分发饼干](./455-assignCookies.md)
 - [509-斐波那切数](./509-fibonacciNumber.md)
