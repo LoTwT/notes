@@ -43,6 +43,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/111-minimunDepthOfBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/114-flattenBinaryTreeToLinkedList.md",
             "/zh/dataAndAlgorithm/algorithm/116-populatingNextRightPointersInEachNode.md",
+            "/zh/dataAndAlgorithm/algorithm/117-populatingNextRightPointersInEachNode2",
             "/zh/dataAndAlgorithm/algorithm/136-singleNumber.md",
             "/zh/dataAndAlgorithm/algorithm/141-linkedListCycle.md",
             "/zh/dataAndAlgorithm/algorithm/142-linkedListCycle2.md",
