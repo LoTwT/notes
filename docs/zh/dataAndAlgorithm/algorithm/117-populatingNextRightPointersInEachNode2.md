@@ -8,10 +8,11 @@
 思路：层序遍历
 
 ```ts
-// 因为使用了递归，所以和 116 一致
+// 只使用了常量级额外空间 ( queue )，所以和 116 一致
 function connect(root: Node | null): Node | null {
   if (root === null) return root
 
+  // 常量级额外空间
   // leetcode typescript 解法类型 bug
   const queue: any[] = [root]
 
