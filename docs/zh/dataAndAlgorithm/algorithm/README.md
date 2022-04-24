@@ -36,6 +36,7 @@
 - [107-二叉树的层序遍历 II](./107-binaryTreeLevelOrderTravsal2.md)
 - [110-平衡二叉树](./110-balancedBinaryTree.md)
 - [111-二叉树的最小深度](./111-minimunDepthOfBinaryTree.md)
+- [112-路径总和](./112-pathSum.md)
 - [114-二叉树展开为链表](./114-flattenBinaryTreeToLinkedList.md)
 - [116-填充每个节点的下一个右侧节点指针](./116-populatingNextRightPointersInEachNode.md)
 - [117-填充每个节点的下一个右侧节点指针 II](./117-populatingNextRightPointersInEachNode2.md)

@@ -41,6 +41,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/107-binaryTreeLevelOrderTravsal2.md",
             "/zh/dataAndAlgorithm/algorithm/110-balancedBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/111-minimunDepthOfBinaryTree.md",
+            "/zh/dataAndAlgorithm/algorithm/112-pathSum.md",
             "/zh/dataAndAlgorithm/algorithm/114-flattenBinaryTreeToLinkedList.md",
             "/zh/dataAndAlgorithm/algorithm/116-populatingNextRightPointersInEachNode.md",
             "/zh/dataAndAlgorithm/algorithm/117-populatingNextRightPointersInEachNode2",
