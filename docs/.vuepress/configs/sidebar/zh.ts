@@ -69,6 +69,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/429-nAryTreeLevelOrderTraversal.md",
             "/zh/dataAndAlgorithm/algorithm/455-assignCookies.md",
             "/zh/dataAndAlgorithm/algorithm/509-fibonacciNumber.md",
+            "/zh/dataAndAlgorithm/algorithm/515-findLargestValueInEachTreeRow.md",
             "/zh/dataAndAlgorithm/algorithm/543-diameterOfBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/572-subtreeOfAnotherTree.md",
             "/zh/dataAndAlgorithm/algorithm/617-mergeTwoBinaryTrees.md",
