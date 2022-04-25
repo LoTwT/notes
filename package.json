@@ -21,8 +21,9 @@
   },
   "homepage": "https://github.com/LoTwT/notes#readme",
   "devDependencies": {
+    "@types/node": "^17.0.26",
     "husky": "^7.0.4",
-    "lint-staged": "^12.3.8",
+    "lint-staged": "^12.4.0",
     "prettier": "^2.6.2",
     "typescript": "^4.6.3",
     "vuepress": "^2.0.0-beta.39"
