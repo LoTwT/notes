@@ -30,6 +30,7 @@
 - [92-反转链表 II](./92-reverseLinkedList2.md)
 - [94-二叉树的中序遍历](./94-binaryTreeInorderTraversal.md)
 - [98-验证二叉搜索树](./98-validateBinarySearchTree.md)
+- [99-恢复二叉搜索树](./99-recoverBinarySearchTree.md)
 - [100-相同的数](./100-sameTree.md)
 - [101-对称二叉树](./101-symmetricTree.md)
 - [102-二叉树的层序遍历](./102-binaryTreeLevelOrderTraversal.md)
