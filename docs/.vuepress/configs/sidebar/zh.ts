@@ -42,6 +42,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/104-maximumDepthOfBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/107-binaryTreeLevelOrderTravsal2.md",
             "/zh/dataAndAlgorithm/algorithm/108-convertSortedArrayToBinarySearchTree.md",
+            "/zh/dataAndAlgorithm/algorithm/109-convertSortedListToBinarySearchTree.md",
             "/zh/dataAndAlgorithm/algorithm/110-balancedBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/111-minimunDepthOfBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/112-pathSum.md",
