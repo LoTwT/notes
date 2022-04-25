@@ -77,6 +77,7 @@
 - [617-合并二叉树](./617-mergeTwoBinaryTrees.md)
 - [637-二叉树的层平均值](./637-averageOfLevelsInBinaryTree.md)
 - [654-最大二叉树](./654-maximumBinaryTree.md)
+- [700-二叉搜索树中的搜索](./700-searchInABinarySearchTree.md)
 - [860-柠檬水找零](./860-lemonadeChange.md)
 - [876-链表的中间结点](./876-middleOfTheLinkedList.md)
 - [977-有序数组的平方](./977-squaresOfASortedArray.md)
