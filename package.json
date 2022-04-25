@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
+    "sum:al": "esmo scripts/sumOfAlgorithm.ts",
     "prettier": "prettier --write .",
     "postinstall": "husky install"
   },
@@ -22,6 +23,7 @@
   "homepage": "https://github.com/LoTwT/notes#readme",
   "devDependencies": {
     "@types/node": "^17.0.26",
+    "esno": "^0.14.1",
     "husky": "^7.0.4",
     "lint-staged": "^12.4.0",
     "prettier": "^2.6.2",
@@ -32,5 +34,8 @@
     "*.{js,ts,json,md}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "mlly": "^0.5.2"
   }
 }
