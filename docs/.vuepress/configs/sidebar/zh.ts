@@ -62,6 +62,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/206-reverseLinkedList.md",
             "/zh/dataAndAlgorithm/algorithm/209-minimumSizeSubarraySum.md",
             "/zh/dataAndAlgorithm/algorithm/222-countCompleteTreeNode.md",
+            "/zh/dataAndAlgorithm/algorithm/225-implementStackUsingQueues.md",
             "/zh/dataAndAlgorithm/algorithm/226-invertBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/230-kthSmallestElementInABst.md",
             "/zh/dataAndAlgorithm/algorithm/231-powerOfTwo.md",

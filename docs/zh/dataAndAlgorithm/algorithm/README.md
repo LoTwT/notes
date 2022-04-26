@@ -57,6 +57,7 @@
 - [206-反转链表](./206-reverseLinkedList.md)
 - [209-长度最小的子数组](./209-minimumSizeSubarraySum.md)
 - [222-完全二叉树的节点个数](./222-countCompleteTreeNode.md)
+- [225-用队列实现栈](./225-implementStackUsingQueues.md)
 - [226-翻转二叉树](./226-invertBinaryTree.md)
 - [230-二叉搜索树中第 K 小的元素](./230-kthSmallestElementInABst.md)
 - [231- 2 的幂](./231-powerOfTwo.md)
