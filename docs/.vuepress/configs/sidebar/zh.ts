@@ -56,6 +56,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/145-binaryTreePostorderTraversal.md",
             "/zh/dataAndAlgorithm/algorithm/146-LRUCache.md",
             "/zh/dataAndAlgorithm/algorithm/150-evaluateReversePolishNotation.md",
+            "/zh/dataAndAlgorithm/algorithm/151-reverseWordsInAString.md",
             "/zh/dataAndAlgorithm/algorithm/160-intersectionOfTwoLinkedList.md",
             "/zh/dataAndAlgorithm/algorithm/167-twoSum2InputIsSortedArray.md",
             "/zh/dataAndAlgorithm/algorithm/199-binaryTreeRightSideView.md",
