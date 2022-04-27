@@ -50,6 +50,7 @@
 - [144-二叉树的前序遍历](./144-binaryTreePreorderTraversal.md)
 - [145-二叉树的后序遍历](./145-binaryTreePostorderTraversal.md)
 - [146-LRU 缓存](./146-LRUCache.md)
+- [150-逆波兰表达式求值](./150-evaluateReversePolishNotation.md)
 - [160-相交链表](./160-intersectionOfTwoLinkedList.md)
 - [167-两数之和 II - 输入有序数组](./167-twoSum2InputIsSortedArray.md)
 - [199-二叉树的右视图](./199-binaryTreeRightSideView.md)
