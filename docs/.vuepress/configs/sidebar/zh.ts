@@ -88,6 +88,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/654-maximumBinaryTree.md",
             "/zh/dataAndAlgorithm/algorithm/700-searchInABinarySearchTree.md",
             "/zh/dataAndAlgorithm/algorithm/701-insertIntoABinarySearchTree.md",
+            "/zh/dataAndAlgorithm/algorithm/704-binarySearch.md",
             "/zh/dataAndAlgorithm/algorithm/860-lemonadeChange.md",
             "/zh/dataAndAlgorithm/algorithm/876-middleOfTheLinkedList.md",
             "/zh/dataAndAlgorithm/algorithm/977-squaresOfASortedArray.md",
