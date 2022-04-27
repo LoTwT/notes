@@ -90,6 +90,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/860-lemonadeChange.md",
             "/zh/dataAndAlgorithm/algorithm/876-middleOfTheLinkedList.md",
             "/zh/dataAndAlgorithm/algorithm/977-squaresOfASortedArray.md",
+            "/zh/dataAndAlgorithm/algorithm/1047-removeAllAdjacentDuplicatesInString.md",
           ],
         },
       ],

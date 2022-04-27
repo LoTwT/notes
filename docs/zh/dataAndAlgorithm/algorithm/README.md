@@ -85,3 +85,4 @@
 - [860-柠檬水找零](./860-lemonadeChange.md)
 - [876-链表的中间结点](./876-middleOfTheLinkedList.md)
 - [977-有序数组的平方](./977-squaresOfASortedArray.md)
+- [1047-删除字符串中的所有相邻重复项](./1047-removeAllAdjacentDuplicatesInString.md)
