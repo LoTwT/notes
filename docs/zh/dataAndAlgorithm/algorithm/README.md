@@ -52,6 +52,7 @@
 - [146-LRU 缓存](./146-LRUCache.md)
 - [150-逆波兰表达式求值](./150-evaluateReversePolishNotation.md)
 - [151-颠倒字符串中的单词](./151-reverseWordsInAString.md)
+- [153-寻找旋转排序数组中的最小值](./153-findMinimumInRotatedSortedArray.md)
 - [160-相交链表](./160-intersectionOfTwoLinkedList.md)
 - [167-两数之和 II - 输入有序数组](./167-twoSum2InputIsSortedArray.md)
 - [199-二叉树的右视图](./199-binaryTreeRightSideView.md)
