@@ -30,6 +30,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/27-removeElement.md",
             "/zh/dataAndAlgorithm/algorithm/46-permutations.md",
             "/zh/dataAndAlgorithm/algorithm/55-jumpGame.md",
+            "/zh/dataAndAlgorithm/algorithm/69-sqrtx.md",
             "/zh/dataAndAlgorithm/algorithm/71-simplifyPath.md",
             "/zh/dataAndAlgorithm/algorithm/79-wordSearch.md",
             "/zh/dataAndAlgorithm/algorithm/92-reverseLinkedList2.md",

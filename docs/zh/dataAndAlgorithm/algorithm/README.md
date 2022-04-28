@@ -25,6 +25,7 @@
 - [27-移除元素](./27-removeElement.md.md)
 - [46-全排列](./46-permutations.md)
 - [55-跳跃游戏](./55-jumpGame.md)
+- [669- x 的平方根](./69-sqrtx.md)
 - [71-简化括号](./71-simplifyPath.md)
 - [79-单词搜索](./79-wordSearch.md)
 - [92-反转链表 II](./92-reverseLinkedList2.md)
