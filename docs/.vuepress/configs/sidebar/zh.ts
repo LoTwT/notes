@@ -23,6 +23,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/leftpad.md",
             "/zh/dataAndAlgorithm/algorithm/1-twoSum.md",
             "/zh/dataAndAlgorithm/algorithm/15-3sum.md",
+            "/zh/dataAndAlgorithm/algorithm/17-letterCombinationsOfAPhoneNumber.md",
             "/zh/dataAndAlgorithm/algorithm/19-removeNthNodeFromEndOfList.md",
             "/zh/dataAndAlgorithm/algorithm/20-validParentheses.md",
             "/zh/dataAndAlgorithm/algorithm/21-mergeTwoSortedList.md",
