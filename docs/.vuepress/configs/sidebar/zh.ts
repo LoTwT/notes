@@ -29,6 +29,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/21-mergeTwoSortedList.md",
             "/zh/dataAndAlgorithm/algorithm/26-removeDuplicatesFromSortedArray.md",
             "/zh/dataAndAlgorithm/algorithm/27-removeElement.md",
+            "/zh/dataAndAlgorithm/algorithm/37-sudokuSolver.md",
             "/zh/dataAndAlgorithm/algorithm/46-permutations.md",
             "/zh/dataAndAlgorithm/algorithm/55-jumpGame.md",
             "/zh/dataAndAlgorithm/algorithm/69-sqrtx.md",
