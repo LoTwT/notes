@@ -162,4 +162,15 @@ export const zh: SidebarConfig = {
       children: ["/zh/translate/v18-release-announce.md"],
     },
   ],
+
+  "/zh/rust": [
+    {
+      text: "Rust",
+      link: "/zh/rust/README.md",
+    },
+    {
+      text: "前置",
+      children: ["/zh/rust/pre/1.md"],
+    },
+  ],
 }
