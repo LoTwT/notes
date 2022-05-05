@@ -170,7 +170,7 @@ export const zh: SidebarConfig = {
     },
     {
       text: "前置",
-      children: ["/zh/rust/pre/1.md"],
+      children: ["/zh/rust/pre/1.md", "/zh/rust/pre/2.md"],
     },
   ],
 }
