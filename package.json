@@ -2,6 +2,7 @@
   "name": "notes",
   "version": "1.0.0",
   "description": "",
+  "packageManager": "pnpm@7.0.0",
   "main": "index.js",
   "scripts": {
     "dev": "vuepress dev docs",
@@ -22,13 +23,14 @@
   },
   "homepage": "https://github.com/LoTwT/notes#readme",
   "devDependencies": {
-    "@types/node": "^17.0.26",
+    "@types/node": "^17.0.31",
     "esno": "^0.14.1",
     "husky": "^7.0.4",
-    "lint-staged": "^12.4.0",
+    "lint-staged": "^12.4.1",
+    "pnpm": "^7.0.0",
     "prettier": "^2.6.2",
-    "typescript": "^4.6.3",
-    "vuepress": "^2.0.0-beta.39"
+    "typescript": "^4.6.4",
+    "vuepress": "^2.0.0-beta.43"
   },
   "lint-staged": {
     "*.{js,ts,json,md}": [
