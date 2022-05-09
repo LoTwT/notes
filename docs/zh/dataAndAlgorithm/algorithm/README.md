@@ -35,6 +35,7 @@
 - [78-子集](./78-subsets.md)
 - [79-单词搜索](./79-wordSearch.md)
 - [92-反转链表 II](./92-reverseLinkedList2.md)
+- [93-复原 IP 地址](./93-restoreIpAddresses.md)
 - [94-二叉树的中序遍历](./94-binaryTreeInorderTraversal.md)
 - [98-验证二叉搜索树](./98-validateBinarySearchTree.md)
 - [99-恢复二叉搜索树](./99-recoverBinarySearchTree.md)
