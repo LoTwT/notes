@@ -32,6 +32,7 @@
 - [69- x 的平方根](./69-sqrtx.md)
 - [71-简化括号](./71-simplifyPath.md)
 - [77-组合](./77-combinations.md)
+- [78-子集](./78-subsets.md)
 - [79-单词搜索](./79-wordSearch.md)
 - [92-反转链表 II](./92-reverseLinkedList2.md)
 - [94-二叉树的中序遍历](./94-binaryTreeInorderTraversal.md)

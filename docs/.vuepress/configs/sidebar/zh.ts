@@ -37,6 +37,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/69-sqrtx.md",
             "/zh/dataAndAlgorithm/algorithm/71-simplifyPath.md",
             "/zh/dataAndAlgorithm/algorithm/77-combinations.md",
+            "/zh/dataAndAlgorithm/algorithm/78-subsets.md",
             "/zh/dataAndAlgorithm/algorithm/79-wordSearch.md",
             "/zh/dataAndAlgorithm/algorithm/92-reverseLinkedList2.md",
             "/zh/dataAndAlgorithm/algorithm/94-binaryTreeInorderTraversal.md",
