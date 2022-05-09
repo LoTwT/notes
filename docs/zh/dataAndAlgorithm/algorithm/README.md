@@ -52,6 +52,7 @@
 - [116-填充每个节点的下一个右侧节点指针](./116-populatingNextRightPointersInEachNode.md)
 - [117-填充每个节点的下一个右侧节点指针 II](./117-populatingNextRightPointersInEachNode2.md)
 - [125-验证回文串](./125-validPalindrome.md)
+- [131-分割回文串](./131-palindromePartitioning.md)
 - [136-只出现一次的数字](./136-singleNumber.md)
 - [141-环形链表](./141-linkedListCycle.md)
 - [142-环形链表 II](./142-linkedListCycle2.md)

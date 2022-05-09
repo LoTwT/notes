@@ -57,6 +57,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/116-populatingNextRightPointersInEachNode.md",
             "/zh/dataAndAlgorithm/algorithm/117-populatingNextRightPointersInEachNode2.md",
             "/zh/dataAndAlgorithm/algorithm/125-validPalindrome.md",
+            "/zh/dataAndAlgorithm/algorithm/131-palindromePartitioning.md",
             "/zh/dataAndAlgorithm/algorithm/136-singleNumber.md",
             "/zh/dataAndAlgorithm/algorithm/141-linkedListCycle.md",
             "/zh/dataAndAlgorithm/algorithm/142-linkedListCycle2.md",
