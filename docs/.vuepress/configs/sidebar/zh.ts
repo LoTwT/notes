@@ -32,6 +32,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/37-sudokuSolver.md",
             "/zh/dataAndAlgorithm/algorithm/39-combinationSum.md",
             "/zh/dataAndAlgorithm/algorithm/46-permutations.md",
+            "/zh/dataAndAlgorithm/algorithm/47-permutations-ii.md",
             "/zh/dataAndAlgorithm/algorithm/51-nQueens.md",
             "/zh/dataAndAlgorithm/algorithm/55-jumpGame.md",
             "/zh/dataAndAlgorithm/algorithm/69-sqrtx.md",

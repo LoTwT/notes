@@ -27,6 +27,7 @@
 - [37-解数独](./37-sudokuSolver.md)
 - [39-组合总和](./39-combinationSum.md)
 - [46-全排列](./46-permutations.md)
+- [47-全排列 II](./47-permutations-ii.md)
 - [51-N 皇后](./51-nQueens.md)
 - [55-跳跃游戏](./55-jumpGame.md)
 - [69- x 的平方根](./69-sqrtx.md)
