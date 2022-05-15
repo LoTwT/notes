@@ -2,7 +2,7 @@
 
 Typescript 的类型系统是**图灵完备**的，能描述各种可计算逻辑。
 
-## 类型
+## 类型是什么
 
 在 typescript 中，类型具体就是指 number 、boolean 、string 等基础类型和 Object 、Function 等复合类型。
 
@@ -49,3 +49,117 @@ Typescript 的类型系统是**图灵完备**的，能描述各种可计算逻�
 ### 支持类型编程的类型系统
 
 对传入的类型参数 ( 泛型 ) 做各种逻辑运算，产生新的类型，就是类型编程。
+
+## typescript 的类型
+
+ts 支持以下这些类型：
+
+- number
+- boolean
+- string
+- object
+- bigint
+- symbol
+- undefined
+- null
+- class
+- array
+- tuple
+- interface
+- enum
+
+还有一些包装类型：
+
+- Number
+- Boolean
+- String
+- Object
+- Symbol
+
+### 元组
+
+元组是元素个数和类型固定的数组
+
+```ts
+type Tuple = [number, string, boolean]
+```
+
+### 接口
+
+接口用来描述函数、构造器、索引类型 ( 对象、class、数组 ) 等复合类型。
+
+```ts
+// 对象
+interface IPerson {
+  name: string
+  age: number
+}
+
+// 类可以实现接口
+// interface 在运行时会被消除，而类不会
+class Person implements IPerson {
+  name: string
+  age: number
+}
+
+// 函数
+interface Add {
+  (a: number, b: number): number
+}
+
+// 函数重载
+interface Add2 {
+  (a: number, b: number): number
+  (a: string, b: string): string
+}
+
+// 构造器
+interface PersonClassConstructor {
+  new (name: string, age: number): IPerson
+}
+
+function createPerson(ctor: PersonClassConstructor): IPerson {
+  return new ctor("user", 18)
+}
+```
+
+对象类型、class 类型在 TypeScript 中也叫做索引类型，也就是索引了多个元素的类型的意思。
+
+对象可以动态添加属性，如果不确定有什么属性，可以使用索引签名：
+
+```ts
+interface IPerson {
+  [prop: string]: string | number
+}
+```
+
+### 枚举
+
+枚举 ( Enum ) 是一系列值的复合
+
+```ts
+enum Direction {
+  TOP = "top",
+  BOTTOM = "bottom",
+  LEFT = "left",
+  RIGHT = "right",
+}
+```
+
+### 字面量类型
+
+```ts
+type Str1 = "aaa"
+type Num = 1
+type Obj = { a: 1 }
+
+// 字符串的第二种字面量类型 - 模板字面量
+type Str2 = `#${string}`
+```
+
+### 特殊类型
+
+- void：代表空，可以是 null 或者 undefined，一般用于函数返回值
+- any：任意类型，任意类型都可以赋值给它，它也可以赋值给任何类型 ( 除了 never )
+- unknown：未知类型，任何类型都可以赋值给它，但它不可以赋值给其它类型
+- never：不可达，比如函数抛出异常的时候，返回值是 never
