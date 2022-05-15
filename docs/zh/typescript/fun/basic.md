@@ -163,3 +163,92 @@ type Str2 = `#${string}`
 - any：任意类型，任意类型都可以赋值给它，它也可以赋值给任何类型 ( 除了 never )
 - unknown：未知类型，任何类型都可以赋值给它，但它不可以赋值给其它类型
 - never：不可达，比如函数抛出异常的时候，返回值是 never
+
+## 类型装饰
+
+除了描述类型的结构，TypeScript 的类型系统还支持描述类型的属性，比如是否可选、是否只读等：
+
+```ts
+interface IPerson {
+  // 只读
+  readonly name: string
+  // 可选
+  age?: number
+}
+```
+
+## 类型运算
+
+### 条件类型
+
+条件类型：`extends ? :` ，TypeScript 类型系统中的 `if else` ，进行动态的类型运算，即对类型参数的运算。
+
+```ts
+type IsTwo<T extends number> = T extends 2 ? true : false
+
+type Res = isTwo<1> // false
+type Res2 = isTwo<2> // true
+```
+
+形如 `IsTwo<T>` 这种类型也叫做**高级类型**。
+
+高级类型的特点是传入类型参数，经过类型运算后，返回新的类型。
+
+### 推导类型
+
+TypeScript 使用 `infer` 进行类型的推导 / 提取。
+
+```ts
+// 提取元组类型的第一个元素
+type First<T extends unknown[]> = T extends [infer T, ...infer Rest] ? T : never
+
+type Res = First<[1, 2, 3]> // 1
+```
+
+注意：`T extends unknown[]` 的 `extends` 不是条件类型，而是类型约束 ( Type Constraint ) 。
+
+### 联合类型
+
+联合类型 ( Union ) 类似 JavaScript 的或运算符 `|` ，但是作用于类型，表明类型可以是几个类型之一。
+
+```ts
+type Nums = 1 | 2 | 3
+```
+
+### 交叉类型
+
+交叉类型 ( Intersection ) 类似 JavaScript 中的与运算符 `&` ，但是作用于类型，表明对类型进行合并。
+
+```ts
+type Obj = { a: number } & { b: string } // { a: number, b: string }
+
+// 不同类型无法合并
+type res = "1" & 1 // never
+```
+
+### 映射类型
+
+对象、class 在 TypeScript 对应的类型是索引类型 ( Index Type ) ，需要用映射类型来修改索引类型。
+
+映射类型：把一个集合映射到另一个集合。
+
+```ts
+type MapType<T> = {
+  [Key in keyof T]?: T[Key]
+}
+```
+
+`keyof T` 是查询索引类型中所有的索引，叫做**索引查询**。
+
+`T[Key]` 是取索引类型某个索引的值，叫做**索引访问**。
+
+`in` 是用于遍历联合类型的运算符
+
+```ts
+// 值和索引都可以变化
+type MapType<T> = {
+  [Key in keyof T as `${Key & string}${Key & string}`]: [T[Key], T[Key]]
+}
+```
+
+用 `as` 运算符改变索引被称为**重映射**。
