@@ -143,12 +143,12 @@ export const zh: SidebarConfig = {
 
   "/zh/typescript": [
     {
-      text: "typescript",
+      text: "ts",
       link: "/zh/typescript/README.md",
       children: [
         {
-          text: "有趣的 typescript",
-          children: [],
+          text: "typescript",
+          children: ["/zh/typescript/fun/basic.md"],
         },
         {
           text: "类型体操",
