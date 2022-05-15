@@ -148,7 +148,7 @@ export const zh: SidebarConfig = {
       children: [
         {
           text: "有趣的 typescript",
-          children: ["/zh/typescript/fun/distributedDts.md"],
+          children: [],
         },
         {
           text: "类型体操",
@@ -156,6 +156,10 @@ export const zh: SidebarConfig = {
             "/zh/typescript/challenges/README.md",
             "/zh/typescript/challenges/twoSum.md",
           ],
+        },
+        {
+          text: "其他",
+          children: ["/zh/typescript/others/distributedDts.md"],
         },
       ],
     },
