@@ -84,3 +84,61 @@ type Res1 = ShiftArr<[1, 2, 3]> // [2, 3]
 type Res2 = ShiftArr<[1]> // []
 type Res3 = ShiftArr<[]> // []
 ```
+
+## 字符串类型
+
+### StartsWith
+
+判断字符串类型是否以某个前缀开头
+
+```ts
+type StartsWith<
+  S extends string,
+  Prefix extends string,
+> = S extends `${Prefix}${string}` ? true : false
+
+type Res1 = StartsWith<"jitui", "j"> // true
+type Res2 = StartsWith<"jitui", "i"> // false
+type Res3 = StartsWith<"jitui", ""> // true
+type Res4 = StartsWith<"", ""> // true
+type Res5 = StartsWith<"", "j"> // false
+```
+
+### Replace
+
+字符串替换
+
+```ts
+type Replace<
+  S extends string,
+  From extends string,
+  To extends string,
+> = S extends `${infer Head}${From}${infer Tail}` ? `${Head}${To}${Tail}` : S
+
+type Res = Replace<"jitui zhen hao chi!", "jitui", "pizza">
+```
+
+### Trim
+
+去除空白字符
+
+不确定有多少个空白字符，需要递归去除
+
+```ts
+// 空白字符的 union
+type Blank = " " | "\n" | "\t"
+
+// 去除尾部空白字符
+type TrimEnd<S extends string> = S extends `${infer Rest}${Blank}`
+  ? TrimEnd<Rest>
+  : S
+
+// 去除头部空白字符
+type TrimStart<S extends string> = S extends `${Blank}${infer Rest}`
+  ? TrimStart<Rest>
+  : S
+
+type Trim<S extends string> = TrimEnd<TrimStart<S>>
+
+type Res = Trim<" \t\njitui\n \t"> // jitui
+```
