@@ -148,7 +148,10 @@ export const zh: SidebarConfig = {
       children: [
         {
           text: "typescript",
-          children: ["/zh/typescript/fun/basic.md"],
+          children: [
+            "/zh/typescript/fun/basic.md",
+            "/zh/typescript/fun/patternMatching.md",
+          ],
         },
         {
           text: "类型体操",
