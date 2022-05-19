@@ -113,13 +113,12 @@ export const zh: SidebarConfig = {
 
   "/zh/toolchain": [
     {
-      text: "工程化",
-      link: "/zh/toolchain/README.md",
+      text: "前端工程化",
+      link: "/zh/toolchain/engineering/README.md",
       children: [],
     },
     {
       text: "构建工具",
-      link: "/zh/toolchain/README.md",
       children: [
         {
           text: "Vite",
