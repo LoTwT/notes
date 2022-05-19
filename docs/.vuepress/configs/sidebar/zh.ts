@@ -113,23 +113,33 @@ export const zh: SidebarConfig = {
 
   "/zh/toolchain": [
     {
-      text: "构建工具",
+      text: "工程化",
       link: "/zh/toolchain/README.md",
-    },
-    {
-      text: "Vite",
-      link: "/zh/toolchain/vite/README.md",
       children: [],
     },
     {
-      text: "Rollup",
-      link: "/zh/toolchain/rollup/README.md",
-      children: ["/zh/toolchain/rollup/tspackage.md"],
-    },
-    {
-      text: "Babel",
-      link: "/zh/toolchain/babel/README.md",
-      children: ["/zh/toolchain/babel/AST.md", "/zh/toolchain/babel/API.md"],
+      text: "构建工具",
+      link: "/zh/toolchain/README.md",
+      children: [
+        {
+          text: "Vite",
+          link: "/zh/toolchain/vite/README.md",
+          children: [],
+        },
+        {
+          text: "Rollup",
+          link: "/zh/toolchain/rollup/README.md",
+          children: ["/zh/toolchain/rollup/tspackage.md"],
+        },
+        {
+          text: "Babel",
+          link: "/zh/toolchain/babel/README.md",
+          children: [
+            "/zh/toolchain/babel/AST.md",
+            "/zh/toolchain/babel/API.md",
+          ],
+        },
+      ],
     },
   ],
 
