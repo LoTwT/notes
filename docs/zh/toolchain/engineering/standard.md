@@ -151,3 +151,44 @@ Node.js 将以下情况视为 ESM ：
 1. `.js` + `type` 字段为 `module`
 1. 命令中添加参数 `--input-type=module`
 1. 命令中添加参数 `--eval cmd`
+
+## 代码规范
+
+代码规范是前端工程化落地的基石，它主要用于统一团队成员的编码规范与编码风格。
+
+个人更愿意使用 prettier ，即便它也没有非常好用。
+
+.prettierrc：
+
+```json
+{
+  "useTabs": false,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "semi": false
+}
+```
+
+.prettierignore：
+
+```
+node_modules
+.temp
+.cache
+.vscode
+dist
+```
+
+当不得不使用 eslint 时，建议在 `.vscode/settings.json` 中添加以下配置，便于在保存时应用 eslint 格式化
+
+```json
+// .vscode/settings.json
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": false
+}
+```
