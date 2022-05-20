@@ -192,3 +192,67 @@ dist
   "editor.formatOnSave": false
 }
 ```
+
+## 提交规范
+
+提交规范通常指 git 提交规范。
+
+良好地提交规范可以更好地服务代码质量，从而提升开发和解决 bug 的效率。
+
+当前通常以 Angular 提交规范为主。
+
+Angular 提交规范的格式包含三个内容：
+
+- Header：必填项
+- Body：选填项
+- Footer：选填项
+
+```bash
+<type>(<scope>): <subject>
+# 空一行
+<body>
+# 空一行
+<footer>
+```
+
+### Header
+
+Header 仅一行，包含三个字段：
+
+- type ：commit 提交类型，必填
+- scope ：commit 作用范围，选填
+- subject ：commit 细节描述，选填 ( 尽可能写 )
+
+常用的 type ：
+
+| 类型     | 功能     | 描述                               |
+| -------- | -------- | ---------------------------------- |
+| feat     | 功能     | 新增功能，迭代项目需求             |
+| fix      | 修复     | 修复缺陷，修复上一版尺寸在的问题   |
+| docs     | 文档     | 更新文档，仅修改文档不修改代码     |
+| style    | 代码风格 | 变动格式，不影响代码逻辑           |
+| refactor | 重构     | 重构代码，非新增功能也非修改缺陷   |
+| perf     | 性能     | 优化性能，提高代码执行性能         |
+| test     | 测试     | 新增测试，追加测试用例验证代码     |
+| build    | 构建     | 更新构建，修改构建工具或外部依赖   |
+| ci       | 脚本     | 更新脚本，修改 CI 或执行脚本配置   |
+| chore    | 事务     | 变动事务，修改其他不影响代码的事务 |
+| revert   | 回滚     | 回滚版本，撤销某次代码提交         |
+| merge    | 合并     | 合并分支，合并分支代码到其他分支   |
+| sync     | 同步     | 同步分支，同步分支代码到其他分支   |
+| impr     | 改进     | 改进功能，升级当前功能模块         |
+
+### Body
+
+可多行书写，对 subject 进行更详细地描述。
+
+### Footer
+
+只适用于不兼容变动和问题关闭时。
+
+### 常用工具
+
+- commitizen
+- cz-conventional-changelog
+- commitlint
+- @commitlint/config-conventional
