@@ -115,7 +115,10 @@ export const zh: SidebarConfig = {
     {
       text: "前端工程化",
       link: "/zh/toolchain/engineering/README.md",
-      children: ["/zh/toolchain/engineering/standard.md"],
+      children: [
+        "/zh/toolchain/engineering/standard.md",
+        "/zh/toolchain/engineering/services.md",
+      ],
     },
     {
       text: "构建工具",
