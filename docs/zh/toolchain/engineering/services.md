@@ -390,3 +390,170 @@ http {
 	}
 }
 ```
+
+## 访问加密
+
+使用 HTTPS 为 HTTP 保温提供加密传输通道，这样攻击者就无法窃听或篡改传输内容。
+
+免费好用的 HTTPS 证书服务商 [Letsencrypt](https://letsencrypt.org/) 。
+
+### 部署安装
+
+Letsencrypt 提供了 certbot 工具，它可以快速生成或刷新 HTTPS 证书，CentOS8 的 yum 不包含 certbot 源，考虑用 dnf 代替 yum 安装 certbot 。
+
+CentOS8 内置了 dnf ，它也是一个 Shell 软件包管理器
+
+```bash
+dnf --version
+
+# 新增 epel 源
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+# 更新 dnf 仓库
+dnf upgrade
+
+# 安装 snap
+dnf install snapd -y
+
+# 设置开机自启
+systemctl enable --now snapd.socket
+
+# 设计软连接，通过 snapd 快速调用命令
+ln -s /var/lib/snapd/snap /snap
+
+# 更新快照
+snap install core
+snap refresh core
+
+# 安装 certbot
+snap install --classic certbot
+
+# 设置软连接，通过 certbot 快速调用命令
+ln -s /snap/bin/certbot /usr/bin/certbot
+```
+
+### 配置
+
+```bash
+# 查看 certbot 是否安装成功
+certbot --version
+
+# 扫描 Nginx 所有配置
+certbot --nginx
+```
+
+Nginx 配置示例：
+
+```txt
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Enter email address (used for urgent renewal and security notices)
+ (Enter 'c' to cancel): young.joway@aliyun.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Please read the Terms of Service at
+https://letsencrypt.org/documents/LE-SA-v1.2-November-15-2017.pdf. You must
+agree in order to register with the ACME server. Do you agree?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: y
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would you be willing, once your first certificate is successfully issued, to
+share your email address with the Electronic Frontier Foundation, a founding
+partner of the Let's Encrypt project and the non-profit organization that
+develops Certbot? We'd like to send you email about our work encrypting the web,
+EFF news, campaigns, and ways to support digital freedom.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+(Y)es/(N)o: n
+Account registered.
+
+Which names would you like to activate HTTPS for?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: yangzw.vip
+2: www.yangzw.vip
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate numbers separated by commas and/or spaces, or leave input
+blank to select all options shown (Enter 'c' to cancel): 1,2
+Requesting a certificate for yangzw.vip and www.yangzw.vip
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/yangzw.vip/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/yangzw.vip/privkey.pem
+This certificate expires on 2022-05-23.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+Deploying certificate
+Successfully deployed certificate for yangzw.vip to /etc/nginx/conf.d/yangzw.vip.conf
+Successfully deployed certificate for www.yangzw.vip to /etc/nginx/conf.d/yangzw.vip.conf
+Congratulations! You have successfully enabled HTTPS on https://yangzw.vip and https://www.yangzw.vip
+```
+
+流程解析
+
+1. 输入电子邮箱，用于紧急续签和安全通知
+1. 是否同意服务条款，y
+1. 是否接收新闻邮件，n
+1. 注册账户成功，自动处理，耐心等待
+1. 选择需要激活 HTTPS 协议的域名，根据列表输入数字，以空格或英文逗号分隔
+1. 申请证书服务，自动处理，耐心等待
+
+最终证书生成到 `/etc/letsencrypt/live/域名` 文件夹下。
+
+证书有效期为三个月，三个月后不续签就将自动失效。
+
+配置了 certbot 开机自启，这些文件将在证书续订时自动更新。
+
+### 解读
+
+certbot 对 Nginx 配置文件进行了修改，执行 `im /etc/nginx/conf.d/域名.conf` 查看，后方有 `# managed by Certbot` 注释都是由 certbot 生成。
+
+```bash
+server {
+	server_name yangzw.vip www.yangzw.vip;
+	location / {
+		root /www/client/yangzw;
+		index index.html;
+	}
+	listen 443 ssl; # managed by Certbot
+	include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+	ssl_certificate /etc/letsencrypt/live/yangzw.vip/fullchain.pem; # managed by Certbot
+	ssl_certificate_key /etc/letsencrypt/live/yangzw.vip/privkey.pem; # managed by Certbot
+	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+server {
+	if ($host = www.yangzw.vip) {
+		return 301 https://$host$request_uri;
+	} # managed by Certbot
+	if ($host = yangzw.vip) {
+		return 301 https://$host$request_uri;
+	} # managed by Certbot
+	listen 80;
+	server_name yangzw.vip www.yangzw.vip;
+	return 404; # managed by Certbot
+}
+```
+
+#### 修改端口
+
+端口从原来的 80 变成 443 并从第一个 server 块移动到第二个 server 块中，都由 certbot 生成。
+
+#### 导入证书
+
+使用以下命令，告知 Nginx 使用 HTTPS 协议，通过绝对路径导入证书文件
+
+```bash
+ssl_certificate /etc/letsencrypt/live/域名/fullchain.pem;
+ssl_certificate_key /etc/letsencrypt/live/域名/privkey.pem;
+```
+
+#### 重定向
+
+邢增两个 `if ($host = xyz) {}` 的判断，当使用非 HTTPS 协议访问域名时，直接 301 重定向到 `https://$host$request_uri` ，其他情况则 404 。
+
+### 总结
+
+certbot 会根据选择的域名自动匹配出对应 nginx conf 文件并对上述三部分修改，所以每次新增一个网站都需要单独创建 `xyz.conf` 到 `conf.d` 文件夹中，目的是为了隔离开每个网站的 Nginx 配置。
+
+每次新开端口需要配置安全组，新增 443 端口。
+
+通过 [SslTest](https://www.ssllabs.com/ssltest) 或 [slChecker](https://www.sslshopper.com/ssl-checker.html) ，输入域名检查证书是否有效。
