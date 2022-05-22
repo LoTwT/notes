@@ -118,6 +118,7 @@ export const zh: SidebarConfig = {
       children: [
         "/zh/toolchain/engineering/standard.md",
         "/zh/toolchain/engineering/services.md",
+        "/zh/toolchain/engineering/management.md",
       ],
     },
     {
