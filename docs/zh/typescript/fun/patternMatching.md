@@ -142,3 +142,86 @@ type Trim<S extends string> = TrimEnd<TrimStart<S>>
 
 type Res = Trim<" \t\njitui\n \t"> // jitui
 ```
+
+## 函数类型
+
+### GetParameters
+
+通过模式匹配提取函数参数类型
+
+```ts
+type GetParameters<F extends (...args: any) => any>> = F extends (
+  ...args: infer Args
+) => unknown
+  ? Args
+  : never
+
+type Res = GetParameters<(a: string, b: number) => string> // [a: string, b: number]
+```
+
+### GetReturnType
+
+通过模式匹配提取函数返回值类型
+
+```ts
+type GetReturnType<F extends (...args: any) => any>> = F extends (...args: any) => infer R
+  ? R
+  : never
+
+type Res = GetReturnType<() => boolean> // boolean
+```
+
+TypeScript 内置了 `ReturnType` 类型完成上述功能。
+
+### GetThisParameterType
+
+this 的指向可以被显式指定，也可以通过模式匹配提取得到。
+
+```ts
+class Person {
+  name: string
+
+  constructor() {
+    this.name = "lo"
+  }
+
+  hello() {
+    return `hello ${this.name}`
+  }
+
+  hi(this: Person) {
+    return `hi ${this.name}`
+  }
+
+  nihao = () => `nihao ${this.name}`
+}
+
+const p = new Person()
+
+p.hello() // hello lo
+p.hi() // hi lo
+p.nihao() // nihao lo
+
+p.hello.call({ xxx: 1 }) // hello undefined
+p.hi.call({ xxx: 1 }) // 类型出错
+p.nihao.call({ xxx: 1 }) // nihao lo
+```
+
+如果不显式地指定 this 类型，使用 call 调用方法时，会出现意想不到的错误。
+
+**建议使用箭头函数声明方法，这样 this 会默认绑定为所在的类实例。**
+
+```ts
+type GetThisParameterType<T> = T extends (
+  this: infer ThisType,
+  ...args: any
+) => any
+  ? ThisType
+  : never
+
+type Res1 = GetThisParameterType<typeof p.hello> // unknown
+type Res2 = GetThisParameterType<typeof p.hi> // Person
+type Res3 = GetThisParameterType<typeof p.nihao> // unknown
+```
+
+TypeScript 内置了 `ThisParameterType` 完成上述功能。
