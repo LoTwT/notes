@@ -38,3 +38,117 @@ npm config set sharp_dist_base_url https://npm.taobao.org/mirrors/sharp-libvips/
 npm config set sharp_libvips_binary_host https://npm.taobao.org/mirrors/sharp-libvips/
 npm config set sqlite3_binary_site https://npm.taobao.org/mirrors/sqlite3/
 ```
+
+## 数据管理
+
+非关系型数据库 MongoDB 。
+
+MongoDB 标准的 URL ：`mongodb://username:password@host:port/database[?options]`
+
+| 参数       | 说明        | 描述                          |
+| ---------- | ----------- | ----------------------------- |
+| mongodb:// | 协议        | 可理解成 HTTP                 |
+| username   | 账号        | 上述创建的 root               |
+| password   | 密码        | 上述创建的 root 的密码 123456 |
+| host       | 实例公有 IP |                               |
+| port       | 端口        | 默认 27017                    |
+| database   | 数据库      | 上述切换的 admin 数据库       |
+| options    | 配置        | 用得很少                      |
+
+### 安装
+
+- 登录服务器
+- 进入工具目录：`cd /tool`
+- 下载 MongoDB：`wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel80-5.0.6.tgz`
+- 解压 MongoDB：`tar -zxvf mongodb-linux-x86_64-rhel80-5.0.6.tgz -C /tool`
+- 重命名目录：`mv mongodb-linux-x86_64-rhel80-5.0.6 mongodb`
+
+### 配置
+
+- 进入目录并创建文件夹与日志文件：`cd mongodb && mkdir data && mkdir log && touch log/mongodb.log`
+- 配置环境变量：
+
+  ```bash
+  echo "export PATH=$PATH:/tool/mongodb/bin" >> ~/.bash_profile
+  source ~/.bash_profile
+  ```
+
+- 修改配置文件：`vim /tool/mongodb/mongodb.conf` ，加入一下内容
+
+  ```bash
+   # 数据库
+   dbpath=/tool/mongodb/data
+   # 日志文件
+   logpath=/tool/mongodb/log/mongodb.log
+   # 使用追加的方式更新日志
+   logappend=true
+   # 端口
+   port=27017
+   # 以守护进程的方式运行MongoDB(创建服务器进程)
+   fork=true
+   # 启用用户验证
+   # auth=true
+   # 绑定服务IP(绑定127.0.0.1只能本机访问，若不指定则默认本地所有IP)
+   bind_ip=0.0.0.0
+  ```
+
+- 启动 MongoDB：`mongod -f /tool/mongodb/mongodb.conf`
+- 查看 MongoDB 状态：`ps -ef | grep mongod`
+- 关闭 MongoDB：`mongod --shutdown -f /tool/mongodb/mongodb.conf`
+
+### 连接
+
+- MongoDB 启动后，执行 `mongo` 连接 MongoDB
+- 连接后，终端进入 mongodb 模式，该模式可执行 mongodb 相关命令
+- 切换到 admin 数据库，该数据库是 mongodb 默认数据库，用于管理用户权限
+  ：`use admin`
+- 创建 root 用户：`db.createUser({ user: "root", pwd: "123456", roles: [{ role: "root", db: "admin" }] })`
+- 开启 `auth=true` ，`vim /tool/mongodb/mongodb.conf` ，去掉 `auth=true` 的注释
+- 重启 MongoDB
+
+  ```bash
+   mongod -f /tool/mongodb/mongodb.conf
+   mongod --shutdown -f /tool/mongodb/mongodb.conf
+  ```
+
+- 用户登录，输出 1 则表示成功
+
+  ```bash
+  use admin
+  db.auth("root", "123456")
+  ```
+
+### 接口服务
+
+- 上传服务端代码，安装依赖
+- 登录服务器，创建对应的 Nginx 配置文件 `/etc/nginx/conf.d/api.aaa.bbb.conf` ，加入以下内容
+
+  ```bash
+  server {
+  	server_name api.yangzw.vip;
+  	location /mall {
+  		proxy_pass http://127.0.0.1:3000;
+  		proxy_set_header Host $host;
+  		proxy_set_header X-Forwarded-For $remote_addr;
+  		proxy_set_header X-Forwarded-Proto https;
+  	}
+  	location /blog {
+  		proxy_pass http://127.0.0.1:3001;
+  		proxy_set_header Host $host;
+  		proxy_set_header X-Forwarded-For $remote_addr;
+  		proxy_set_header X-Forwarded-Proto https;
+  	}
+  	location /resume {
+  		proxy_pass http://127.0.0.1:3002;
+  		proxy_set_header Host $host;
+  		proxy_set_header X-Forwarded-For $remote_addr;
+  		proxy_set_header X-Forwarded-Proto https;
+  	}
+  }
+  ```
+
+- 执行 `ccertbot --nginx` ，选择 `npm.aaa.bbb`
+- 配置安全组
+- 执行 `nginx -t` 验证 Nginx 配置
+- 执行 `nginx -s reload` 重启 Nginx 进程
+- 执行 `npm run deploy` 启动服务
