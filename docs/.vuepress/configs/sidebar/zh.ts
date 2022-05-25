@@ -165,6 +165,7 @@ export const zh: SidebarConfig = {
           children: [
             "/zh/typescript/fun/basic.md",
             "/zh/typescript/fun/patternMatching.md",
+            "/zh/typescript/fun/rebuild.md",
           ],
         },
         {
