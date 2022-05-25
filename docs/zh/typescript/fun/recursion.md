@@ -17,3 +17,75 @@ type DeepPromiseValueType<T> = T extends Promise<infer R>
 
 type Res = DeepPromiseValueType<Promise<Promise<Promise<string>>>> // string
 ```
+
+## 数组类型
+
+### ReverseArr
+
+```ts
+type ReverseArr<Arr extends unknown[]> = Arr extends [infer F, ...infer R]
+  ? [...ReverseArr<R>, F]
+  : Arr
+
+// 尾递归
+type ReverseArr1<
+  Arr extends unknown[],
+  Res extends unknown[] = [],
+> = Arr extends [infer F, ...infer R] ? ReverseArr1<R, [F, ...Res]> : Res
+
+type Res = ReverseArr<[1, 2, 3]> // [3, 2, 1]
+type Res1 = ReverseArr1<[1, 2, 3]> // [3, 2, 1]
+```
+
+### Includes
+
+```ts
+type IsEqual<A, B> = (A extends B ? true : false) & (B extends A ? true : false)
+
+type Includes<Arr extends unknown[], T> = Arr extends [infer F, ...infer R]
+  ? IsEqual<F, T> extends true
+    ? true
+    : Includes<R, T>
+  : false
+
+type Res = Includes<[1, 2, 3], 1> // true
+type Res1 = Includes<[1, 2, 3], 4> // false
+```
+
+### RemoveItem
+
+```ts
+type IsEqual<A, B> = (A extends B ? true : false) & (B extends A ? true : false)
+
+type RemoveItem<
+  Arr extends unknown[],
+  T,
+  Res extends unknown[] = [],
+> = Arr extends [infer F, ...infer R]
+  ? IsEqual<F, T> extends true
+    ? RemoveItem<R, T, Res>
+    : RemoveItem<R, T, [...Res, F]>
+  : Res
+
+type RemoveItem1<
+  Arr extends unknown[],
+  T,
+  Res extends unknown[] = [],
+> = Arr extends [infer F, ...infer R]
+  ? RemoveItem1<R, T, IsEqual<F, T> extends true ? Res : [...Res, F]>
+  : Res
+
+type Res = RemoveItem<[1, 2, 3, 3], 3> // [1, 2]
+type Res1 = RemoveItem1<[1, 2, 3, 3], 3> // [1, 2]
+```
+
+### ConstructTuple
+
+```ts
+type ConstructTuple<
+  T extends number,
+  Res extends unknown[] = [],
+> = T extends Res["length"] ? Res : ConstructTuple<T, [...Res, unknown]>
+
+type Res = ConstructTuple<3> // [unknown, unknown, unknown]
+```
