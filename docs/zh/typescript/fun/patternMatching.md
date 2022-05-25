@@ -225,3 +225,47 @@ type Res3 = GetThisParameterType<typeof p.nihao> // unknown
 ```
 
 TypeScript 内置了 `ThisParameterType` 完成上述功能。
+
+## 构造器类型
+
+### GetInstanceType
+
+通过模式匹配提取构造器返回值类型
+
+```ts
+interface Person {
+  name: string
+}
+
+interface PersonConstructor {
+  new (name: string): Person
+}
+
+type GetInstanceType<C> = C extends new (...args: any) => infer I ? I : never
+
+type Res = GetInstanceType<PersonConstructor> // Person
+```
+
+TypeScript 内置了 `InstanceType` 完成上述功能
+
+### GetConstructorParameters
+
+通过模式匹配提取构造器参数类型
+
+```ts
+interface Person {
+  name: string
+}
+
+interface PersonConstructor {
+  new (name: string): Person
+}
+
+type GetConstructorParameters<P> = P extends new (...args: infer A) => any
+  ? A
+  : never
+
+type Res = GetConstructorParameters<PersonConstructor> // [name: string]
+```
+
+TypeScript 内置了 `ConstructorParameters` 完成上述功能
