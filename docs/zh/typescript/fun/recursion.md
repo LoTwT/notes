@@ -89,3 +89,64 @@ type ConstructTuple<
 
 type Res = ConstructTuple<3> // [unknown, unknown, unknown]
 ```
+
+## 字符串类型
+
+### ReplaceAll
+
+```ts
+type ReplaceAll<
+  S extends string,
+  From extends string,
+  To extends string,
+> = S extends `${infer F}${From}${infer R}`
+  ? `${F}${To}${ReplaceAll<R, From, To>}`
+  : S
+
+// 尾递归
+type ReplaceAll1<
+  S extends string,
+  From extends string,
+  To extends string,
+  Res extends string = "",
+> = S extends `${infer F}${From}${infer R}`
+  ? ReplaceAll1<R, From, To, `${Res}${F}${To}`>
+  : Res
+
+type Res = ReplaceAll<"a a a", "a", "b"> // "b b b"
+type Res1 = ReplaceAll1<"a a a", "a", "b"> // "b b b"
+```
+
+### StringToUnion
+
+```ts
+type StringToUnion<S extends string> = S extends `${infer F}${infer R}`
+  ? F | StringToUnion<R>
+  : never
+
+// 尾递归
+type StringToUnion1<
+  S extends string,
+  Res extends string = never,
+> = S extends `${infer F}${infer R}` ? StringToUnion1<R, Res | F> : Res
+
+type Res = StringToUnion<"hello"> // "h" | "e" | "l" | "o"
+type Res1 = StringToUnion1<"hello"> // "h" | "e" | "l" | "o"
+```
+
+### ReverseStr
+
+```ts
+type ReverseStr<S extends string> = S extends `${infer F}${infer R}`
+  ? `${ReverseStr<R>}${F}`
+  : S
+
+// 尾递归
+type ReverseStr1<
+  S extends string,
+  Res extends string = "",
+> = S extends `${infer F}${infer R}` ? ReverseStr1<R, `${F}${Res}`> : Res
+
+type Res = ReverseStr<"abcd"> // "dcba"
+type Res1 = ReverseStr1<"abcd"> // "dcba"
+```
