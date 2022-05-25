@@ -150,3 +150,40 @@ type ReverseStr1<
 type Res = ReverseStr<"abcd"> // "dcba"
 type Res1 = ReverseStr1<"abcd"> // "dcba"
 ```
+
+## 对象类型
+
+### DeepReadonly
+
+```ts
+type DeepReadonly<O extends Record<string, any>> = O extends any
+  ? {
+      readonly [P in keyof O]: O[P] extends object
+        ? O[P] extends Function
+          ? O[P]
+          : DeepReadonly<O[P]>
+        : O[P]
+    }
+  : never
+
+type Res = DeepReadonly<{
+  a: { b: { c: { f: () => "hello"; d: { e: { g: "hi" } } } } }
+}>
+
+// {
+//   readonly a: {
+//     readonly b: {
+//       readonly c: {
+//         readonly f: () => "hello"
+//         readonly d: {
+//           readonly e: {
+//             readonly g: "hi"
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+```
+
+`O extends any` 用来触发 TypeScript 的类型计算，并且可以处理联合类型。
