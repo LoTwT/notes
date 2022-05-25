@@ -269,3 +269,22 @@ type Res = GetConstructorParameters<PersonConstructor> // [name: string]
 ```
 
 TypeScript 内置了 `ConstructorParameters` 完成上述功能
+
+## 索引类型
+
+### GetRefProps
+
+通过模式匹配提取对象类型中 `ref` 字段的类型
+
+```ts
+type GetRefProps<P> = "ref" extends keyof P
+  ? P extends { ref?: infer V | undefined }
+    ? V
+    : never
+  : never
+
+type Res = GetRefProps<{ ref: 1 }> // 1
+type Res1 = GetRefProps<{ ref: undefined }> // undefined
+```
+
+`"ref" extends keyof P` 用于在 ts@3.0 中的向下兼容，如果没有对应索引，会返回 `{}` 而不是 never 。
