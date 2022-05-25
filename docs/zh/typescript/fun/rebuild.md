@@ -119,3 +119,17 @@ type Res = DropSubStr<"hello~~~", "~"> // hello
 type Res1 = DropSubStr1<"hello~~~", "~"> // hello
 type Res2 = DropSubStr2<"hello~~~", "~"> // hello
 ```
+
+## 函数类型
+
+### AppendArgument
+
+```ts
+type AppendArgument<F extends (...args: any) => any, Arg> = F extends (
+  ...args: infer Args
+) => infer R
+  ? (...args: [...Args, Arg]) => R
+  : never
+
+type Res = AppendArgument<(a: string) => boolean, number> // (args_0: string, args_1: number) => boolean
+```
