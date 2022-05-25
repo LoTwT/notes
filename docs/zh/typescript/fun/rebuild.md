@@ -133,3 +133,105 @@ type AppendArgument<F extends (...args: any) => any, Arg> = F extends (
 
 type Res = AppendArgument<(a: string) => boolean, number> // (args_0: string, args_1: number) => boolean
 ```
+
+## 索引类型
+
+索引类型是聚合多个元素的类型，class、对象等都是索引类型。
+
+索引类型可以添加修饰符 readonly ( 只读 ) 、? ( 可选 ) 。
+
+例如：
+
+```ts
+type Person = {
+  name: string
+  readonly age: number
+  gender?: string
+}
+```
+
+### Mapping
+
+```ts
+type Mapping<O extends Record<string, unknown>> = {
+  [P in keyof O]: [O[P], O[P]]
+}
+
+type Res = Mapping<{ a: 1 }> // { a: [1, 1] }
+```
+
+### UppercaseKey
+
+使用 as 对对象类型的 key 进行修改，叫做重映射。
+
+```ts
+type UppercaseKey<O extends Record<string, unknown>> = {
+  [P in keyof O as Uppercase<P & string>]: O[P]
+}
+
+type Res = UppercaseKey<{ a: 1 }> // { A: 1 }
+```
+
+### MyRecord
+
+```ts
+type MyRecord<K extends string | number | symbol, V> = { [P in K]: V }
+```
+
+TypeScript 内置了 `Record` 完成上述功能。
+
+### ToReadonly
+
+```ts
+type ToReadonly<T> = {
+  readonly [P in keyof T]: T[P]
+}
+
+type Res = ToReadonly<{ a: 1 }> // { readonly a: 1 }
+```
+
+TypeScript 内置了 `Readonly` 完成上述功能。
+
+### ToPartial
+
+```ts
+type ToPartial<T> = {
+  [P in keyof T]?: T[P]
+}
+
+type Res = ToPartial<{ a: 1 }> // { a?: 1 | undefined }
+```
+
+TypeScript 内置了 `Partial` 完成上述功能。
+
+### ToMutable
+
+```ts
+type ToMutable<T> = {
+  -readonly [Key in keyof T]: T[Key]
+}
+
+type Res = ToMutable<{ readonly a: 1 }> // { a: 1 }
+```
+
+### ToRequired
+
+```ts
+type ToRequired<T> = {
+  [Key in keyof T]-?: T[Key]
+}
+
+type Res = ToRequired<{ a?: 1 }> // { a: 1 }
+```
+
+TypeScript 内置了 `Required` 完成上述功能。
+
+### FilterByValueType
+
+```ts
+type FilterByValueType<Obj extends Record<string, any>, ValueType> = {
+  [Key in keyof Obj as ValueType extends Obj[Key] ? Key : never]: Obj[Key]
+}
+
+type Res = FilterByValueType<{ a: string; b: number }, string> // { a: string }
+```
