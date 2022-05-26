@@ -120,6 +120,7 @@ export const zh: SidebarConfig = {
         "/zh/toolchain/engineering/services.md",
         "/zh/toolchain/engineering/management.md",
         "/zh/toolchain/engineering/build.md",
+        "/zh/toolchain/engineering/structure.md",
       ],
     },
     {
