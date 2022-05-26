@@ -94,7 +94,64 @@ type Divide<
   Res extends unknown[] = [],
 > = A extends 0 ? Res["length"] : Divide<Subtract<A, B>, B, [unknown, ...Res]>
 
-type Res = Divide<30, 5> //
+type Res = Divide<30, 5> // 6
 ```
 
 只能实现整除，且有边界条件没有判断。
+
+## 数组长度实现计数
+
+### StrLen
+
+```ts
+// 尾递归
+type StrLen<
+  S extends string,
+  Res extends unknown[] = [],
+> = S extends `${string}${infer R}`
+  ? StrLen<R, [...Res, unknown]>
+  : Res["length"]
+
+type Res = StrLen<"hello">
+```
+
+### GreaterThan
+
+```ts
+type GreaterThan<
+  A extends number,
+  B extends number,
+  Res extends unknown[] = [],
+> = A extends B
+  ? false
+  : Res["length"] extends B
+  ? true
+  : Res["length"] extends A
+  ? false
+  : GreaterThan<A, B, [...Res, unknown]>
+
+type Res = GreaterThan<2, 1> // true
+type Res1 = GreaterThan<1, 2> // false
+```
+
+### Fibonacci
+
+```ts
+type FibonacciLoop<
+  PrevArr extends unknown[],
+  CurrentArr extends unknown[],
+  IndexArr extends unknown[] = [],
+  Num extends number = 1,
+> = IndexArr["length"] extends Num
+  ? CurrentArr["length"]
+  : FibonacciLoop<
+      CurrentArr,
+      [...PrevArr, ...CurrentArr],
+      [...IndexArr, unknown],
+      Num
+    >
+
+type Fibonacci<Num extends number> = FibonacciLoop<[1], [], [], Num>
+
+type Res = Fibonaccci<8> // 21
+```
