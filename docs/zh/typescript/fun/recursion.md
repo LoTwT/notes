@@ -85,7 +85,7 @@ type Res1 = RemoveItem1<[1, 2, 3, 3], 3> // [1, 2]
 type ConstructTuple<
   T extends number,
   Res extends unknown[] = [],
-> = T extends Res["length"] ? Res : ConstructTuple<T, [...Res, unknown]>
+> = Res["length"] extends T ? Res : ConstructTuple<T, [...Res, unknown]>
 
 type Res = ConstructTuple<3> // [unknown, unknown, unknown]
 ```
