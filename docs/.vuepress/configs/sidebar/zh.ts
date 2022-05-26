@@ -168,6 +168,7 @@ export const zh: SidebarConfig = {
             "/zh/typescript/fun/patternMatching.md",
             "/zh/typescript/fun/rebuild.md",
             "/zh/typescript/fun/recursion.md",
+            "/zh/typescript/fun/calculate.md",
           ],
         },
         {
