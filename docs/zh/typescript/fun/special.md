@@ -75,3 +75,69 @@ type UnionToIntersection<T> = (
 ```
 
 函数的逆变一般只用于联合类型转交叉类型。
+
+### GetOptional
+
+提取索引类型中的可选索引
+
+可选索引的值为 undefined 和值类型的联合类型
+
+```ts
+type GetOptional<O extends Record<string, unknown>> = {
+  [P in keyof O as {} extends Pick<O, P> ? P : never]: O[P]
+}
+```
+
+- 约束类型参数 O 的类型为索引是 string 类型，值是任意类型的对象类型
+- 重映射 O 的索引，用 `Pick` 提取对应索引的值类型
+- 可选的含义是可以没有这个字段
+- 判断空对象 `{}` 是否是对应索引的值类型的子类型
+- 构造出新的类型
+
+另一种解法
+
+```ts
+type GetOptional<T> = {
+  [P in keyof T as Omit<T, P> extends T ? P : never]: T[P]
+}
+```
+
+### GetRequired
+
+```ts
+type GetRequired<T> = {
+  [P in keyof T as Omit<T, P> extends T ? never : P]: T[P]
+}
+```
+
+### RemoveIndexSignature
+
+索引签名不能构造成字符串字面量类型，因为它没有具体的名字，而其他索引可以。
+
+```ts
+type RemoveIndexSignature<O extends Record<string, unknown>> = {
+  [P in keyof O as P extends `${infer R}` ? R : never]: O[P]
+}
+```
+
+### ClassPublicProps
+
+keyof 可以拿到 class 的 public 索引。
+
+```ts
+type ClassPublicProps<O extends Record<string, unknown>> = {
+  [P in keyof O]: O[P]
+}
+```
+
+### 总结
+
+1. any 类型与任何类型交叉都是 any
+1. 联合类型作为类型参数出现在条件类型左侧时，会分散成单个类型传入，最后合并结果
+1. never 作为类型参数出现在条件类型左侧时，直接返回 never
+1. any 作为类型参数出现在条件类型左侧时，会返回 trueType 和 falseType 的联合类型
+1. 元组类型也是数组类型，但每个元素都是只读的，并且 length 是数字字面量，而数组的 length 是 number
+1. 函数参数的位置会发生逆变，可以用来实现联合类型转交叉类型
+1. 可选索引的值为 undefined 和值类型的联合类型，可选意味着可以没有这个字段
+1. 索引类型的索引为字符串字面量类型，而索引签名不是
+1. keyof 只能拿到 class 的 public 索引
