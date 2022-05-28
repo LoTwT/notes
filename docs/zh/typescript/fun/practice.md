@@ -171,3 +171,100 @@ type PartialObjectPropByKeys<
   Key extends keyof any,
 > = Partial<Pick<Obj, Extract<keyof Obj, Key>>> & Omit<Obj, Key>
 ```
+
+### 函数重载
+
+```ts
+// 第一种
+declare function func(name: string): string
+declare function func(name: number): number
+
+// 第二种
+interface Func {
+  (name: string): string
+  (name: number): number
+}
+
+// 第三种
+type Func = ((name: string) => string) & ((name: number) => number)
+```
+
+### UnionToTuple
+
+```ts
+type UnionToIntersection<T> = (
+  T extends T ? (arg: T) => unknown : never
+) extends (arg: infer R) => unknown
+  ? R
+  : never
+
+type UnionToTuple<T> = UnionToIntersection<
+  T extends any ? () => T : never
+> extends () => infer R
+  ? [...UnionToTuple<Exclude<T, R>>, R]
+  : []
+
+// 尾递归
+type UnionToTuple<T, Res extends unknown[] = []> = UnionToIntersection<
+  T extends any ? () => T : never
+> extends () => infer R
+  ? UnionToTuple<Exclude<T, R>, [R, ...Res]>
+  : Res
+```
+
+说明：
+
+1. 提取重载函数的返回值类型，始终返回最后一个重载的返回值类型
+1. 已实现 `UnionToIntersection`
+1. 提取 union 的每一种类型转为提取返回值为对应类型的函数的重载
+1. 用 `Exclude` 将提取出的类型在下一次计算中剔除
+
+### join
+
+```ts
+declare function join<Delimiter extends string>(
+  delimiter: Delimiter,
+): <Items extends string[]>(...args: Items) => JoinType<Items, Delimiter>
+
+type JoinType<
+  Items extends unknown[],
+  Delimiter extends string,
+  Res extends string = "",
+> = Items extends [infer F, ...infer R]
+  ? JoinType<R, Delimiter, `${Res}${Delimiter}${F & string}`>
+  : RemoveFirstDelimiter<Res>
+
+type RemoveFirstDelimiter<S extends string> = S extends `${string}${infer R}`
+  ? R
+  : S
+
+let res = join("-")("guang", "and", "dong") // let res: "guang-and-dong"
+```
+
+### DeepCamelize
+
+```ts
+type DeepCamelize<Obj extends Record<string, any>> = Obj extends unknown[]
+  ? CamelizeArr<Obj>
+  : {
+      [Key in keyof Obj as Key extends `${infer First}_${infer Rest}`
+        ? `${First}${Capitalize<Rest>}`
+        : Key]: DeepCamelize<Obj[Key]>
+    }
+
+type CamelizeArr<Arr> = Arr extends [infer First, ...infer Rest]
+  ? [DeepCamelize<First>, ...CamelizeArr<Rest>]
+  : []
+```
+
+### Defaultize
+
+实现这样一个高级类型，对 A、B 两个索引类型做合并，如果是只有 A 中有的不变，如果是 A、B 都有的就变为可选，只有 B 中有的也变为可选。
+
+```ts
+type Defaultize<A, B> = Pick<A, Exclude<keyof A, keyof B>> &
+  Partial<Pick<A, Extract<keyof A, keyof B>>> &
+  Partial<Pick<B, Exclude<keyof B, keyof A>>>
+
+type Defaultize<A, B> = Omit<A, keyof B> & Partial<B>
+```
