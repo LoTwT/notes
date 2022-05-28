@@ -173,6 +173,7 @@ export const zh: SidebarConfig = {
             "/zh/typescript/fun/special.md",
             "/zh/typescript/fun/builtin.md",
             "/zh/typescript/fun/practice.md",
+            "/zh/typescript/fun/principle.md",
           ],
         },
         {
