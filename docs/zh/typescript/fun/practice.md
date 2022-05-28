@@ -97,3 +97,77 @@ declare function currying<F>(
   fn: F,
 ): F extends (...args: infer Args) => infer R ? CurriedFunc<Args, R> : never
 ```
+
+### KebabCase2CamelCase
+
+```ts
+type KebabCase2CamelCase<S extends string> =
+  S extends `${infer F}-${infer Rest}`
+    ? `${F}${KebabCase2CamelCase<Capitalize<Rest>>}`
+    : S
+
+// 尾递归
+type KebabCase2CamelCase<
+  S extends string,
+  Res extends string = "",
+> = S extends `${infer F}-${infer Rest}`
+  ? KebabCase2CamelCase<Capitalize<Rest>, `${Res}${F}`>
+  : `${Res}${S}`
+```
+
+### CamelCase2KebabCase
+
+```ts
+type CamelCase2KebabCase<S extends string> = S extends `${infer F}${infer Rest}`
+  ? `${F extends Lowercase<F>
+      ? F
+      : `-${Lowercase<F>}`}${CamelCase2KebabCase<Rest>}`
+  : S
+
+// 尾递归
+type CamelCase2KebabCase<
+  S extends string,
+  Res extends string = "",
+> = S extends `${infer F}${infer Rest}`
+  ? CamelCase2KebabCase<
+      Rest,
+      `${Res}${F extends Lowercase<F> ? F : `-${Lowercase<F>}`}`
+    >
+  : Res
+```
+
+### chunk
+
+将数组或元组中的元素按照指定的长度进行分组。
+
+```ts
+type Chunk<
+  Arr extends unknown[],
+  Len extends number,
+  Curr extends unknown[] = [],
+  Res extends unknown[][] = [],
+> = Arr extends [infer F, ...infer R]
+  ? Curr["length"] extends Len
+    ? Chunk<R, Len, [F], [...Res, Curr]>
+    : Chunk<R, Len, [...Curr, F], Res>
+  : [...Res, Curr]
+```
+
+### Tuple2NestedObject
+
+```ts
+type Tuple2NestedObject<T, V> = T extends [infer F, ...infer R]
+  ? {
+      [P in F as P extends keyof any ? P : never]: Tuple2NestedObject<R, V>
+    }
+  : V
+```
+
+### PartialObjectPropByKeys
+
+```ts
+type PartialObjectPropByKeys<
+  Obj extends Record<string, unknown>,
+  Key extends keyof any,
+> = Partial<Pick<Obj, Extract<keyof Obj, Key>>> & Omit<Obj, Key>
+```
