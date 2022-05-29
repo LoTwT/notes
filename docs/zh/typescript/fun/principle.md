@@ -73,3 +73,24 @@ printName = printHobbies
 Java 里的类型是通过 extends 继承，如果 A extends B ，那 A 就是 B 的子类型。这种叫做名义类型系统 ( nominal type ) 。
 
 而在 TypeScript 中，只要结构上是一致的，那就可以确定父子关系，这种叫做结构类型系统 ( structural type ) 。
+
+## 条件类型
+
+### 相等和相关
+
+如果两个条件类型 `T1 extends U1 ? X1 : Y1` 和 `T2 extends U2 ? X2 : Y2` 相关的话，那 T1 和 T2 相关，X1 和 X2 相关，Y1 和 Y2 相关，而 U1 和 U2 **相等**。
+
+如果是判断相关性，任意类型 extends any 都是 true ，但通过构造两个条件类型 判断相关性，就可以利用 extends 右边部分相等的性质来判断两个类型是否 equal 。
+
+### 推导
+
+类型编程中如果需要取类型参数做一些计算时，默认推导出的是约束的类型，如果没有类型约束，为 unknown 。
+
+### 特殊情况
+
+联合类型、any 、never 、boolean ：
+
+1. 联合类型有分布式条件类型的特性，会分发传入
+1. boolean 本质是 `true | false` 的联合类型
+1. any 会直接返回 trueType 和 falseType 的联合类型
+1. never 会直接返回 never ，严格来说也是分布式条件类型的一种情况
