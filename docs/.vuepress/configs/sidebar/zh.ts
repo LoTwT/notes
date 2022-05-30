@@ -91,6 +91,7 @@ export const zh: SidebarConfig = {
             "/zh/dataAndAlgorithm/algorithm/344-reverseString.md",
             "/zh/dataAndAlgorithm/algorithm/404-sumOfLeftLeaves.md",
             "/zh/dataAndAlgorithm/algorithm/429-nAryTreeLevelOrderTraversal.md",
+            "/zh/dataAndAlgorithm/algorithm/435-nonOverlappingIntervals.md",
             "/zh/dataAndAlgorithm/algorithm/452-minimumNumberOfArrowsToBurstBalloons.md",
             "/zh/dataAndAlgorithm/algorithm/455-assignCookies.md",
             "/zh/dataAndAlgorithm/algorithm/509-fibonacciNumber.md",
