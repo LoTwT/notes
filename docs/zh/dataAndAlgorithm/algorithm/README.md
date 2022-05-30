@@ -26,6 +26,7 @@
 - [27-移除元素](./27-removeElement.md)
 - [37-解数独](./37-sudokuSolver.md)
 - [39-组合总和](./39-combinationSum.md)
+- [45-跳跃游戏 II](./45-jumpGameII.md)
 - [46-全排列](./46-permutations.md)
 - [47-全排列 II](./47-permutations-ii.md)
 - [51-N 皇后](./51-nQueens.md)
