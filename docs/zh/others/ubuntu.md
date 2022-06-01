@@ -136,3 +136,32 @@ ln -s node安装目录/lib/node_modules/pm2/bin/pm2   /usr/bin/
     }
   }
   ```
+
+### 访问加密
+
+安装 certbot
+
+AWS Ubuntu 自带了 snap ，直接使用即可；如果没有，请自行安装。
+
+```bash
+# 开启自启
+systemctl enable --now snapd.socket
+
+
+snap install core
+snap refresh core
+
+# 安装 certbot
+snap install --classic certbot
+
+# 软连接
+ln -s /snap/bin/certbot /usr/bin/certbot
+
+# 查看版本
+certbot --version
+
+# 扫描 nginx 所有配置，对应输入答案
+certbot --nginx
+```
+
+HTTPS 证书最终生成到 `/etc/letsencrypt/live/aaa.bbb` 目录下。
