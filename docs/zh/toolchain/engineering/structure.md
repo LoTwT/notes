@@ -18,3 +18,7 @@ Monorepo ，一个项目多个模块，每个模块都放在项目仓库下。
 1. 方便管理
 
 落地：`pnpm workspace` 和 `turborepo`
+
+## 多包仓库
+
+`pnpm workspace` 和 `turborepo`
