@@ -146,6 +146,8 @@ export const zh: SidebarConfig = {
           children: [
             "/zh/toolchain/babel/AST.md",
             "/zh/toolchain/babel/API.md",
+            "/zh/toolchain/babel/parser.md",
+            "/zh/toolchain/babel/traverse.md",
           ],
         },
       ],
