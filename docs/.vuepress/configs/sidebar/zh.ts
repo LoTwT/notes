@@ -135,6 +135,7 @@ export const zh: SidebarConfig = {
           children: [
             "/zh/toolchain/vite/overview.md",
             "/zh/toolchain/vite/module.md",
+            "/zh/toolchain/vite/style.md",
           ],
         },
         {
