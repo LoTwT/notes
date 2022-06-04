@@ -132,8 +132,7 @@ export const zh: SidebarConfig = {
       children: [
         {
           text: "Vite",
-          link: "/zh/toolchain/vite/README.md",
-          children: [],
+          children: ["/zh/toolchain/vite/overview.md"],
         },
         {
           text: "Rollup",
