@@ -120,3 +120,33 @@ pnpm i @babel/runtime-corejs3 -S
   ]
 }
 ```
+
+## Vite 语法降级与 Polyfill 注入
+
+Vite 官方提供了开箱即用的方案 `@vitejs/plugin-legacy` ，它同样使用了 `@babel/preset-env` 和 `core-js` 等一系列基础库。
+
+```bash
+pnpm i @vitejs/plugin-legacy -D
+```
+
+```ts
+// vite.config.ts
+import legacy from "@vitejs/plugin-legacy"
+import { defineConfig } from "vite"
+
+export default defineConfig({
+  plugins: [
+    // 省略其它插件
+    legacy({
+      // 设置目标浏览器，browserslist 配置语法
+      targets: ["ie >= 11"],
+    }),
+  ],
+})
+```
+
+通过 legacy 插件，Vite 会分别打包出 Modern 模式和 Legacy 模式的产物，然后将两种产物插入同一个 HTML 里，Modern 产物被放到 `type="module"` 的 script 标签中，而 Legacy 产物则被放到带有 [nomodule](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#attr-nomodule) 的 script 标签中，这样产物就能同时放到现代浏览器和不支持 ESM 的低版本浏览器中执行。
+
+### 执行原理
+
+![plugin-legacy](/vite/plugin-legacy.jpg)
