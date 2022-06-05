@@ -139,6 +139,7 @@ export const zh: SidebarConfig = {
             "/zh/toolchain/vite/esbuild.md",
             "/zh/toolchain/vite/plugin.md",
             "/zh/toolchain/vite/hmr.md",
+            "/zh/toolchain/vite/polyfill.md",
           ],
         },
         {
