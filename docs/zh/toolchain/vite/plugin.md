@@ -221,3 +221,94 @@ if (import.meta.hot) {
 - configureServer ：获取 Vite Dev Server 实例，添加中间件
 - transformIndexHtml ：转换 HTML 内容
 - handleHotUpdate ：进行热更新模块的过滤，或者进行自定义的热更新处理
+
+## hook 执行顺序
+
+```ts
+// test-hooks-plugin.ts
+// 注: 请求响应阶段的钩子
+// 如 resolveId, load, transform, transformIndexHtml在下文介绍
+// 以下为服务启动和关闭的钩子
+export default function testHookPlugin () {
+  return {
+    name: 'test-hooks-plugin',
+    // Vite 独有钩子
+    config(config) {
+      console.log('config');
+    },
+    // Vite 独有钩子
+    configResolved(resolvedCofnig) {
+      console.log('configResolved');
+    },
+    // 通用钩子
+    options(opts) {
+      console.log('options');
+      return opts;
+    },
+    // Vite 独有钩子
+    configureServer(server) {
+      console.log('configureServer');
+      setTimeout(() => {
+        // 手动退出进程
+        process.kill(process.pid, 'SIGTERM');
+      }, 3000)
+    },
+    // 通用钩子
+    buildStart() {
+      console.log('buildStart');
+    },
+    // 通用钩子
+    buildEnd() {
+      console.log('buildEnd');
+    },
+    // 通用钩子
+    closeBundle() {
+      console.log('closeBundle');
+    }
+}
+```
+
+- 服务启动阶段：config、configResolved、options、configureServer、buildStart
+- 请求响应阶段：如果是 html 文件，仅执行 transformIndexHtml ；对非 html 文件，则依次执行 resolveId、load 和 transform
+- 热更新阶段：执行 handleHotUpdate
+- 服务关闭阶段：执行 buildEnd 和 closeBundle
+
+## 应用位置
+
+应用情景和应用顺序。
+
+默认情况下 Vite 插件同时被用于开发环境和生产环境，可以通过 apply 属性决定应用场景
+
+```ts
+{
+  // 'serve' 表示仅用于开发环境，'build'表示仅用于生产环境
+  apply: "serve"
+}
+
+// 也可以配置成函数
+{
+  apply(config, { command }) {
+  // 只用于非 SSR 情况下的生产环境构建
+  return command === 'build' && !config.build.ssr
+}
+}
+```
+
+可以通过 enforce 属性指定插件的执行顺序
+
+```ts
+{
+  // 默认为`normal`，可取值还有`pre`和`post`
+  enforce: "pre"
+}
+```
+
+## 执行顺序
+
+- Alias ( 路径别名 ) 相关的插件
+- 带有 `enforce: "pre"` 的用户插件
+- Vite 核心插件
+- 没有 `enforce` 的用户插件 ( 普通插件 )
+- Vite 生产环境构建用的插件
+- 带有 `enforce: "post"` 的用户插件
+- Vite 后置构建插件 ( 如压缩插件 )
