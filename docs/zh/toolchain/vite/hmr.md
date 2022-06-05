@@ -106,3 +106,73 @@ if (import.meta.hot) {
 ```
 
 Vite 回调传来的参数 modules 是一个数组，和第一个参数声明的子模块数组一一对应。
+
+### dispose
+
+模块销毁时的逻辑。
+
+```ts
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    // do something
+  })
+}
+```
+
+此时会丢失原有状态。
+
+### data
+
+共享数据。
+
+```ts
+if (import.meta.hot) {
+  // 初始化 count
+  if (!import.meta.hot.data.count) {
+    import.meta.hot.data.count = 0
+  }
+}
+```
+
+### decline
+
+表示此模块不可热更新，当模块更新时会强制进行页面刷新。
+
+```ts
+import.meta.hot.decline()
+```
+
+### invalidate
+
+强制刷新页面。
+
+```ts
+import.meta.hot.invalidate()
+```
+
+### 自定义事件
+
+可以通过 `import.meta.hot.on` 监听 HMR 的自定义事件，内部有以下事件会自动触发：
+
+- `vite:beforeUpdate` ：当模块更新时触发
+- `vite:beforeFullReload` ：当即将重新刷新页面时触发
+- `vite:beforePrune` ：当不再需要的模块即将被剔除时触发
+- `vite:error` ：当发生错误时 ( 例如语法错误 ) 触发
+
+可以通过 `handleHotUpdate` 触发
+
+```ts
+// 插件 Hook
+handleHotUpdate({ server }) {
+  server.ws.send({
+    type: 'custom',
+    event: 'custom-update',
+    data: {}
+  })
+  return []
+}
+// 前端代码
+import.meta.hot.on('custom-update', (data) => {
+  // 自定义更新逻辑
+})
+```
