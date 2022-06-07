@@ -71,3 +71,29 @@ SSR 的运行时可以拆分为比较固定的生命周期阶段：
 1. 进行数据预取。这个阶段，Node.js 侧会通过查询数据库或者网络请求来获取应用所需的数据。
 1. 渲染组件。这个阶段是 SSR 的核心，主要将第一步中加载组件渲染成 HTML 字符串或 Stream 流。
 1. HTML 拼接。在组件渲染完成之后，需要拼接完整的 HTML 字符串，并将其作为响应返回给浏览器。
+
+## 基于 Vite 搭建 SSR 项目
+
+### SSR 构建 API
+
+开发环境下，Vite 秉承 ESM 模块按需加载即 no-bundle 的理念，对外提供 `ssrLoadModule` API ，无需打包项目，将入口文件的路径传入即可。
+
+```ts
+// 加载服务端入口模块
+const xxx = await vite.ssrLoadModule("/src/entry-server.tsx")
+```
+
+在生产环境下，Vite 会默认进行打包，对于 SSR 构建输出 CommonJS 格式的产物。( Vite 3 改为 ESM )
+
+```json
+// package.json
+{
+  "build:ssr": "vite build --ssr 服务端入口路径"
+}
+```
+
+通过执行上述命令，Vite 会专门为 SSR 打包出一份构建产物，开箱即用即可。
+
+### 项目链接
+
+[vite-ssr-demo](https://github.com/LoTwT/vite-ssr-demo)
