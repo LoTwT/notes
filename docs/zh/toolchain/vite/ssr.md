@@ -97,3 +97,28 @@ const xxx = await vite.ssrLoadModule("/src/entry-server.tsx")
 ### 项目链接
 
 [vite-ssr-demo](https://github.com/LoTwT/vite-ssr-demo)
+
+### 工程化问题
+
+#### 路由管理
+
+在 SPA 场景下，对于不同的前端框架，一般会有不同的路由管理方案，如 Vue 中的 vue-router ，React 的 react-router ，但不管是什么路由方案，在 SSR 过程中所完成的功能都是差不多的：
+
+1. 告诉框架现在渲染哪个路由。在 Vue 中使用 `router.push` ，在 React 中通过 `StaticRouter` 配合 `location` 参数。
+1. 设置 `base` 前缀。规定路径的前缀，如 `vue-router` 的 base 参数，react-router 中 `StaticRouter` 组件的 basename 。
+
+#### 全局状态管理
+
+对于全局的状态管理而言，不同的框架也有不同的生态和方案。
+
+各个状态管理工具接入 SSR 的思路也比较简单，在`预取数据`阶段初始化服务端的 `store` ，将异步获取的数据存入 `store` ，然后在`拼接 HTML` 阶段将数据从 `store` 中取出，放到 `script` 标签中，最后在客户端 `hydrate` 时通过 `window` 访问到预取数据。
+
+> 需要注意的是，服务端处理很多不同的请求，对于每个请求都需要分别初始化 store ，即一个请求一个 store ，不然会造成全局状态污染。
+
+### CSR 降级
+
+在某些极端情况下，需要从 SSR 降级回 CSR ，即客户端渲染，一般包括以下场景：
+
+1. 服务端预取数据失败，需要降级到客户端获取数据
+1. 服务器异常，需要返回兜底的 CSR 模板，完全降级为 CSR
+1. 本地开发调试，有时需要跳过 SSR ，仅进行 CSR
