@@ -126,6 +126,7 @@ export const zh: SidebarConfig = {
         "/zh/toolchain/engineering/structure.md",
         "/zh/toolchain/engineering/deploy.md",
         "/zh/toolchain/engineering/docsite.md",
+        "/zh/toolchain/engineering/devops.md",
       ],
     },
     {
