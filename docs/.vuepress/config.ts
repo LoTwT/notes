@@ -2,7 +2,7 @@ import { defineUserConfig, defaultTheme } from "vuepress"
 import { navbar, sidebar } from "./configs"
 
 export default defineUserConfig({
-  base: "/notes/",
+  base: process.env.NODE_ENV === "deploy" ? "/" : "/notes/",
 
   locales: {
     "/": {
