@@ -169,7 +169,11 @@ export const zh: SidebarConfig = {
     {
       text: "杂项",
       link: "/zh/others/README.md",
-      children: ["/zh/others/docker.md", "/zh/others/ubuntu.md"],
+      children: [
+        "/zh/others/docker.md",
+        "/zh/others/ubuntu.md",
+        "/zh/others/nginx.md",
+      ],
     },
   ],
 
