@@ -47,3 +47,72 @@ Continuous Delivery ，持续交付，简称 CD ，指在持续部署的基础�
 可以通过 Gitlab 部署 CI / CD ，但要求服务器硬件必须在 `2核2G` 以上。
 
 当版本发生迭代后，更新提交到 Github 仓库，会触发 Webhooks ，通过 Github Actions 监听指定的 Webhooks 就能触发提前编写好的脚本。
+
+## Github Actions
+
+Github Actions 是基于 Github 的持续集成服务。其提供一台虚拟服务器实例，在该实例中允许通过自定义 Actions 执行一个或多个命令，以自动地操作代码、构建代码、测试代码、打包代码、发布代码、部署代码、登录远程 服务器等。
+
+### 概念术语
+
+一个完整的 Actions 由以下部分组成：
+
+1. workflow ：工作流程，一个完整且单独运行的持续集成服务
+1. job ：任务，一个或多个 job 组成一个 workflow ，一次持续集成服务的运行可完成一个或多个任务
+1. step ：步骤，一个或多个 step 组成一个 job ，一个任务的运行由一个或多个步骤根据顺序完成
+1. action ：动作，一个或多个 action 组成一个 step ，一个步骤的运行由一个或多个动作根据顺序执行
+
+### 配置文件
+
+Github Actions 的配置文件是 workflow 文件，必须存放到 `.github/workflows` 目录下，并以 `<name>.yml` 形式命名。
+
+workflow 文件可以创建多个，文件名称可以根据集成服务的功能任意命名，但后缀必须使用 `.yml` 。
+
+当提交代码到 github 仓库，只要发现 `.github/workflows/<name>.yml` 文件，就会自动挨个文件执行，直至处理完毕所有集成服务。
+
+配置文件的常见字段：
+
+> name ，工作名称，若不设置，则默认为 workflow 文件的文件名称。若手动完成一个工作流程，会根据顺序执行 checkout 检出、build 构建、deploy 部署，工作名称会合并简称为 CBD 。
+
+```yml
+name: CBD # 工作名称
+```
+
+> on ，触发事件，上述提到的 Webhooks 可定义一个或多个 Webhooks ，通常是 push 与 pull_request 。Webhooks 要指定操作的分支，通常是 main 。
+
+```yml
+on: # 触发事件：在 push 到 main 分支后
+  push:
+    branches:
+      - main
+```
+
+> jobs ，任务列表，使用对象表示，对象属性表示任务名称，会在 Actions 的执行过程中显示。
+
+1. name ：任务名称
+1. runs-on ：虚拟机环境，可选 `ubuntu-latest` 、`windows-latest` 、`macos-latest`
+1. needs ：执行任务的依赖顺序
+1. steps ：执行步骤，每个任务可将需执行的内容划分为不同步骤
+   1. name ：步骤名称
+   1. uses ：官方与第三方 Actions
+   1. with ：Actions 的入参
+   1. run ：执行命令
+   1. env ：环境变量
+
+```yml
+jobs: # 任务
+  cbd: # 任务 ID
+    name: doc cbd # 任务名称
+    runs-on: ubuntu-latest # 虚拟机环境
+    steps: # 执行步骤
+      # 拉取代码
+      - name: Checkout
+        uses: actions/checkout@v2
+      # 打包文件
+      - name: Build
+        run: yarn && yarn run deploy
+        env:
+          AUTHOR: Lo
+          AGE: 26
+          SEX: male
+      - ...
+```
