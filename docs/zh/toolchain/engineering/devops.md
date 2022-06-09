@@ -116,3 +116,63 @@ jobs: # 任务
           SEX: male
       - ...
 ```
+
+## 部署
+
+### Github Token 与 Actions Secret
+
+1. 创建 Github Token ，Github 右上角的 settings -> Developer settings -> Personal access tokens -> generate new token
+1. 填写备注、选择作用域、妥善保管
+1. 创建 Actions Secret
+
+   1. 打开项目仓库地址，settings -> Secrets -> Actions -> New repository secret
+   1. 填写备注信息、填写 Github Token
+   1. Add Secret
+
+在配置文件中可通过 `{{ secrets.xxx }}` 读取，`xxx` 为备注信息 Name 的秘钥名称
+
+### 配置文件
+
+```yml
+name: CBD
+on:
+  push:
+    branches:
+      - main
+jobs:
+  cbd:
+    name: doc cbd
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build
+        run: yarn && yarn run deploy
+      - name: DeployGP
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+      - name: DeployECS
+      - uses: easingthemes/ssh-deploy@v2
+      - env:
+          ARGS: "-avz --delete"
+          SSH_PRIVATE_KEY: ${{ secrets.ECS_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.ECS_SERVER_HOST }}
+          REMOTE_USER: ${{ secrets.ECS_REMOTE_USER }}
+          SOURCE: "dist"
+          TARGET: "/www/static/doc/bruce"
+```
+
+整个 CI 操作只有一个任务 cbd ，cbd 由以下步骤组成：
+
+1. Checkout ：检出代码，使仓库代码保持最新状态
+1. Build ：打包文件，先执行 yarn 安装依赖，再执行 yarn run deploy 打包文件
+1. DeployGP ：部署文件到 Gihtub pages
+1. DeployECS ：部署文件到服务器
+
+[checkout](https://github.com/actions/checkout) 是一个官方 action ，用于自动检出最新代码
+
+[actions-gh-pages](https://github.com/peaceiris/actions-gh-pages) 是一个第三方 action ，用于自动部署代码到 Github Pages 。
+
+[ssh-deploy](https://github.com/easingthemes/ssh-deploy) 是一个第三方 action ，用于自动部署代码到服务器。
