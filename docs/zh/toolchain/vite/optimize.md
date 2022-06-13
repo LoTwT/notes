@@ -289,3 +289,7 @@ function App() {
 
 export default App
 ```
+
+## 预渲染优化
+
+SSR、SSG
