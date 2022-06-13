@@ -146,6 +146,7 @@ export const zh: SidebarConfig = {
             "/zh/toolchain/vite/federation.md",
             "/zh/toolchain/vite/esm.md",
             "/zh/toolchain/vite/optimize.md",
+            "/zh/toolchain/vite/config.md",
           ],
         },
         {
