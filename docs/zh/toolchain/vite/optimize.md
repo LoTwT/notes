@@ -40,3 +40,21 @@
 > 其中有一个特例，当使用 Vite 的 proxy 配置时，Vite 会将 HTTP2 降级为 HTTPS ，这个问题可以通过 [vite-plugin-proxy-middleware](https://github.com/williamyorkl/vite-plugin-proxy-middleware) 解决。
 
 对于线上项目来说，HTTP2 对性能的提升非常可观，几乎成为了一个必选项。而 `vite-plugin-mkcert` 仅用于开发阶段，在生产环境中需要对线上服务器进行配置，开启 HTTP2 的能力，如 [Nginx 的 HTTP2 配置](http://nginx.org/en/docs/http/ngx_http_v2_module.html) 。
+
+### DNS 预解析
+
+浏览器在向跨域的服务器发送请求时，首先会进行 DNS 解析，将服务器域名解析为对应的 IP 地址。可以通过 `dns-prefetch` 技术，将这一过程提前，降低 DNS 解析的延迟时间，具体方式如下：
+
+```html
+<!-- href 为需要预解析的域名 -->
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/" />
+```
+
+一般情况下，`dns-prefetch` 和 `preconnect` 搭配使用，前者用来解析 DNS ，而后者用来建立与服务器的连接，建立 TCP 通道及进行 TLS 握手，进一步降低请求延迟，使用方式如下：
+
+```html
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+<link rel="dns-prefetch" href="https://fonts.gstatic.com/" />
+```
+
+> 值得注意的是，对于 preconnect 的 link 标签，一般需要加上 crossorigin ( 跨域标识 ) ，否则对于一些字体资源 preconnect 会失效。
