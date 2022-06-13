@@ -58,3 +58,43 @@
 ```
 
 > 值得注意的是，对于 preconnect 的 link 标签，一般需要加上 crossorigin ( 跨域标识 ) ，否则对于一些字体资源 preconnect 会失效。
+
+### Preload / Prefetch
+
+对于一些比较重要的资源，可以通过 Preload 方式进行预加载，即在资源使用之前就进行加载，而不是在用到的时候才加载，这样可以使资源更早地到达浏览器，使用方式如下：
+
+```html
+<link rel="preload" href="style.css" as="style" />
+<link rel="preload" href="main.js" as="script" />
+```
+
+一般会声明 href 和 as 属性，分别表示资源地址和资源类型。
+
+Preload 的浏览器兼容性也比较好。
+
+与普通 script 标签不同的是，对于原生 ESM 模块，浏览器提供了 modulepreload 进行预加载：
+
+```html
+<link rel="modulepreload" href="/src/app.js" />
+```
+
+可在 Vite 中通过配置开启 modulepreload 的 Polyfill，从而使所有支持原生 ESM 的浏览器都能使用该特性，配置方式如下：
+
+```ts
+// vite.config.ts
+export default {
+  build: {
+    polyfillModulePreload: true,
+  },
+}
+```
+
+除了 Preload ，Prefetch 也是一个比较常用的优化方式，它相当于告诉浏览器空闲的时候去预加载其它页面的资源，比如对于 A 页面中插入了这样的 link 标签：
+
+```html
+<link rel="prefetch" href="https://B.com/index.js" as="script" />
+```
+
+这样浏览器会在 A 页面加载完毕之后去加载 B 域名线下的资源，如果用户跳转到了 B 页面，浏览器会直接使用预加载好的资源，从而提升 B 页面的加载速度。
+
+Prefetch 的浏览器兼容性不太乐观。
