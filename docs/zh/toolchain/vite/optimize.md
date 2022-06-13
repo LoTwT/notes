@@ -19,3 +19,24 @@
 以上的优化方式，都离不开构建工具的支持。
 
 在这些性能优化的场景中，将高频地使用到 Vite ，对 Vite 本身的构建能力进行深度地应用或者定制。
+
+## 网络优化
+
+### HTTP2
+
+传统的 HTTP1.1 存在队头阻塞的问题，同一个 TCP 管道中同一时刻只能处理一个 HTTP 请求，也就是说如果当前请求没有处理完，其它的请求都处于阻塞状态；另外，浏览器对于同一个域名下的并发请求数量都有限制，比如 Chrome 只允许 6 个请求并发且不支持用户配置，也就是说请求数量超过 6 个时，多出来的请求只能排队、等待发送。
+
+因此，在 HTTP1.1 协议中，队头阻塞和请求排队问题很容易成为网络层的性能瓶颈。
+
+而 HTTP2 的诞生就是为了解决这些问题，它主要实现了如下的能力：
+
+- 多路复用。将数据分为多个二进制帧，多个请求和响应的数据帧在同一个 TCP 通道进行传输，解决了之前的队头阻塞问题。与此同时，在 HTTP2 协议下，浏览器不再有同域名的并发请求数量限制，因此请求排队问题得到了解决。
+- Server Push 。服务端推送。可以让某些资源能够提前到达浏览器，比如对于一个 HTML 的请求，通过 HTTP2 可以同时将相应的 JS 和 CSS 资源推送到浏览器，省去后续请求的开销。
+
+在 Vite 中，可以通过 [vite-plugin-mkcert](https://github.com/liuweiGL/vite-plugin-mkcert) 在本地 Dev Server 上开启 HTTP2 。
+
+由于 HTTP2 依赖 TLS 握手，插件会自动生成 TLS 证书，然后支持通过 HTTPS 的方式启动，而 Vite 会自动把 HTTPS 服务升级为 HTTP2 。
+
+> 其中有一个特例，当使用 Vite 的 proxy 配置时，Vite 会将 HTTP2 降级为 HTTPS ，这个问题可以通过 [vite-plugin-proxy-middleware](https://github.com/williamyorkl/vite-plugin-proxy-middleware) 解决。
+
+对于线上项目来说，HTTP2 对性能的提升非常可观，几乎成为了一个必选项。而 `vite-plugin-mkcert` 仅用于开发阶段，在生产环境中需要对线上服务器进行配置，开启 HTTP2 的能力，如 [Nginx 的 HTTP2 配置](http://nginx.org/en/docs/http/ngx_http_v2_module.html) 。
