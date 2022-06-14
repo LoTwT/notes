@@ -466,3 +466,244 @@ export function shouldExternalizeDep(
   return false
 }
 ```
+
+## 依赖打包
+
+### 扁平化产物文件结构
+
+一般情况下，Esbuild 输出嵌套的产物目录结构，比如 Vue ，其产物在 `dist/vue.runtime.esm-bundler.js` 中，在经过 Esbuild 正常打包后，预构建产物目录如下：
+
+```bash
+node_modules/.vite
+├── _metadata.json
+├── vue
+│   └── dist
+│       └── vue.runtime.esm-bundler.js
+```
+
+由于各个第三方包的产物目录结构不一致，深层次的嵌套目录对于 Vite 的路径解析增加了麻烦和不可控因素。为了解决嵌套目录带来的问题，Vite 做了两件事达到扁平化预构建产物输出：
+
+1. 嵌套路径扁平化：`/` 被换成下划线，如 `react/jsx-dev-runtime` ，被重写为 `react_jsx-dev-runtime` 。
+1. 用虚拟模块代替真实模块，作为预打包的入口。
+
+在 `optimizeDeps` 函数中，在进行完依赖扫描的步骤后，会执行路径扁平化操作：
+
+```ts
+const flatIdDeps: Record<string, string> = {}
+const idToExports: Record<string, ExportsData> = {}
+const flatIdToExports: Record<string, ExportsData> = {}
+// deps 即为扫描后的依赖表
+// 形如: {
+//    react :  /Users/sanyuan/vite-project/react/index.js  }
+//    react/jsx-dev-runtime :  /Users/sanyuan/vite-project/react/jsx-dev-runtime.js
+// }
+for (const id in deps) {
+  // 扁平化路径，`react/jsx-dev-runtime`，被重写为`react_jsx-dev-runtime`；
+  const flatId = flattenId(id)
+  // 填入 flatIdDeps 表，记录 flatId -> 真实路径的映射关系
+  const filePath = (flatIdDeps[flatId] = deps[id])
+  const entryContent = fs.readFileSync(filePath, "utf-8")
+  // 后续代码省略
+}
+```
+
+对于虚拟模块的处理，关注 `esbuildDepPlugin` 函数：
+
+```ts
+export function esbuildDepPlugin(/* 一些传参 */) {
+  // 定义路径解析的方法
+
+  // 返回 Esbuild 插件
+  return {
+    name: 'vite:dep-pre-bundle',
+    set(build) {
+      // bare import 的路径
+      build.onResolve(
+        { filter: /^[\w@][^:]/ },
+        async ({ path: id, importer, kind }) => {
+          // 判断是否为入口模块，如果是，则标记上`dep`的 namespace，成为一个虚拟模块
+        }
+    }
+
+    build.onLoad({ filter: /.*/, namespace: 'dep' }, ({ path: id }) => {
+      // 加载虚拟模块
+    }
+  }
+}
+```
+
+如此一来，Esbuild 会将虚拟模块作为入口进行打包，最后的产物目录会变成下面的扁平结构：
+
+```bash
+node_modules/.vite
+├── _metadata.json
+├── vue.js
+├── react.js
+├── react_jsx-dev-runtime.js
+```
+
+### 代理模块加载
+
+虚拟模块代替了真实模块作为打包入口，所以也可以理解为代理模块。
+
+以 `import React from "react"` 为例，Vite 会把 `react` 标记为 `namespace` 为 `dep` 的虚拟模块，然后控制 Esbuild 的加载流程，对于真实模块的内容进行重新导出。
+
+首先是，确定真实模块的路径：
+
+```ts
+// 真实模块所在的路径，拿 react 来说，即`node_modules/react/index.js`
+const entryFile = qualified[id]
+// 确定相对路径
+let relativePath = normalizePath(path.relative(root, entryFile))
+if (
+  !relativePath.startsWith("./") &&
+  !relativePath.startsWith("../") &&
+  relativePath !== "."
+) {
+  relativePath = `./${relativePath}`
+}
+```
+
+确定路径后，对模块的内容进行重新导出：
+
+1. CJS
+1. ESM
+
+在 `optimizeDeps` 中，实际上在进行真正的依赖打包之前，Vite 会读取各个依赖的入口文件，通过 `es-module-lexer` 解析入口文件的内容。
+
+`es-module-lexer` 是一个在解析 ES 导入导出语法的库，大致用法如下：
+
+```ts
+import { init, parse } from "es-module-lexer"
+// 等待`es-module-lexer`初始化完成
+await init
+const sourceStr = `
+  import moduleA from './a';
+  export * from 'b';
+  export const count = 1;
+  export default count;
+`
+// 开始解析
+const exportsData = parse(sourceStr)
+// 结果为一个数组，分别保存 import 和 export 的信息
+const [imports, exports] = exportsData
+// 返回 `import module from './a'`
+sourceStr.substring(imports[0].ss, imports[0].se)
+// 返回 ['count', 'default']
+console.log(exports)
+```
+
+`export * from ` 导出的语法会被记录在 import 信息中。
+
+`optimizeDeps` 利用 `es-module-lexer` 解析入口文件的实现：
+
+```ts
+import { init, parse } from "es-module-lexer"
+// 省略中间的代码
+await init
+for (const id in deps) {
+  // 省略前面的路径扁平化逻辑
+  // 读取入口内容
+  const entryContent = fs.readFileSync(filePath, "utf-8")
+  try {
+    exportsData = parse(entryContent) as ExportsData
+  } catch {
+    // 省略对 jsx 的处理
+  }
+  for (const { ss, se } of exportsData[0]) {
+    const exp = entryContent.slice(ss, se)
+    // 标记存在 `export * from` 语法
+    if (/export\s+*\s+from/.test(exp)) {
+      exportsData.hasReExports = true
+    }
+  }
+  // 将 import 和 export 信息记录下来
+  idToExports[id] = exportsData
+  flatIdToExports[flatId] = exportsData
+}
+```
+
+由于最后会有两张表记录下 ES 模块导入和导出的相关信息，而 flatIdToExports 表会作为入参传给 Esbuild 插件:
+
+```ts
+// 第二个入参
+esbuildDepPlugin(flatIdDeps, flatIdToExports, config, ssr)
+```
+
+如此，就能根据真实模块的路径获取到导入和导出的信息，通过这份信息来甄别 CommonJS 和 ES 两种模块规范。现在可以回到 Esbuild 打包插件中加载代理模块的代码:
+
+```ts
+let contents = ""
+// 下面的 exportsData 即外部传入的模块导入导出相关的信息表
+// 根据模块 id 拿到对应的导入导出信息
+const data = exportsData[id]
+const [imports, exports] = data
+if (!imports.length && !exports.length) {
+  // 处理 CommonJS 模块
+} else {
+  // 处理 ES  模块
+}
+```
+
+如果是 CommonJS 模块，则导出语句写成这种形式:
+
+```ts
+let contents = ""
+contents += `export default require( ${relativePath} );`
+```
+
+如果是 ES 模块，则分默认导出和非默认导出这两种情况来处理:
+
+```ts
+// 默认导出，即存在 export default 语法
+if (exports.includes("default")) {
+  contents += `import d from  ${relativePath} ;export default d;`
+}
+// 非默认导出
+if (
+  // 1. 存在 `export * from` 语法，前文分析过
+  data.hasReExports ||
+  // 2. 多个导出内容
+  exports.length > 1 ||
+  // 3. 只有一个导出内容，但这个导出不是 export default
+  exports[0] !== "default"
+) {
+  // 凡是命中上述三种情况中的一种，则添加下面的重导出语句
+  contents += `\nexport * from  ${relativePath} `
+}
+```
+
+现在，组装好了代理模块的内容，接下来就可以放心地交给 Esbuild 加载了:
+
+```ts
+let ext = path.extname(entryFile).slice(1)
+if (ext === "mjs") ext = "js"
+return {
+  loader: ext as Loader,
+  // 虚拟模块内容
+  contents,
+  resolveDir: root,
+}
+```
+
+#### 代理模块为什么要和真实模块分离？
+
+现在已经清楚了 Vite 是如何组装代理模块，以此作为 Esbuild 打包入口的，整体的思路就是先分析一遍模块真实入口文件的 import 和 export 语法，然后在代理模块中进行重导出。这里不妨回过头来思考一下: 为什么要对真实文件先做语法分析，然后重导出内容呢？
+
+对此，大家不妨注意一下代码中的这段注释:
+
+```ts
+// It is necessary to do the re-exporting to separate the virtual proxy
+// module from the actual module since the actual module may get
+// referenced via relative imports - if we don't separate the proxy and
+// the actual module, esbuild will create duplicated copies of the same
+// module!
+```
+
+翻译过来即:
+
+> 这种重导出的做法是必要的，它可以分离虚拟模块和真实模块，因为真实模块可以通过相对地址来引入。如果不这么做，Esbuild 将会对打包输出两个一样的模块。
+
+如果代理模块通过文件系统直接读取真实模块的内容，而不是进行重导出，因此由于此时代理模块跟真实模块并没有任何的引用关系，这就导致最后的 react.js 和 @emotion/react.js 两份产物并不会引用同一份 Chunk，Esbuild 最后打包出了内容完全相同的两个 Chunk！
+
+这也就能解释为什么 Vite 中要在代理模块中对真实模块的内容进行重导出了，主要是为了避免 Esbuild 产生重复的打包内容。
