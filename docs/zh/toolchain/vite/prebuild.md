@@ -194,3 +194,275 @@ for (const id in deps) {
 // 元信息写磁盘
 writeFile(dataPath, JSON.stringify(data, null, 2))
 ```
+
+## 依赖扫描
+
+### 获取入口
+
+首先关注 `scanImports` 的实现。
+
+进行依赖扫描之前，需要找到入口文件，但入口文件可能存在于多个配置当中，比如 `optimizeDeps.entries` 和 `build.rollupOptions.input` ，同时需要考虑数组和对象的情况，但可能用户没有配置，需要自动探测入口文件：
+
+```ts
+const explicitEntryPatterns = config.optimizeDeps.entries
+const buildInput = config.build.rollupOptions?.input
+if (explicitEntryPatterns) {
+  // 先从 optimizeDeps.entries 寻找入口，支持 glob 语法
+  entries = await globEntries(explicitEntryPatterns, config)
+} else if (buildInput) {
+  // 其次从 build.rollupOptions.input 配置中寻找，注意需要考虑数组和对象的情况
+  const resolvePath = (p: string) => path.resolve(config.root, p)
+  if (typeof buildInput === "string") {
+    entries = [resolvePath(buildInput)]
+  } else if (Array.isArray(buildInput)) {
+    entries = buildInput.map(resolvePath)
+  } else if (isObject(buildInput)) {
+    entries = Object.values(buildInput).map(resolvePath)
+  } else {
+    throw new Error("invalid rollupOptions.input value.")
+  }
+} else {
+  // 兜底逻辑，如果用户没有进行上述配置，则自动从根目录开始寻找
+  entries = await globEntries("**/*.html", config)
+}
+```
+
+`globEntries` 方法通过 `fast-glob` 库从项目根目录扫描文件。
+
+接下来，需要考虑入口文件类型，一般情况下入口需要是 JS 或 TS 文件，但实际上，像 HTML 、Vue 单文件组件等也需要支持，因为在这些文件中仍然可以包含 script 标签的内容，从而搜集到依赖信息。
+
+在源码中，同时对 `html` 、`vue`、`svelte`、`astro` ( 一种新兴的类 HTML 语法 ) 四种后缀的入口文件进行解析，具体的解析过程在依赖扫描阶段的 Esbuild 插件中得以实现。
+
+```ts
+const htmlTypesRE = /.(html|vue|svelte|astro)$/
+function esbuildScanPlugin(/* 一些入参 */): Plugin {
+  // 初始化一些变量
+  // 返回一个 Esbuild 插件
+  return {
+    name: "vite:dep-scan",
+    setup(build) {
+      // 标记「类 HTML」文件的 namespace
+      build.onResolve({ filter: htmlTypesRE }, async ({ path, importer }) => {
+        return {
+          path: await resolve(path, importer),
+          namespace: "html",
+        }
+      })
+
+      build.onLoad(
+        { filter: htmlTypesRE, namespace: "html" },
+        async ({ path }) => {
+          // 解析「类 HTML」文件
+        },
+      )
+    },
+  }
+}
+```
+
+以 HTML 文件的解析为例，在插件中会扫描出所有带有 `type="module"` 的 script 标签，对于含有 src 的 script 标签改写为一个 import 语句，对于含有具体内容的 script ，则抽离出其中的脚本内容，最后将所有的 script 内容拼接成一段 JS 代码。
+
+```ts
+const scriptModuleRE =
+  /(<script\b[^>]*type\s*=\s*(?: module |'module')[^>]*>)(.*?)</script>/gims
+export const scriptRE = /(<script\b(?:\s[^>]*>|>))(.*?)</script>/gims
+export const commentRE = /<!--(.|[\r\n])*?-->/
+const srcRE = /\bsrc\s*=\s*(?: ([^ ]+) |'([^']+)'|([^\s' >]+))/im
+const typeRE = /\btype\s*=\s*(?: ([^ ]+) |'([^']+)'|([^\s' >]+))/im
+const langRE = /\blang\s*=\s*(?: ([^ ]+) |'([^']+)'|([^\s' >]+))/im
+// scan 插件 setup 方法内部实现
+build.onLoad(
+  { filter: htmlTypesRE, namespace: 'html' },
+  async ({ path }) => {
+    let raw = fs.readFileSync(path, 'utf-8')
+    // 去掉注释内容，防止干扰解析过程
+    raw = raw.replace(commentRE, '<!---->')
+    const isHtml = path.endsWith('.html')
+    // HTML 情况下会寻找 type 为 module 的 script
+    // 正则：/(<script\b[^>]*type\s*=\s*(?: module |'module')[^>]*>)(.*?)</script>/gims
+    const regex = isHtml ? scriptModuleRE : scriptRE
+    regex.lastIndex = 0
+    let js = ''
+    let loader: Loader = 'js'
+    let match: RegExpExecArray | null
+    // 正式开始解析
+    while ((match = regex.exec(raw))) {
+      // 第一次: openTag 为 <script type= module  src= /src/main.ts >, 无 content
+      // 第二次: openTag 为 <script type= module >，有 content
+      const [, openTag, content] = match
+      const typeMatch = openTag.match(typeRE)
+      const type =
+        typeMatch && (typeMatch[1] || typeMatch[2] || typeMatch[3])
+      const langMatch = openTag.match(langRE)
+      const lang =
+        langMatch && (langMatch[1] || langMatch[2] || langMatch[3])
+      if (lang === 'ts' || lang === 'tsx' || lang === 'jsx') {
+        // 指定 esbuild 的 loader
+        loader = lang
+      }
+      const srcMatch = openTag.match(srcRE)
+      // 根据有无 src 属性来进行不同的处理
+      if (srcMatch) {
+        const src = srcMatch[1] || srcMatch[2] || srcMatch[3]
+        js += `import ${JSON.stringify(src)}\n`
+      } else if (content.trim()) {
+        js += content + '\n'
+      }
+  }
+  return {
+    loader,
+    contents: js
+  }
+)
+```
+
+这里对源码做了一定的精简，省略了 `.vue` 、`.svelte` 和 `import.meta.glob` 语法的处理，但不影响整体的实现思路，这里说明的是即使是 HTML 或者类似类型的文件，也能作为 Esbuild 预构建入口来进行解析。
+
+### 记录依赖
+
+Vite 中会把 `bare import` 的路径当作依赖路径，`bare import` 就是直接引入一个包名：
+
+```ts
+import React from "react"
+```
+
+而 `.` 开头的相对路径或者以 `/` 开头的绝对路径都不能算 `bare import` ：
+
+```ts
+// 以下都不是 bare import
+import React from "../node_modules/react/index.js"
+import React from "/User/sanyuan/vite-project/node_modules/react/index.js"
+```
+
+解析 `bare import` ，记录依赖的逻辑依然在 scan 插件中：
+
+```ts
+build.onResolve(
+  {
+    // avoid matching windows volume
+    filter: /^[\w@][^:]/,
+  },
+  async ({ path: id, importer }) => {
+    // 如果在 optimizeDeps.exclude 列表或者已经记录过了，则将其 externalize (排除)，直接 return
+
+    // 接下来解析路径，内部调用各个插件的 resolveId 方法进行解析
+    const resolved = await resolve(id, importer)
+    if (resolved) {
+      // 判断是否应该 externalize，下个部分详细拆解
+      if (shouldExternalizeDep(resolved, id)) {
+        return externalUnlessEntry({ path: id })
+      }
+
+      if (resolved.includes("node_modules") || include?.includes(id)) {
+        // 如果 resolved 为 js 或 ts 文件
+        if (OPTIMIZABLE_ENTRY_RE.test(resolved)) {
+          // 注意了! 现在将其正式地记录在依赖表中
+          depImports[id] = resolved
+        }
+        // 进行 externalize，因为这里只用扫描出依赖即可，不需要进行打包，具体实现后面的部分会讲到
+        return externalUnlessEntry({ path: id })
+      } else {
+        // resolved 为 「类 html」 文件，则标记上 'html' 的 namespace
+        const namespace = htmlTypesRE.test(resolved) ? "html" : undefined
+        // linked package, keep crawling
+        return {
+          path: path.resolve(resolved),
+          namespace,
+        }
+      }
+    } else {
+      // 没有解析到路径，记录到 missing 表中，后续会检测这张表，显示相关路径未找到的报错
+      missing[id] = normalizePath(importer)
+    }
+  },
+)
+```
+
+其中调用到了 `resolve` ，也就是路径解析的逻辑，这里面实际上会调用各个插件的 `resolvedId` 方法进行路径解析：
+
+```ts
+const resolve = async (id: string, importer?: string) => {
+  // 通过 seen 对象进行路径缓存
+  const key = id + (importer && path.dirname(importer))
+  if (seen.has(key)) {
+    return seen.get(key)
+  }
+  // 调用插件容器的 resolveId
+  // 关于插件容器下一节会详细介绍，这里你直接理解为调用各个插件的 resolveId 方法解析路径即可
+  const resolved = await container.resolveId(
+    id,
+    importer && normalizePath(importer),
+  )
+  const res = resolved?.id
+  seen.set(key, res)
+  return res
+}
+```
+
+### external 规则
+
+上面分析了在 Esbuild 插件中如何针对 `bare import` 记录依赖，在记录过程中需要决定哪些路径应该被排除、不应该被记录或者不应该被 Esbuild 解析。这就是 external 规则的概念。
+
+external 的路径分为两类：资源型和模块型。
+
+对于资源型的路径，一般是直接排除，在插件中的处理方式如下：
+
+```ts
+// data url，直接标记 external: true，不让 esbuild 继续处理
+build.onResolve({ filter: dataUrlRE }, ({ path }) => ({
+  path,
+  external: true,
+}))
+// 加了 ?worker 或者 ?raw 这种 query 的资源路径，直接 external
+build.onResolve({ filter: SPECIAL_QUERY_RE }, ({ path }) => ({
+  path,
+  external: true,
+}))
+// css & json
+build.onResolve(
+  {
+    filter: /.(css|less|sass|scss|styl|stylus|pcss|postcss|json)$/,
+  },
+  // 非 entry 则直接标记 external
+  externalUnlessEntry,
+)
+// Vite 内置的一些资源类型，比如 .png、.wasm 等等
+build.onResolve(
+  {
+    filter: new RegExp(`\.(${KNOWN_ASSET_TYPES.join("|")})$`),
+  },
+  // 非 entry 则直接标记 external
+  externalUnlessEntry,
+)
+
+const externalUnlessEntry = ({ path }: { path: string }) => ({
+  path,
+  // 非 entry 则标记 external
+  external: !entries.includes(path),
+})
+```
+
+对于模块型的路径，也就是当通过 `resolve` 函数解析出一个 JS 模块的路径，在 `shouldExternalizeDep` 中实现：
+
+```ts
+export function shouldExternalizeDep(
+  resolvedId: string,
+  rawId: string,
+): boolean {
+  // 解析之后不是一个绝对路径，不在 esbuild 中进行加载
+  if (!path.isAbsolute(resolvedId)) {
+    return true
+  }
+  // 1. import 路径本身就是一个绝对路径
+  // 2. 虚拟模块(Rollup 插件中约定虚拟模块以`\0`开头)
+  // 都不在 esbuild 中进行加载
+  if (resolvedId === rawId || resolvedId.includes("\0")) {
+    return true
+  }
+  // 不是 JS 或者 类 HTML 文件，不在 esbuild 中进行加载
+  if (!JS_TYPES_RE.test(resolvedId) && !htmlTypesRE.test(resolvedId)) {
+    return true
+  }
+  return false
+}
+```
