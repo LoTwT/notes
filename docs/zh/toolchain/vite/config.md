@@ -178,3 +178,253 @@ await Promise.all(userPlugins.map((p) => p.configResolved?.(resolved)))
 ```
 
 先生成完整插件列表传给 `resolve.plugins` ，而后调用每个插件的 `configResolved` 钩子。
+
+## 加载配置文件
+
+加载配置文件通过 `loadConfigFromFile` 实现。
+
+```ts
+const loadResult = await loadConfigFromFile(/*省略传参*/)
+```
+
+配置文件类型根据文加后缀和模块格式可以分为：
+
+- TS + ESM
+- TS + CJS
+- JS + ESM
+- JS + CJS
+
+Vite 加载配置文件共有两个步骤：
+
+1. 识别出配置文件的类型
+1. 根据不同的分类，分别解析出配置内容
+
+### 识别配置文件类型
+
+首先，Vite 会检查项目的 package.json ，如果有 `type: "module"` ，则打上 `isESM` 标识：
+
+```ts
+try {
+  const pkg = lookupFile(configRoot, ["package.json"])
+  if (pkg && JSON.parse(pkg).type === "module") {
+    isMjs = true
+  }
+} catch (e) {}
+```
+
+然后，Vite 会寻找配置文件路径，简化代码如下：
+
+```ts
+let isTS = false
+let isESM = false
+let dependencies: string[] = []
+// 如果命令行有指定配置文件路径
+if (configFile) {
+  resolvedPath = path.resolve(configFile)
+  // 根据后缀判断是否为 ts 或者 esm，打上 flag
+  isTS = configFile.endsWith(".ts")
+  if (configFile.endsWith(".mjs")) {
+    isESM = true
+  }
+} else {
+  // 从项目根目录寻找配置文件路径，寻找顺序:
+  // - vite.config.js
+  // - vite.config.mjs
+  // - vite.config.ts
+  // - vite.config.cjs
+  const jsconfigFile = path.resolve(configRoot, "vite.config.js")
+  if (fs.existsSync(jsconfigFile)) {
+    resolvedPath = jsconfigFile
+  }
+
+  if (!resolvedPath) {
+    const mjsconfigFile = path.resolve(configRoot, "vite.config.mjs")
+    if (fs.existsSync(mjsconfigFile)) {
+      resolvedPath = mjsconfigFile
+      isESM = true
+    }
+  }
+
+  if (!resolvedPath) {
+    const tsconfigFile = path.resolve(configRoot, "vite.config.ts")
+    if (fs.existsSync(tsconfigFile)) {
+      resolvedPath = tsconfigFile
+      isTS = true
+    }
+  }
+
+  if (!resolvedPath) {
+    const cjsConfigFile = path.resolve(configRoot, "vite.config.cjs")
+    if (fs.existsSync(cjsConfigFile)) {
+      resolvedPath = cjsConfigFile
+      isESM = false
+    }
+  }
+}
+```
+
+在寻找路径的同时，Vite 也会给当前配置文件打上 `isESM` 和 `isTS` 的标识，方便后续解析。
+
+### 根据类型解析配置
+
+#### ESM
+
+对 ESM 格式配置的处理代码如下：
+
+```ts
+let userConfig: UserConfigExport | undefined
+
+if (isESM) {
+  const fileUrl = require("url").pathToFileURL(resolvedPath)
+  // 首先对代码进行打包
+  const bundled = await bundleConfigFile(resolvedPath, true)
+  dependencies = bundled.dependencies
+  // TS + ESM
+  if (isTS) {
+    fs.writeFileSync(resolvedPath + ".js", bundled.code)
+    userConfig = (await dynamicImport(`${fileUrl}.js?t=${Date.now()}`)).default
+    fs.unlinkSync(resolvedPath + ".js")
+    debug(`TS + native esm config loaded in ${getTime()}`, fileUrl)
+  }
+  //  JS + ESM
+  else {
+    userConfig = (await dynamicImport(`${fileUrl}?t=${Date.now()}`)).default
+    debug(`native esm config loaded in ${getTime()}`, fileUrl)
+  }
+}
+```
+
+首先通过 Esbuild 将配置文件编译打包成 JS 代码：
+
+```ts
+const bundled = await bundleConfigFile(resolvedPath, true)
+// 记录依赖
+dependencies = bundled.dependencies
+```
+
+对于 TS 配置文件，Vite 会将编译后的 JS 代码写入临时文件，通过 Node.js 原生 ESM import 来读取这个临时内容，以获取到配置内容，再直接删掉临时文件：
+
+```ts
+fs.writeFileSync(resolvedPath + ".js", bundled.code)
+userConfig = (await dynamicImport(`${fileUrl}.js?t=${Date.now()}`)).default
+fs.unlinkSync(resolvedPath + ".js")
+```
+
+> 这种先编译配置文件，再将产物写入临时目录，最后加载临时目录产物的做法，是 AOT ( Ahead Of Time ) 编译技术的一种具体实现。。
+
+而对于 JS 配置文件，Vite 会直接通过 Node.js 原生 ESM Import 读取，同样使用 `dynamicImport` 函数逻辑：
+
+```ts
+export const dynamicImport = new Function("file", "return import(file)")
+```
+
+使用 `new Function` 包裹的原因是，避免打包工具处理这段代码，比如 Rollup 和 TSC ，类似的手段还有 `eval` 。
+
+#### CJS
+
+对 CJS 格式的配置文件，Vite 集中进行了解析：
+
+```ts
+// 对于 js/ts 均生效
+// 使用 esbuild 将配置文件编译成 commonjs 格式的 bundle 文件
+const bundled = await bundleConfigFile(resolvedPath)
+dependencies = bundled.dependencies
+// 加载编译后的 bundle 代码
+userConfig = await loadConfigFromBundledFile(resolvedPath, bundled.code)
+```
+
+`bundleConfigFile` 是通过 Esbuild 将配置文件打包，拿到打包后的 bundle 代码以及配置文件的依赖 ( dependencies ) 。
+
+接下来，使用 `loadConfigFromBundledFile` 加载 bundle 代码：
+
+```ts
+async function loadConfigFromBundledFile(
+  fileName: string,
+  bundledCode: string,
+): Promise<UserConfig> {
+  const extension = path.extname(fileName)
+  const defaultLoader = require.extensions[extension]!
+  require.extensions[extension] = (module: NodeModule, filename: string) => {
+    if (filename === fileName) {
+      ;(module as NodeModuleWithCompile)._compile(bundledCode, filename)
+    } else {
+      defaultLoader(module, filename)
+    }
+  }
+  // 清除 require 缓存
+  delete require.cache[require.resolve(fileName)]
+  const raw = require(fileName)
+  const config = raw.__esModule ? raw.default : raw
+  require.extensions[extension] = defaultLoader
+  return config
+}
+```
+
+思路是通过拦截原生 `require.extensions` 的加载函数来实现对 bundle 后配置代码的加载：
+
+```ts
+// 默认加载器
+const defaultLoader = require.extensions[extension]!
+// 拦截原生 require 对于`.js`或者`.ts`的加载
+require.extensions[extension] = (module: NodeModule, filename: string) => {
+  // 针对 vite 配置文件的加载特殊处理
+  if (filename === fileName) {
+    ;(module as NodeModuleWithCompile)._compile(bundledCode, filename)
+  } else {
+    defaultLoader(module, filename)
+  }
+}
+```
+
+而原生 require 对于 JS 文件的加载代码是这样的：
+
+```ts
+Module._extensions[".js"] = function (module, filename) {
+  var content = fs.readFileSync(filename, "utf8")
+  module._compile(stripBOM(content), filename)
+}
+```
+
+等同于：
+
+```ts
+;(function (exports, require, module, __filename, __dirname) {
+  // 执行 module._compile 方法中传入的代码
+  // 返回 exports 对象
+})
+```
+
+在调用完 `module._compile` 编译完配置代码后，进行一次手动的 require ，即可拿到配置对象：
+
+```ts
+const raw = require(fileName)
+const config = raw.__esModule ? raw.default : raw
+// 恢复原生的加载方法
+require.extensions[extension] = defaultLoader
+// 返回配置
+return config
+```
+
+> 这种运行时加载 TS 配置的方式，叫做 JIT ( 即时编译 ) ，这种方式和 AOT 最大的区别在于不会将内存中计算出的 JS 代码写入磁盘再加载，而是通过拦截 Node.js 原生 require.extension 方法实现即时加载。
+
+### 处理完成
+
+配置文件内容读取完成，等处理完成后返回即可：
+
+```ts
+// 处理是函数的情况
+const config = await(
+  typeof userConfig === "function" ? userConfig(configEnv) : userConfig,
+)
+
+if (!isObject(config)) {
+  throw new Error(`config must export or return an object.`)
+}
+// 接下来返回最终的配置信息
+return {
+  path: normalizePath(resolvedPath),
+  config,
+  // esbuild 打包过程中搜集的依赖
+  dependencies,
+}
+```
