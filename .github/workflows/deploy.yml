@@ -27,11 +27,11 @@ jobs:
         run: nr build:deploy
 
       - name: Ssh-deploy
-        uses: easingthemes/ssh-deploy@v2
+        uses: easingthemes/ssh-deploy@main
         env:
-          ARGS: "-avz --delete"
-          SSH_PRIVATE_KEY: ${{ secrets.ECS_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.ECS_SERVER_HOST }}
-          REMOTE_USER: ${{ secrets.ECS_REMOTE_USER }}
+          ARGS: "-rltgoDzvO --delete"
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
           SOURCE: "docs/.vuepress/dist"
-          TARGET: "/root/notes"
