@@ -35,3 +35,4 @@ jobs:
           port: 22
           source: docs/.vuepress/dist
           target: ${{ secrets.REMOTE_TARGET }}
+          rm: true
