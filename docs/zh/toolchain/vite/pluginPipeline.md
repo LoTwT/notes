@@ -129,3 +129,211 @@ transformWithEsbuild("<h1>hello</h1>", "./index.tsx").then((res) => {
 1. `vite:asset` ：开发阶段实现了其它格式静态资源的加载，而生产环境会通过 `renderChunk` 钩子将静态资源地址重写为产物的文件地址，如 `./img.png` 重写为 `https://cdn.xxx.com/assets/img.91ee297e.png`
 
 值得注意的是，Rollup 本身存在 asset cascade 问题，即静态资源哈希更新，引用它的 JS 的哈希并没有更新。因此 Vite 在静态资源处理的时候，并没有交给 Rollup 生成资源哈希，而是自己根据资源内容生成哈希，并手动进行路径重写，以此避免 asset-cascade 问题。
+
+### 生产环境特有插件
+
+#### 全局变量替换插件
+
+提供全局变量替换功能，比如下面这个配置：
+
+```ts
+// vite.config.ts
+const version = "2.0.0"
+
+export default {
+  define: {
+    __APP_VERSION__: `JSON.stringify(${version})`,
+  },
+}
+```
+
+全局变量替换的功能和 `@rollup/plugin-replace` 差不多，在实现上，Vite 会有所区别：
+
+- 开发环境下，Vite 会通过将所有的全局变量挂载到 window 对象，而不用经过 define 插件的处理，节省编译开销：
+- 生产环境下，Vite 会使用 [define 插件](https://github.com/vitejs/vite/blob/main/packages/vite/src/node/plugins/define.ts) ，进行字符串替换以及 sourcemap 生成
+
+> 特殊情况：SSR 构建会在开发环境经过这个插件，仅替换字符串
+
+#### CSS 后处理插件
+
+CSS 后处理插件即 name 为 `vite:css-post` 的插件，它的功能包括开发阶段 CSS 响应结果处理和生产环境 CSS 文件生成。
+
+首先，在开发阶段，这个插件会将之前的 CSS 编译插件处理后的结果，包装成一个 ESM 模块，返回给浏览器。
+
+其次，生产环境中，Vite 默认会通过这个插件进行 CSS 的 code splitting ，即对于每个异步 chunk ，Vite 会将其依赖的 CSS 代码单独打包成一个文件。
+
+如果 CSS 的 code splitting 功能被关闭 ( 通过 `build.cssCodeSplit` 配置 ) ，那么 Vite 会将所有的 CSS 代码打包到同一个 CSS 文件中。
+
+最后，插件会调用 Esbuild 对 CSS 进行压缩，实现在 `minifyCSS` 函数中。
+
+#### HTML 构建插件
+
+HTML 构建插件即 `build-html` 插件，项目根目录下的 html 会转换为一段 JavaScript 代码，比如下面这个例子：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    // 普通方式引入
+    <script src="./index.ts"></script>
+    // 内联脚本
+    <script type="module">
+      import React from "react"
+      console.log(React)
+    </script>
+  </body>
+</html>
+```
+
+首先，当 Vite 在生产环境 transform 这段入口 HTML 时，会做三件事：
+
+1. 对 HTML 执行各个插件中带有 `enforce: "pre"` 属性的 transformIndexHtml 钩子
+
+> 插件本身可以带有 `enforce: "pre" | "post"` 属性，而 transformIndexHtml 本身也可以带有这个属性，用于在不同的阶段进行 HTML 转换。
+
+1. 将其中的 script 标签内容删除，将其转换为 import 语句，如 `import "./index.ts"` ，并记录
+
+1. 在 transform 钩子中返回记录下的 import 内容，将 import 语句作为模块内容进行加载。也就是说，虽然 Vite 处理的是一个 HTML 文件，但最后进行打包的内容确是一段 JS 的内容。
+
+   ```ts
+   export function buildHtmlPlugin() {
+     name: 'vite:build',
+     transform(html, id) {
+       if (id.endsWith('.html')) {
+         let js = '';
+         // 省略 HTML AST 遍历过程(通过 @vue/compiler-dom 实现)
+         // 收集 script 标签，转换成 import 语句，拼接到 js 字符串中
+         return js;
+       }
+     }
+   }
+   ```
+
+其次，在生成产物的最后一步，即 `generateBundle` 钩子中，拿到入口 Chunk ，分析入口 Chunk 内容，分情况进行处理。
+
+如果只有 import 语句，先通过 Rollup 提供的 chunk 和 bundle 对象获取入口 chunk 所有的依赖 chunk ，并将这些 chunk 进行后续排列，如 `a 依赖 b ，b 依赖 c` ，最后的依赖数组就算是 `[c, b, a]` 。然后依次将 c ，b ，a 生成三个 script 标签，插入 HTML 中。最后，Vite 会将入口 chunk 的内容从 bundle 产物中移除，因此它的内容只要 import 语句，而它 import 的 chunk 已经作为 script 标签插入到了 HTML 中，那入口 chunk 的存在也就没有意义了。
+
+如果除了 import 语句，还有其它内容，Vite 就会将入口 chunk 单独生成一个 script 标签，分析出依赖的后序排列 ( 和上一种情况同分析手段 ) ，然后通过注入 `<link rel="modulepreload">` 标签，对入口文件的依赖 chunk 进行预加载。
+
+最后，插件会调用用户插件中带有 `enforce: "post"` 属性的 transformIndexHtml 钩子，对 HTML 进行进一步的处理。
+
+#### Commonjs 转换插件
+
+在开发环境中，Vite 使用 Esbuild 将 Commonjs 转换为 ESM ，而生产环境中，Vite 会直接使用 Rollup 的官方插件 `@rollup/plugin-commonjs` 。
+
+#### date-url 插件
+
+date-url 插件用来支持 import 模块中含有 Base64 编码的情况，如：
+
+```ts
+import batman from "data:application/json;base64, eyAiYmF0bWFuIjogInRydWUiIH0="
+```
+
+#### dynamic-import-vars 插件
+
+用于支持在动态 import 中使用变量的功能，如：
+
+```ts
+function importLocale(locale) {
+  return import(`./locales/${locale}.js`)
+}
+```
+
+内部使用的是 Rollup 的官方插件 `@rollup/plugin-dynamic-import-vars`
+
+#### import-meta-url 支持插件
+
+用来转换如下格式的资源 URL ：
+
+```ts
+new URL("./foo.png", import.meta.url)
+```
+
+将其转换为生产环境的 URL 格式，如：
+
+```ts
+// 使用 self.location 来保证低版本浏览器和 Web Worker 环境的兼容性
+new URL('./assets.a4b3d56d.png, self.location)
+```
+
+同时也能支持动态 import ，如：
+
+```ts
+function getImageUrl(name) {
+  return new URL(`./dir/${name}.png`, import.meta.url).href
+}
+```
+
+Vite 识别到 `./dir/${name}.png` 这样的模板字符串，会将整行代码转换成下面这样：
+
+```ts
+function getImageUrl(name) {
+  return import.meta.globEager("./dir/**.png")[`./dir/${name}.png`].default
+}
+```
+
+#### 生产环境 import 分析插件
+
+`vite:build-import-analysis` 插件会在生产环境打包时，用作 import 语句分析和重写，主要目的是对动态 import 的模块进行预加载处理。
+
+Vite 内置了 CSS 代码分割的能力，当一个模块通过动态 import 引入时，这个模块会被单独打包成一个 chunk ，与此同时这个模块中的样式代码也会打包成单独的 CSS 文件。如果异步模块的 CSS 和 JS 同时进行预加载，那么在某些浏览器 ( 如 IE ) 就会出现 [FOUC 问题](https://en.wikipedia.org/wiki/Flash_of_unstyled_content#:~:text=A flash of unstyled content,before all information is retrieved.) ，页面样式会闪烁，影响用户体验。但 Vite 通过监听 link 标签 load 事件的方式来保证 CSS 在 JS 之前加载完成，从而解决了 FOUC 问题，如：
+
+```ts
+if (isCss) {
+  return new Promise((res, rej) => {
+    link.addEventListener("load", res)
+    link.addEventListener("error", rej)
+  })
+}
+```
+
+现在已经知道了预加载的实现方法，那么 Vite 是如何将动态 import 编译成预加载的代码的呢？
+
+从源码的 transform 钩子实现中，Vite 会将动态 import 的代码进行转换，如：
+
+```ts
+// 转换前
+import('a')
+// 转换后
+__vitePreload(() => 'a', __VITE_IS_MODERN__ ?"__VITE_PRELOAD__":void)
+```
+
+其中，`__vitePreload` 会被加载为前文中的 `preload` 工具函数，`__VITE_IS_MODERN__` 会在 renderChunk 中被替换成 true 或者 false ，表示是否为 Modern 模式打包，而对于 `__VITE_PRELOAD__` ，Vite 会在 `generateBundle` 阶段，分析出 a 模块所有依赖文件 ( 包括 CSS ) ，将依赖文件名的数组作为 preload 工具函数的第二个参数。
+
+同时，对于 Vite 独有的 `import.meta.glob` 语法，也会在这个插件中进行编译，如：
+
+```ts
+const modules = import.meta.glob("./dir/*.js")
+```
+
+会通过插件转换成下面这段代码：
+
+```ts
+const modules = {
+  "./dir/foo.js": () => import("./dir/foo.js"),
+  "./dir/bar.js": () => import("./dir/bar.js"),
+}
+```
+
+具体实现在 [transformImportGlob](https://github.com/vitejs/vite/blob/075128a8dd0a2680540179dad2277a797f793199/packages/vite/src/node/importGlob.ts#L11) 函数中，除了被该插件使用外，这个函数还被依赖预构建、开发环境 import 分析等核心流程使用，属于比较底层的逻辑。
+
+#### JS 压缩插件
+
+Vite 提供了两种 JS 代码压缩工具，Esbuild 和 Terser ，分别由两个插件实现：
+
+- `vite:esbuild-transpile` ：在 renderChunk 阶段，调用 Esbuild 的 transform API ，并指定 minify 参数，从而实现 JS 的压缩。
+- `vite:terser` ：同样在 renderChunk 阶段，Vite 会单独的在 Worker 进程中调用 Terser 进行 JS 代码压缩。
+
+#### 构建报告插件
+
+主要由三个插件输出构建报告：
+
+- `vite:manifest` ：提供打包后的各种资源文件及其关联信息
+- `vite:ssr-manifest` ：提供每个模块与 chunk 之间的映射关系，方便 SSR 时期通过渲染的组件来确定哪些 chunk 会被使用，从而按需进行预加载
+- `vite:reporter` ：主要提供打包时的命令行构建日志
