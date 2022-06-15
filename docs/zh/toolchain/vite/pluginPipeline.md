@@ -337,3 +337,52 @@ Vite 提供了两种 JS 代码压缩工具，Esbuild 和 Terser ，分别由两�
 - `vite:manifest` ：提供打包后的各种资源文件及其关联信息
 - `vite:ssr-manifest` ：提供每个模块与 chunk 之间的映射关系，方便 SSR 时期通过渲染的组件来确定哪些 chunk 会被使用，从而按需进行预加载
 - `vite:reporter` ：主要提供打包时的命令行构建日志
+
+### 开发环境特有插件
+
+#### 客户端环境变量注入插件
+
+在开发环境中，Vite 会自动往 HTML 中注入一段 client 的脚本：
+
+```ts
+<script type="module" src="/@vite/client"></script>
+```
+
+这段脚本主要提供注入环境变量、处理 HMR 更新逻辑、构建出现错误时提供报错界面等功能。通过 `vite:client-inject` 完成环境变量的注入，将 client 脚本中的 `__MODE__` 、`__BASE__` 、`__DEFINE__` 等等字符串替换为运行时的变量，实现环境变量以及 HMR 相关上下文信息的注入。
+
+#### 开发阶段 import 分析插件
+
+Vite 会在开发阶段加入 import 分析插件，即 `vite:import-analysiss` 。与 `vite:build-import-analysis` 相对应，主要处理 import 语句相关的解析和重写，但 `vite:import-analysis` 插件的关注点不太一样，主要围绕 Vite 开发阶段的各项特性实现，它会完成以下内容：
+
+- 对 `bare import` ，将路径名转换为真实的文件路径
+
+  ```ts
+  // 转换前
+  import "foo"
+  // 转换后
+  // tip: 如果是预构建的依赖，则会转换为预构建产物的路径
+  import "/@fs/project/node_modules/foo/dist/foo.js"
+  ```
+
+  主要调用 `PluginContainer` 的上下文对象方法，即 `this.resolve` 实现，这个方法会调用所有插件的 `resolveId` 方法，包括 `vite:pre-alias` 和 `vite:resolve` ，完成路径解析的核心逻辑。
+
+- 对于 HMR 的客户端 API ，即 `import.meta.hot` ，Vite 在识别到这样的 import 语句后，一方面会注入 `import.meta.hot` 的实现，因为浏览器原生并不具备这样的 API ；另一方面会识别 accept 方法，并判断 accept 是否为 `接受自身更新` 的类型，如果是，则标记上 `isSelfAccepting` ，便于 HMR 在服务端进行更新时进行 `HMR Boundary` 的查找
+
+- 对于全局环境变量读取语句，即 `import.meta.env` ，Vite 会注入 `import.meta.env` 的实现，也就是如下的 env 字符串：
+
+  ```ts
+  // config 即解析完的配置
+  let env = `import.meta.env = ${JSON.stringify({
+    ...config.env,
+    SSR: !!ssr,
+  })};`
+  // 对用户配置的 define 对象中，将带有 import.meta.env 前缀的全局变量挂到 import.meta.env 对象上
+  for (const key in config.define) {
+    if (key.startsWith(`import.meta.env.`)) {
+      const val = config.define[key]
+      env += `${key} = ${typeof val === "string" ? val : JSON.stringify(val)};`
+    }
+  }
+  ```
+
+- 对于 `import.meta.glob` ，Vite 会调用 `transformImportGlob` 函数进行语法转换，但与生产环境的处理不同，在转换之后，Vite 会将该模块通过 glob 导入的依赖模块记录在 server 实例上，以便于 HMR 更新的时候能得到更准确的模块依赖信息
