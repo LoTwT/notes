@@ -33,6 +33,6 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.REMOTE_PASS }}
           port: 22
-          source: docs/.vuepress/dist
+          source: "docs/.vuepress/dist"
           target: ${{ secrets.REMOTE_TARGET }}
           rm: true
