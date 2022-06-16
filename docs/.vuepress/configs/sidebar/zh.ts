@@ -149,6 +149,7 @@ export const zh: SidebarConfig = {
             "/zh/toolchain/vite/config.md",
             "/zh/toolchain/vite/prebuild.md",
             "/zh/toolchain/vite/pluginPipeline.md",
+            "/zh/toolchain/vite/hmr2.md",
           ],
         },
         {
