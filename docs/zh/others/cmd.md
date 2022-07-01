@@ -31,11 +31,13 @@ Windows 推荐使用
      1. 选择侧边栏、配置文件、默认值
      1. 选择内部其他设置、外观
      1. 字体选择要配置的字体
+     1. 保存后重启 Windows Terminal 或打开新 Tab 即可
 
    - VS Code
 
      1. 选择左上角文件、首选项、设置
      1. 搜索 `terminal font`
      1. 在 `terminal.integrated.fontFamily` 中输入字体名称 ( 同 Windows Terminal 中选择的字体)
+     1. 重启 VS Code
 
 更多个性化配置，请查阅 [starship docs](https://starship.rs/)
