@@ -180,6 +180,7 @@ export const zh: SidebarConfig = {
         "/zh/others/ubuntu.md",
         "/zh/others/nginx.md",
         "/zh/others/nuxt3.md",
+        "/zh/others/cmd.md",
       ],
     },
   ],
