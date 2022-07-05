@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress"
 import { nav, sidebar } from "./configs"
 
 export default defineConfig({
-  base: process.env.NODE_ENV === "deploy" ? "/" : "/notes/",
+  base: process.env.CUS_NODE_ENV === "deploy" ? "/" : "/notes/",
 
   lang: "zh-CN",
   title: "Ayingotts's notes",
