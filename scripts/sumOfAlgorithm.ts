@@ -1,15 +1,15 @@
 import { readdir } from "fs/promises"
 import { resolve } from "path"
 
-import { createCommonJS } from "mlly"
+const sum = async () => {
+  const targetPath = resolve(__dirname, "../docs/algorithm")
+  const files = await readdir(targetPath)
 
-const { __dirname } = createCommonJS(import.meta.url)
+  const reg = /^\d{0,}-.*.md$/
 
-const targetPath = resolve(__dirname, "../docs/zh/dataAndAlgorithm/algorithm")
-const files = await readdir(targetPath)
+  const len = files.filter((f) => reg.test(f)).length
 
-const reg = /^\d{0,}-.*.md$/
+  console.log(`已经刷了 ${len} 题。`)
+}
 
-const len = files.filter((f) => reg.test(f)).length
-
-console.log(`已经刷了 ${len} 题。`)
+sum()
