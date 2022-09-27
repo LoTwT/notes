@@ -11,5 +11,16 @@ export const devops: DefaultTheme.SidebarMulti = {
         { text: "Nginx", link: "/devops/nginx" },
       ],
     },
+    {
+      text: "Linux",
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          text: "帮助命令",
+          link: "/devops/linux/file-system/man",
+        },
+      ],
+    },
   ],
 }
