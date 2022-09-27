@@ -20,6 +20,10 @@ export const devops: DefaultTheme.SidebarMulti = {
           text: "帮助命令",
           link: "/devops/linux/file-system/man",
         },
+        {
+          text: "目录与切换操作",
+          link: "/devops/linux/file-system/dir-change",
+        },
       ],
     },
   ],
