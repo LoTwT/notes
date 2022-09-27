@@ -89,7 +89,7 @@ tree packages/react-dom -aF -L 2
 exa -lah -T -L 2 packages/react-dom
 ```
 
-## 提问
+## 问题
 
 1. 使用 tree/exa 列出目录树时，如何忽略 .gitignore 中文件内容？
 
