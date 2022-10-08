@@ -28,6 +28,10 @@ export const devops: DefaultTheme.SidebarMulti = {
           text: "用户相关",
           link: "/devops/linux/file-system/user",
         },
+        {
+          text: "stat",
+          link: "/devops/linux/file-system/stat",
+        },
       ],
     },
   ],
