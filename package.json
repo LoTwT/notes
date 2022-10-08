@@ -2,7 +2,7 @@
   "name": "notes",
   "version": "0.0.0",
   "description": "",
-  "packageManager": "pnpm@7.5.1",
+  "packageManager": "pnpm@7.13.2",
   "main": "index.js",
   "scripts": {
     "dev": "vitepress dev docs --open",
@@ -26,17 +26,17 @@
   },
   "homepage": "https://github.com/LoTwT/notes#readme",
   "devDependencies": {
-    "@types/node": "^18.7.21",
+    "@types/node": "^18.8.3",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "pnpm": "^7.12.2",
+    "pnpm": "^7.13.2",
     "prettier": "^2.7.1",
     "simple-git-hooks": "^2.8.0",
     "taze": "^0.8.2",
-    "tsx": "^3.9.0",
-    "typescript": "^4.8.3",
-    "vitepress": "1.0.0-alpha.16",
-    "vue": "^3.2.39"
+    "tsx": "^3.10.1",
+    "typescript": "^4.8.4",
+    "vitepress": "1.0.0-alpha.19",
+    "vue": "^3.2.40"
   },
   "lint-staged": {
     "*.{js,ts,json,md}": [
