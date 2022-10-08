@@ -7,6 +7,7 @@ import { toolchain } from "./toolchain"
 import { translate } from "./translate"
 import { typescript } from "./typescript"
 import { algorithm } from "./algorithm"
+import { node } from "./node"
 
 export const sidebar: DefaultTheme.Sidebar = {
   ...base,
@@ -17,4 +18,5 @@ export const sidebar: DefaultTheme.Sidebar = {
   ...translate,
   ...typescript,
   ...algorithm,
+  ...node,
 }
