@@ -15,16 +15,15 @@
 `stat` ，查看文件系统信息。无论对于命令行操作，还是对于后端开发者，甚至在前端工程化领域，都是非常重要的命令或操作系统 API 。
 
 ```bash
-stat README.md
-
-# File: README.md
-# Size: 5201            Blocks: 16         IO Block: 4096   regular file
-# Device: fd01h/64769d    Inode: 657197      Links: 1
-# Access: (0644/-rw-r--r--)  Uid: ( 1000/ shanyue)   Gid: ( 1000/ shanyue)
-# Access: 2022-06-17 10:45:18.954000816 +0800
-# Modify: 2022-06-17 11:29:45.580831556 +0800
-# Change: 2022-06-17 12:24:25.276142164 +0800
-# Birth: 2022-06-14 19:10:22.779976895 +0800
+$ stat README.md
+File: README.md
+Size: 5201            Blocks: 16         IO Block: 4096   regular file
+Device: fd01h/64769d    Inode: 657197      Links: 1
+Access: (0644/-rw-r--r--)  Uid: ( 1000/ shanyue)   Gid: ( 1000/ shanyue)
+Access: 2022-06-17 10:45:18.954000816 +0800
+Modify: 2022-06-17 11:29:45.580831556 +0800
+Change: 2022-06-17 12:24:25.276142164 +0800
+Birth: 2022-06-14 19:10:22.779976895 +0800
 ```
 
 重要属性 :
@@ -47,7 +46,7 @@ stat README.md
 使用 `stat -c` 可指定文件某个属性进行输出。
 
 ```bash
-stat -c --format=FORMAT
+$ stat -c --format=FORMAT
 ```
 
 有以下格式可选 :
@@ -65,20 +64,20 @@ stat -c --format=FORMAT
 - ...
 
 ```bash
-stat -c "%a" README.md
-# 644
+$ stat -c "%a" README.md
+644
 
-stat -c "%F" README.md
-# regular file
+$ stat -c "%F" README.md
+regular file
 
-stat -c "%A" README.md
-# -rw-r--r--
+$ stat -c "%A" README.md
+-rw-r--r--
 
-stat -c "%y" README.md
-# 2022-06-17 12:21:06.028463373 +0800
+$ stat -c "%y" README.md
+2022-06-17 12:21:06.028463373 +0800
 
-stat -c "%Y" README.md
-# 1655439666
+$ stat -c "%Y" README.md
+1655439666
 ```
 
 ## 文件类型
@@ -88,26 +87,26 @@ stat -c "%Y" README.md
 Linux 中有六种典型的文件类型，其中 `symbolic link`，即符号链接是一种特殊的文件类型，而硬链接，只是文件的一个属性。
 
 ```bash
-stat -c "%F" README.md
-# regular file
+$ stat -c "%F" README.md
+regular file
 
-stat -c "%F" node_modules/
-# directory
+$ stat -c "%F" node_modules/
+directory
 
-stat -c "%F" /usr/local/bin/npm
-# symbolic link
+$ stat -c "%F" /usr/local/bin/npm
+symbolic link
 
-stat -c "%F" /dev/null
-# character special file
+$ stat -c "%F" /dev/null
+character special file
 
-stat -c "%F" /dev/pts/0
-# character special file
+$ stat -c "%F" /dev/pts/0
+character special file
 
-stat -c "%F" /dev/vda
-# block special file
+$ stat -c "%F" /dev/vda
+block special file
 
-stat -c "%F" /var/run/docker.sock
-# socket
+$ stat -c "%F" /var/run/docker.sock
+socket
 ```
 
 也可以使用 `ls -lah` 查看文件类型，第一个字符表示文件类型 :
@@ -121,9 +120,9 @@ stat -c "%F" /var/run/docker.sock
 
 ```bash
 # 注意首字母为 c，代表字符设备文件
-ls -lah /dev/null
-# crw-rw-rw- 1 root root 1, 3 Sep 29  2019 /dev/null
+$ ls -lah /dev/null
+crw-rw-rw- 1 root root 1, 3 Sep 29  2019 /dev/null
 
 # 在 /dev 目录，能够找到诸多字符设备文件与块设备文件
-ls -lah /dev
+$ ls -lah /dev
 ```

@@ -14,9 +14,9 @@
 另外，`cd -` 为进入上一次的工作目录，如同 `git checkout -` 切回上次的分支一样。
 
 ```bash
-cd ~
-cd -
-cd $HOME
+$ cd ~
+$ cd -
+$ cd $HOME
 ```
 
 除 `cd` 外，有一个拥有强大功能切换目录的小工具 [autojump](https://github.com/wting/autojump)，需要手动下载。
@@ -27,7 +27,7 @@ cd $HOME
 
 ```bash
 # 打印当前路径
-pwd
+$ pwd
 ```
 
 ## ls
@@ -44,7 +44,7 @@ pwd
 # -l: 使用长列表格式
 # -a: 列出所有文件，包括以 . 开头的文件
 # -h: 以可读的形式表示文件体积
-ls -lah
+$ ls -lah
 ```
 
 ## exa
@@ -55,7 +55,7 @@ ls -lah
 
 ```bash
 # 支持查看 git 情况
-exa -lah --git
+$ exa -lah --git
 ```
 
 ## tree
@@ -66,10 +66,10 @@ exa -lah --git
 
 ```bash
 # macOS
-brew install tree
+$ brew install tree
 
 # CentOS
-yum install tree
+$ yum install tree
 ```
 
 可通过 `-L` 指定层级，平常工作可使用以下指令
@@ -78,7 +78,7 @@ yum install tree
 # -a: 列出所有文件
 # -F: 对目录末尾添加 / ，对可执行文件末尾添加 *
 # -L: 指定层级
-tree packages/react-dom -aF -L 2
+$ tree packages/react-dom -aF -L 2
 ```
 
 可以使用 `exa -T` 打印树状文件
@@ -86,7 +86,7 @@ tree packages/react-dom -aF -L 2
 ```bash
 # -T: --tree，以树状图的形式列出文件
 # -L: --level，指定层级
-exa -lah -T -L 2 packages/react-dom
+$ exa -lah -T -L 2 packages/react-dom
 ```
 
 ## 问题
@@ -94,7 +94,7 @@ exa -lah -T -L 2 packages/react-dom
 1. 使用 tree/exa 列出目录树时，如何忽略 .gitignore 中文件内容？
 
 ```bash
-tree --gitignore
+$ tree --gitignore
 ​
-exa -T -L 2 --git-ignore
+$ exa -T -L 2 --git-ignore
 ```

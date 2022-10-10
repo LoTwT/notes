@@ -3,9 +3,9 @@
 一般而言，Linux 约定俗成的帮助命令有两个。但是对于这两个命令，不一定都存在。
 
 ```bash
-man <command>
+$ man <command>
 
-<command> --help
+$ <command> --help
 ```
 
 ## man
@@ -13,11 +13,11 @@ man <command>
 `man`，`manual` 简写，意为手册，手册实际上存储在系统的 `/usr/share/man` 目录。
 
 ```bash
-man ls
+$ man ls
 
-man pwd
+$ man pwd
 
-man ssh
+$ man ssh
 ```
 
 通过 `man <command>` 后，可通过 [vim move](./vim-move.md) 进行操作，快捷方式：
@@ -46,18 +46,18 @@ man ssh
 查看 `cat` 命令的帮助文档，多个参数可使用 `[file.. .]`，类似于 `JavaScript` 中的 `...` 扩展运算符
 
 ```bash
-cat [-belnstuv] [file ...]
+$ cat [-belnstuv] [file ...]
 
-cat a.txt b.txt c.txt ...
+$ cat a.txt b.txt c.txt ...
 ```
 
 在某些命令行还支持将多个单字母参数直接拼接
 
 ```bash
 # 以下两个命令是等价的
-ls -lah
+$ ls -lah
 
-ls -l -a -h
+$ ls -l -a -h
 ```
 
 [cli 开发指南](https://clig.dev/#output)
@@ -69,9 +69,9 @@ ls -l -a -h
 [tldr](https://github.com/tldr-pages/tldr) 是一个 `npm` 命令行工具，`Too Long; Didn't Read` 的简写。
 
 ```bash
-pnpm dlx tldr ls
+$ pnpm dlx tldr ls
 
-ls
+$ ls
 
 列出目录中的内容。
 更多信息：https://www.gnu.org/software/coreutils/ls .
