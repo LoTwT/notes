@@ -32,6 +32,10 @@ export const devops: DefaultTheme.SidebarMulti = {
           text: "stat",
           link: "/devops/linux/file-system/stat",
         },
+        {
+          text: "chmod / chown",
+          link: "/devops/linux/file-system/chmod-chown",
+        },
       ],
     },
   ],
