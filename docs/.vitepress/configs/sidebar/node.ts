@@ -5,6 +5,7 @@ export const node: DefaultTheme.SidebarMulti = {
     {
       text: "Node",
       collapsible: true,
+      collapsed: true,
       items: [{ text: "简介", link: "/node/intro" }],
     },
   ],
