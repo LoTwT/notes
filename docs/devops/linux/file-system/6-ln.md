@@ -58,7 +58,7 @@ Change: 2022-06-22 17:47:51.534626066 +0800
 :::info
 Q : 在上述 pnpm 硬链接的示例中，如何找到该 package.json 在 pnpm 全局目录 `~/.pnpm-store` 的位置？
 
-Tip : 请参考 [find / ag](./find-ag.md) 命令
+Tip : 请参考 [find](./11-find.md) 和 [ag](./12-ag.md) 命令
 :::
 
 ## ln -s : symbol link
@@ -92,7 +92,7 @@ Change: 2022-06-22 18:37:56.123012505 +0800
  Birth: 2022-06-22 18:37:56.123012505 +0800 ln -s Readme.md Readme.hard.md
 ```
 
-使用 [stat](./stat.md) 命令，可发现软链接文件与源文件
+使用 [stat](./4-stat.md) 命令，可发现软链接文件与源文件
 
 - 完全不同的 Inode ，证明是两个独立的文件
 - 完全不同的 Size 及属性

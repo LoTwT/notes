@@ -19,27 +19,27 @@ export const devops: DefaultTheme.SidebarMulti = {
       items: [
         {
           text: "帮助命令",
-          link: "/devops/linux/file-system/man",
+          link: "/devops/linux/file-system/1-man",
         },
         {
           text: "目录与切换操作",
-          link: "/devops/linux/file-system/dir-change",
+          link: "/devops/linux/file-system/2-dir-change",
         },
         {
           text: "用户相关",
-          link: "/devops/linux/file-system/user",
+          link: "/devops/linux/file-system/3-user",
         },
         {
           text: "stat",
-          link: "/devops/linux/file-system/stat",
+          link: "/devops/linux/file-system/4-stat",
         },
         {
           text: "chmod / chown",
-          link: "/devops/linux/file-system/chmod-chown",
+          link: "/devops/linux/file-system/5-chmod-chown",
         },
         {
           text: "ln",
-          link: "/devops/linux/file-system/ln",
+          link: "/devops/linux/file-system/6-ln",
         },
         {
           text: "cat / less / head / tail",
