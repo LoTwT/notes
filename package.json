@@ -38,12 +38,12 @@
     "vitepress": "1.0.0-alpha.19",
     "vue": "^3.2.40"
   },
-  "lint-staged": {
-    "*.{js,ts,json,md}": [
-      "prettier --write"
-    ]
-  },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write --ignore-unknown"
+    ]
   }
 }
