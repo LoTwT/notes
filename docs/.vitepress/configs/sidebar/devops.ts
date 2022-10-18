@@ -41,6 +41,10 @@ export const devops: DefaultTheme.SidebarMulti = {
           text: "ln",
           link: "/devops/linux/file-system/ln",
         },
+        {
+          text: "cat / less / head / tail",
+          link: "/devops/linux/file-system/7-cat-less-head-tail",
+        },
       ],
     },
   ],
