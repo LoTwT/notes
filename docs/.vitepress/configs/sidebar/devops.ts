@@ -45,6 +45,10 @@ export const devops: DefaultTheme.SidebarMulti = {
           text: "cat / less / head / tail",
           link: "/devops/linux/file-system/7-cat-less-head-tail",
         },
+        {
+          text: "pipe / redirection",
+          link: "/devops/linux/file-system/8-pipe-redirection",
+        },
       ],
     },
   ],
