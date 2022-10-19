@@ -49,6 +49,10 @@ export const devops: DefaultTheme.SidebarMulti = {
           text: "pipe / redirection",
           link: "/devops/linux/file-system/8-pipe-redirection",
         },
+        {
+          text: "glob",
+          link: "/devops/linux/file-system/9-glob",
+        },
       ],
     },
   ],
