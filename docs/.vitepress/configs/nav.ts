@@ -8,8 +8,13 @@ export const nav: DefaultTheme.NavItem[] = [
     link: "/algorithm/index",
     activeMatch: "/algorithm/",
   },
+  {
+    text: "HTTP",
+    link: "/http/message/1-header-message",
+    activeMatch: "/http",
+  },
   { text: "DevOps", link: "/devops/aws-ubuntu", activeMatch: "/devops/" },
-  { text: "Node", link: "/node/intro", activeMatch: "/node/" },
+  // { text: "Node", link: "/node/intro", activeMatch: "/node/" },
   {
     text: "TypeScript",
     link: "/typescript/fun/basic",

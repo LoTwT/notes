@@ -9,6 +9,7 @@ import { typescript } from "./typescript"
 import { algorithm } from "./algorithm"
 import { node } from "./node"
 import { compilation } from "./compilation"
+import { http } from "./http"
 
 export const sidebar: DefaultTheme.Sidebar = {
   ...base,
@@ -21,4 +22,5 @@ export const sidebar: DefaultTheme.Sidebar = {
   ...algorithm,
   ...node,
   ...compilation,
+  ...http,
 }
