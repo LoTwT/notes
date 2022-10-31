@@ -26,16 +26,16 @@
   },
   "homepage": "https://github.com/LoTwT/notes#readme",
   "devDependencies": {
-    "@types/node": "^18.11.0",
+    "@types/node": "^18.11.8",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
-    "pnpm": "^7.13.5",
+    "pnpm": "^7.14.1",
     "prettier": "^2.7.1",
     "simple-git-hooks": "^2.8.1",
     "taze": "^0.8.3",
-    "tsx": "^3.10.3",
+    "tsx": "^3.11.0",
     "typescript": "^4.8.4",
-    "vitepress": "1.0.0-alpha.21",
+    "vitepress": "1.0.0-alpha.26",
     "vue": "^3.2.41"
   },
   "simple-git-hooks": {
