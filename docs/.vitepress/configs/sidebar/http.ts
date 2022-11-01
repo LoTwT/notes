@@ -13,5 +13,11 @@ export const http: DefaultTheme.SidebarMulti = {
         { text: "curl", link: "/http/message/4-curl" },
       ],
     },
+    {
+      text: "头部",
+      collapsible: true,
+      collapsed: true,
+      items: [{ text: "header", link: "/http/header/5-header" }],
+    },
   ],
 }
