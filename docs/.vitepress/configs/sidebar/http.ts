@@ -6,7 +6,7 @@ export const http: DefaultTheme.SidebarMulti = {
       text: "报文",
       collapsible: true,
       collapsed: true,
-      items: [{ text: "HTTP 报文", link: "/http/message/1-header-message" }],
+      items: [{ text: "HTTP 报文", link: "/http/message/1-message" }],
     },
   ],
 }

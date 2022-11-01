@@ -10,7 +10,7 @@ export const nav: DefaultTheme.NavItem[] = [
   },
   {
     text: "HTTP",
-    link: "/http/message/1-header-message",
+    link: "/http/message/1-message",
     activeMatch: "/http",
   },
   { text: "DevOps", link: "/devops/aws-ubuntu", activeMatch: "/devops/" },
