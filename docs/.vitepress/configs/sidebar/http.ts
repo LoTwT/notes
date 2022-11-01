@@ -10,6 +10,7 @@ export const http: DefaultTheme.SidebarMulti = {
         { text: "HTTP 报文", link: "/http/message/1-message" },
         { text: "HTTP 报文模拟", link: "/http/message/2-message-simulation" },
         { text: "Chrome Devtools", link: "/http/message/3-chrome-devtools" },
+        { text: "curl", link: "/http/message/4-curl" },
       ],
     },
   ],
