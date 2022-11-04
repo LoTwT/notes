@@ -17,7 +17,10 @@ export const http: DefaultTheme.SidebarMulti = {
       text: "头部",
       collapsible: true,
       collapsed: true,
-      items: [{ text: "header", link: "/http/header/5-header" }],
+      items: [
+        { text: "header", link: "/http/header/5-header" },
+        { text: "请求头列表", link: "/http/header/6-request-header" },
+      ],
     },
   ],
 }
