@@ -21,6 +21,7 @@ export const http: DefaultTheme.SidebarMulti = {
         { text: "header", link: "/http/header/5-header" },
         { text: "请求头列表", link: "/http/header/6-request-header" },
         { text: "响应头列表", link: "/http/header/7-response-header" },
+        { text: "Host 与 :authority", link: "/http/header/8-host-authority" },
       ],
     },
   ],
