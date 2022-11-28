@@ -8,7 +8,6 @@
     "dev": "vitepress dev docs --open",
     "build": "vitepress build docs",
     "serve": "vitepress serve docs",
-    "build:deploy": "CUS_NODE_ENV=deploy && pnpm build",
     "sum:al": "tsx scripts/sumOfAlgorithm.ts",
     "prettier": "prettier --write .",
     "prepare": "simple-git-hooks",
