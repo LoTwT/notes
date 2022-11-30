@@ -10,6 +10,7 @@ import { algorithm } from "./algorithm"
 import { node } from "./node"
 import { compilation } from "./compilation"
 import { http } from "./http"
+import { react } from "./react"
 
 export const sidebar: DefaultTheme.Sidebar = {
   ...base,
@@ -23,4 +24,5 @@ export const sidebar: DefaultTheme.Sidebar = {
   ...node,
   ...compilation,
   ...http,
+  ...react,
 }
