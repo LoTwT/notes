@@ -6,7 +6,7 @@ export const react: DefaultTheme.SidebarMulti = {
       text: "从 0 实现 React18",
       collapsible: true,
       collapsed: true,
-      items: [],
+      items: [{ text: "搭架子", link: "/react/write/setup" }],
     },
   ],
 }
