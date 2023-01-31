@@ -25,15 +25,15 @@
   },
   "homepage": "https://github.com/LoTwT/notes#readme",
   "devDependencies": {
-    "@types/node": "^18.11.9",
-    "lint-staged": "^13.0.4",
-    "pnpm": "^7.17.1",
-    "prettier": "^2.8.0",
+    "@types/node": "^18.11.18",
+    "lint-staged": "^13.1.0",
+    "pnpm": "^7.26.2",
+    "prettier": "^2.8.3",
     "simple-git-hooks": "^2.8.1",
-    "taze": "^0.8.4",
-    "tsx": "^3.12.1",
-    "typescript": "^4.9.3",
-    "vitepress": "1.0.0-alpha.29",
+    "taze": "^0.8.5",
+    "tsx": "^3.12.2",
+    "typescript": "^4.9.5",
+    "vitepress": "1.0.0-alpha.43",
     "vue": "^3.2.45"
   },
   "simple-git-hooks": {

@@ -23,6 +23,7 @@ export const http: DefaultTheme.SidebarMulti = {
         { text: "响应头列表", link: "/http/header/7-response-header" },
         { text: "Host 与 :authority", link: "/http/header/8-host-authority" },
         { text: "内容协商", link: "/http/header/9-content-nego" },
+        { text: "Content-Type", link: "/http/header/10-content-type" },
       ],
     },
   ],
