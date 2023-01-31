@@ -11,6 +11,7 @@ import { node } from "./node"
 import { compilation } from "./compilation"
 import { http } from "./http"
 import { react } from "./react"
+import { test } from "./test"
 
 export const sidebar: DefaultTheme.Sidebar = {
   ...base,
@@ -25,4 +26,5 @@ export const sidebar: DefaultTheme.Sidebar = {
   ...compilation,
   ...http,
   ...react,
+  ...test,
 }

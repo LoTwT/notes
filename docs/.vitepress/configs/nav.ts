@@ -20,6 +20,7 @@ export const nav: DefaultTheme.NavItem[] = [
     link: "/typescript/fun/basic",
     activeMatch: "/typescript/",
   },
+  { text: "测试", link: "/test/main", activeMatch: "/test/" },
   { text: "Rust", link: "/rust/index", activeMatch: "/rust/" },
   { text: "工具链", link: "/toolchain/index", activeMatch: "/toolchains/" },
   { text: "DevOps", link: "/devops/aws-ubuntu", activeMatch: "/devops/" },

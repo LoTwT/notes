@@ -1,0 +1,21 @@
+import { type DefaultTheme } from "vitepress"
+
+export const test: DefaultTheme.SidebarMulti = {
+  "/test/": [
+    {
+      text: "测试",
+      link: "/test/main",
+    },
+    {
+      text: "单元测试",
+      collapsed: true,
+      collapsible: true,
+      items: [
+        {
+          text: "概述",
+          link: "/test/automated/overview",
+        },
+      ],
+    },
+  ],
+}
