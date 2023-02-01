@@ -15,6 +15,10 @@ export const test: DefaultTheme.SidebarMulti = {
           text: "概述",
           link: "/test/automated/overview",
         },
+        {
+          text: "选型",
+          link: "/test/automated/setup",
+        },
       ],
     },
   ],
