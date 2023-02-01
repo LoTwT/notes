@@ -11,7 +11,7 @@ Reacting Test Library 和 Enzyme 都可供选择。
 
 更推荐 Reacting Test Library 。
 
-## 配置
+## 基础配置
 
 - 使用 `pnpm create vite` 创建一个 `React + TypeScript` 的项目。
 - 安装依赖 `pnpm i jest @types/jest @jest/types -D`
@@ -92,5 +92,35 @@ Reacting Test Library 和 Enzyme 都可供选择。
     moduleNameMapper: {
       ".(css|less)$": "identity-obj-proxy", // 有使用 sass 需求的同学可以把正则换成 ^\.(css|less|sass|scss)$
     },
+  }
+  ```
+
+## React Testing Library
+
+- 安装依赖
+
+  - @testing-library/jest-dom : 用于 DOM 、样式类型等元素的选取
+  - @testing-library/react : 提供针对 React 的单测渲染能力
+  - @testing-library/user-event : 单测场景下事件的模拟
+  - @types/testing-library\_\_jest-dom : 类型支持
+
+  ```bash
+  pnpm i @testing-library/jest-dom @testing-library/react @testing-library/user-event @types/testing-library__jest-dom -D
+  ```
+
+- 针对 @testing-library/jest-dom ，创建 `jest-dom-setup.js` ( 名字自取 )，用于全局导入，使得 expect 可以适配 React Testing Library 提供的相关断言
+
+  ```js
+  // jest-dom-setup.js
+  import "@testing-library/jest-dom"
+  ```
+
+- 将 `jest-dom-setup.js` 配置到 `jest.config.ts` 的 `setupFilesAfterEnv` 字段中；这个字段的作用是，将指定的配置文件，在安装测试框架后，执行测试代码本身之前运行
+
+  ```ts
+  // jest.config.ts
+  export default {
+    // ... other config
+    setupFilesAfterEnv: ["<rootDir>/jest-dom-setup.js"],
   }
   ```
