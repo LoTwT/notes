@@ -6,6 +6,10 @@
 
 ```ts
 // myPlugin.js
+// 使用方式
+// vite.config.ts
+import { myVitePlugin } from "./myVitePlugin"
+
 export function myVitePlugin(options) {
   console.log(options)
   return {
@@ -15,10 +19,6 @@ export function myVitePlugin(options) {
     },
   }
 }
-
-// 使用方式
-// vite.config.ts
-import { myVitePlugin } from "./myVitePlugin"
 export default {
   plugins: [
     myVitePlugin({

@@ -76,6 +76,7 @@ if (import.meta.hot) {
 // main.ts
 import { render } from "./render"
 import "./state"
+
 render()
 
 if (import.meta.hot) {
@@ -95,6 +96,7 @@ if (import.meta.hot) {
 // main.ts
 import { render } from "./render"
 import { initState } from "./state"
+
 render()
 initState()
 

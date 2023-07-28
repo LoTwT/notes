@@ -1,31 +1,35 @@
 {
   "name": "notes",
   "version": "0.0.0",
-  "description": "",
   "packageManager": "pnpm@7.17.1",
+  "description": "",
+  "author": "LoTwT",
+  "license": "ISC",
+  "homepage": "https://github.com/LoTwT/notes#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LoTwT/notes.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LoTwT/notes/issues"
+  },
+  "keywords": [],
   "main": "index.js",
   "scripts": {
     "dev": "vitepress dev docs --open",
     "build": "vitepress build docs",
     "serve": "vitepress serve docs",
     "sum:al": "tsx scripts/sumOfAlgorithm.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "prettier": "prettier --write .",
     "prepare": "simple-git-hooks",
     "up": "taze latest -I"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LoTwT/notes.git"
-  },
-  "keywords": [],
-  "author": "LoTwT",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/LoTwT/notes/issues"
-  },
-  "homepage": "https://github.com/LoTwT/notes#readme",
   "devDependencies": {
+    "@ayingott/eslint-config": "^0.2.6",
     "@types/node": "^20.4.5",
+    "eslint": "^8.45.0",
     "lint-staged": "^13.2.3",
     "pnpm": "^8.6.10",
     "prettier": "^3.0.0",
@@ -40,8 +44,16 @@
     "pre-commit": "pnpm exec lint-staged"
   },
   "lint-staged": {
-    "*": [
-      "prettier --write --ignore-unknown"
+    "*": "eslint --fix"
+  },
+  "eslintConfig": {
+    "extends": "@ayingott/eslint-config",
+    "ignorePatterns": [
+      "dist",
+      "node_modules",
+      "docs/.vitepress/dist",
+      "docs/.vitepress/cache",
+      "*.md"
     ]
   }
 }

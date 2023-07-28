@@ -121,7 +121,7 @@ if (!asCommand) {
       chalk.greenBright(`Pre-bundling dependencies:\n  ${depsString}`),
     )
     logger.info(
-      `(this will be run only when your dependencies or config have changed)`,
+      "(this will be run only when your dependencies or config have changed)",
     )
   }
 } else {
@@ -180,7 +180,7 @@ const data: DepOptimizationMetadata = {
 for (const id in deps) {
   const entry = deps[id]
   data.optimized[id] = {
-    file: normalizePath(path.resolve(cacheDir, flattenId(id) + ".js")),
+    file: normalizePath(path.resolve(cacheDir, `${flattenId(id)}.js`)),
     src: entry,
     // 判断是否需要转换成 ESM 格式，后面会介绍
     needsInterop: needsInterop(
@@ -515,19 +515,20 @@ export function esbuildDepPlugin(/* 一些传参 */) {
 
   // 返回 Esbuild 插件
   return {
-    name: 'vite:dep-pre-bundle',
+    name: "vite:dep-pre-bundle",
     set(build) {
       // bare import 的路径
       build.onResolve(
         { filter: /^[\w@][^:]/ },
         async ({ path: id, importer, kind }) => {
           // 判断是否为入口模块，如果是，则标记上`dep`的 namespace，成为一个虚拟模块
-        }
-    }
+        },
+      )
 
-    build.onLoad({ filter: /.*/, namespace: 'dep' }, ({ path: id }) => {
-      // 加载虚拟模块
-    }
+      build.onLoad({ filter: /.*/, namespace: "dep" }, ({ path: id }) => {
+        // 加载虚拟模块
+      })
+    },
   }
 }
 ```
@@ -575,6 +576,7 @@ if (
 
 ```ts
 import { init, parse } from "es-module-lexer"
+
 // 等待`es-module-lexer`初始化完成
 await init
 const sourceStr = `
@@ -599,6 +601,7 @@ console.log(exports)
 
 ```ts
 import { init, parse } from "es-module-lexer"
+
 // 省略中间的代码
 await init
 for (const id in deps) {
@@ -633,7 +636,7 @@ esbuildDepPlugin(flatIdDeps, flatIdToExports, config, ssr)
 如此，就能根据真实模块的路径获取到导入和导出的信息，通过这份信息来甄别 CommonJS 和 ES 两种模块规范。现在可以回到 Esbuild 打包插件中加载代理模块的代码:
 
 ```ts
-let contents = ""
+const contents = ""
 // 下面的 exportsData 即外部传入的模块导入导出相关的信息表
 // 根据模块 id 拿到对应的导入导出信息
 const data = exportsData[id]

@@ -156,12 +156,12 @@ jobs:
       - name: DeployECS
       - uses: easingthemes/ssh-deploy@v2
       - env:
-          ARGS: "-avz --delete"
+          ARGS: -avz --delete
           SSH_PRIVATE_KEY: ${{ secrets.ECS_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.ECS_SERVER_HOST }}
           REMOTE_USER: ${{ secrets.ECS_REMOTE_USER }}
-          SOURCE: "dist"
-          TARGET: "/www/static/doc/bruce"
+          SOURCE: dist
+          TARGET: /www/static/doc/bruce
 ```
 
 整个 CI 操作只有一个任务 cbd ，cbd 由以下步骤组成：

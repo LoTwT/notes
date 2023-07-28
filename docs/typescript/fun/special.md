@@ -84,7 +84,7 @@ type UnionToIntersection<T> = (
 
 ```ts
 type GetOptional<O extends Record<string, unknown>> = {
-  [P in keyof O as {} extends Pick<O, P> ? P : never]: O[P]
+  [P in keyof O as Record<string, never> extends Pick<O, P> ? P : never]: O[P]
 }
 ```
 

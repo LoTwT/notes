@@ -114,9 +114,9 @@ ESM 无法使用 CJS 提供的 `直接引入 json 文件` 、`__dirname` 、`__f
 - json 文件引入使用 `readFile` 和 `JSON.parse()` 替代
 
 ```js
-import { readFileSync } from "fs"
-import { dirname } from "path"
-import { fileURLToPath } from "url"
+import { readFileSync } from "node:fs"
+import { dirname } from "node:path"
+import { fileURLToPath } from "node:url"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

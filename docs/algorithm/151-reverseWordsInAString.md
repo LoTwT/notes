@@ -18,7 +18,7 @@ function reverseWords(s: string): string {
   }
 
   while (left <= right) {
-    let ch = s.charAt(left)
+    const ch = s.charAt(left)
     if (ch === " " && word) {
       queue.unshift(word)
       word = ""

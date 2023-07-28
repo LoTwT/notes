@@ -12,7 +12,7 @@ function search(nums: number[], target: number): number {
   while (left <= right) {
     // 两种计算方法都有可能越界
     // todo 更安全的位运算
-    let mid = (left + right) >> 1
+    const mid = (left + right) >> 1
     // let mid = left  + ((right - left) >> 1)
 
     // 当前范围的中间值

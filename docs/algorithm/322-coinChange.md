@@ -22,7 +22,7 @@ function coinChange(coins: number[], amount: number): number {
   // amount 为 0 时，不能由硬币组成，最少硬币个数为 0
   // 所以 dp[0] 是一个特殊情况，dp 长度为 amount + 1
   // Infinity 是一个特殊的占位符
-  let dp = Array(amount + 1).fill(Infinity)
+  const dp = Array(amount + 1).fill(Number.POSITIVE_INFINITY)
   // 当所需面值和硬币面值相同时，会用到 dp[0]
   dp[0] = 0
 
@@ -40,7 +40,7 @@ function coinChange(coins: number[], amount: number): number {
   }
 
   // 如果有符合的解，占位符会被替换为最少硬币个数
-  return dp[amount] === Infinity ? -1 : dp[amount]
+  return dp[amount] === Number.POSITIVE_INFINITY ? -1 : dp[amount]
 }
 ```
 

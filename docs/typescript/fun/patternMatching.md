@@ -150,7 +150,7 @@ type Res = Trim<" \t\njitui\n \t"> // jitui
 通过模式匹配提取函数参数类型
 
 ```ts
-type GetParameters<F extends (...args: any) => any>> = F extends (
+type GetParameters<F extends (...args: any) => any> = F extends (
   ...args: infer Args
 ) => unknown
   ? Args
@@ -164,7 +164,9 @@ type Res = GetParameters<(a: string, b: number) => string> // [a: string, b: num
 通过模式匹配提取函数返回值类型
 
 ```ts
-type GetReturnType<F extends (...args: any) => any>> = F extends (...args: any) => infer R
+type GetReturnType<F extends (...args: any) => any> = F extends (
+  ...args: any
+) => infer R
   ? R
   : never
 

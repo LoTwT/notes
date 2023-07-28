@@ -27,7 +27,7 @@ ESM 已经不仅仅局限于一个模块规范的概念，它代表了前端社�
 使用现代浏览器内置的 `import map` 可以解决上述问题：
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />

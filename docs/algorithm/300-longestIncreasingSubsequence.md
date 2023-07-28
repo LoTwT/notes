@@ -17,7 +17,7 @@
 ```ts
 // 动态规划
 function lengthOfLIS(nums: number[]): number {
-  let n = nums.length
+  const n = nums.length
   if (n === 0) return 0
 
   // dp[i] = 第 i 位的最长子序列的长度
@@ -42,7 +42,7 @@ function lengthOfLIS(nums: number[]): number {
 
 // 贪心 + 二分
 function lengthOfLIS(nums: number[]): number {
-  let n = nums.length
+  const n = nums.length
   if (n === 0) return 0
 
   // 存放递增子序列的容器
@@ -61,7 +61,7 @@ function lengthOfLIS(nums: number[]): number {
 
       while (left < right) {
         // 使用位运算进行二分
-        let mid = (left + right) >> 1
+        const mid = (left + right) >> 1
         if (arr[mid] < nums[i]) left = mid + 1
         else right = mid
       }

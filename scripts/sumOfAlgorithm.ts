@@ -1,5 +1,5 @@
-import { readdir } from "fs/promises"
-import { resolve } from "path"
+import { readdir } from "node:fs/promises"
+import { resolve } from "node:path"
 
 const sum = async () => {
   const targetPath = resolve(__dirname, "../docs/algorithm")

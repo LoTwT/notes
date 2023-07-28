@@ -11,7 +11,7 @@
 ```ts
 function isValidBST(root: TreeNode | null): boolean {
   if (root === null) return false
-  let prev = -Infinity
+  let prev = Number.NEGATIVE_INFINITY
   return traverse(root)
 
   function traverse(node: TreeNode | null) {

@@ -9,7 +9,7 @@ function eraseOverlapIntervals(intervals: number[][]): number {
   let end = intervals[0][1]
 
   for (let i = 1; i < intervals.length; i++) {
-    let inv = intervals[i]
+    const inv = intervals[i]
     if (inv[0] >= end) {
       end = inv[1]
       // 额外的区间

@@ -143,7 +143,7 @@ type Res = AppendArgument<(a: string) => boolean, number> // (args_0: string, ar
 例如：
 
 ```ts
-type Person = {
+interface Person {
   name: string
   readonly age: number
   gender?: string

@@ -70,11 +70,11 @@ const resolvedBuildOptions = resolveBuildOptions(config.build)
 
 ```ts
 // resolve cache directory
-const pkgPath = lookupFile(resolvedRoot, [`package.json`], true /* pathOnly */)
+const pkgPath = lookupFile(resolvedRoot, ["package.json"], true /* pathOnly */)
 // 默认为 node_module/.vite
 const cacheDir = config.cacheDir
   ? path.resolve(resolvedRoot, config.cacheDir)
-  : pkgPath && path.join(path.dirname(pkgPath), `node_modules/.vite`)
+  : pkgPath && path.join(path.dirname(pkgPath), "node_modules/.vite")
 ```
 
 接着，处理用户配置的 `assetsInclude` ，将其转换为一个过滤器函数：
@@ -184,7 +184,7 @@ await Promise.all(userPlugins.map((p) => p.configResolved?.(resolved)))
 加载配置文件通过 `loadConfigFromFile` 实现。
 
 ```ts
-const loadResult = await loadConfigFromFile(/*省略传参*/)
+const loadResult = await loadConfigFromFile(/* 省略传参 */)
 ```
 
 配置文件类型根据文加后缀和模块格式可以分为：
@@ -217,7 +217,7 @@ try {
 ```ts
 let isTS = false
 let isESM = false
-let dependencies: string[] = []
+const dependencies: string[] = []
 // 如果命令行有指定配置文件路径
 if (configFile) {
   resolvedPath = path.resolve(configFile)
@@ -275,15 +275,15 @@ if (configFile) {
 let userConfig: UserConfigExport | undefined
 
 if (isESM) {
-  const fileUrl = require("url").pathToFileURL(resolvedPath)
+  const fileUrl = require("node:url").pathToFileURL(resolvedPath)
   // 首先对代码进行打包
   const bundled = await bundleConfigFile(resolvedPath, true)
   dependencies = bundled.dependencies
   // TS + ESM
   if (isTS) {
-    fs.writeFileSync(resolvedPath + ".js", bundled.code)
+    fs.writeFileSync(`${resolvedPath  }.js`, bundled.code)
     userConfig = (await dynamicImport(`${fileUrl}.js?t=${Date.now()}`)).default
-    fs.unlinkSync(resolvedPath + ".js")
+    fs.unlinkSync(`${resolvedPath  }.js`)
     debug(`TS + native esm config loaded in ${getTime()}`, fileUrl)
   }
   //  JS + ESM
@@ -305,9 +305,9 @@ dependencies = bundled.dependencies
 对于 TS 配置文件，Vite 会将编译后的 JS 代码写入临时文件，通过 Node.js 原生 ESM import 来读取这个临时内容，以获取到配置内容，再直接删掉临时文件：
 
 ```ts
-fs.writeFileSync(resolvedPath + ".js", bundled.code)
+fs.writeFileSync(`${resolvedPath  }.js`, bundled.code)
 userConfig = (await dynamicImport(`${fileUrl}.js?t=${Date.now()}`)).default
-fs.unlinkSync(resolvedPath + ".js")
+fs.unlinkSync(`${resolvedPath  }.js`)
 ```
 
 > 这种先编译配置文件，再将产物写入临时目录，最后加载临时目录产物的做法，是 AOT ( Ahead Of Time ) 编译技术的一种具体实现。。
@@ -380,7 +380,7 @@ require.extensions[extension] = (module: NodeModule, filename: string) => {
 
 ```ts
 Module._extensions[".js"] = function (module, filename) {
-  var content = fs.readFileSync(filename, "utf8")
+  const content = fs.readFileSync(filename, "utf8")
   module._compile(stripBOM(content), filename)
 }
 ```
@@ -418,7 +418,7 @@ const config = await(
 )
 
 if (!isObject(config)) {
-  throw new Error(`config must export or return an object.`)
+  throw new Error("config must export or return an object.")
 }
 // 接下来返回最终的配置信息
 return {

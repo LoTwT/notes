@@ -52,10 +52,10 @@ Vite 插件的具体执行顺序：
 
 当在 Vite 配置文件中开启以下配置时：
 
-```ts
+```json
 {
-  build: {
-    polyfillModulePreload: true
+  "build": {
+    "polyfillModulePreload": true
   }
 }
 ```
@@ -171,7 +171,7 @@ CSS 后处理插件即 name 为 `vite:css-post` 的插件，它的功能包括�
 HTML 构建插件即 `build-html` 插件，项目根目录下的 html 会转换为一段 JavaScript 代码，比如下面这个例子：
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -252,6 +252,7 @@ function importLocale(locale) {
 用来转换如下格式的资源 URL ：
 
 ```ts
+// eslint-disable-next-line no-new
 new URL("./foo.png", import.meta.url)
 ```
 
@@ -359,6 +360,7 @@ Vite 会在开发阶段加入 import 分析插件，即 `vite:import-analysiss` 
   ```ts
   // 转换前
   import "foo"
+
   // 转换后
   // tip: 如果是预构建的依赖，则会转换为预构建产物的路径
   import "/@fs/project/node_modules/foo/dist/foo.js"
@@ -378,7 +380,7 @@ Vite 会在开发阶段加入 import 分析插件，即 `vite:import-analysiss` 
   })};`
   // 对用户配置的 define 对象中，将带有 import.meta.env 前缀的全局变量挂到 import.meta.env 对象上
   for (const key in config.define) {
-    if (key.startsWith(`import.meta.env.`)) {
+    if (key.startsWith("import.meta.env.")) {
       const val = config.define[key]
       env += `${key} = ${typeof val === "string" ? val : JSON.stringify(val)};`
     }

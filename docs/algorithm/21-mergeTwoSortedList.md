@@ -6,7 +6,7 @@ function mergeTwoLists(
   l2: ListNode | null,
 ): ListNode | null {
   // 哨兵节点
-  let dummy = new ListNode(undefined, null)
+  const dummy = new ListNode(undefined, null)
   let temp = dummy
 
   while (l1 !== null && l2 !== null) {

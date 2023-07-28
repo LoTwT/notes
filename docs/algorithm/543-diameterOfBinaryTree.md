@@ -9,8 +9,8 @@ function diameterOfBinaryTree(root: TreeNode | null): number {
   function dfs(root: TreeNode | null) {
     if (root === null) return 0
 
-    let left = dfs(root.left)
-    let right = dfs(root.right)
+    const left = dfs(root.left)
+    const right = dfs(root.right)
 
     len = Math.max(len, left + right)
 

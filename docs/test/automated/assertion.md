@@ -39,8 +39,8 @@ describe("assertion", () => {
     expect(0.2 + 0.1).not.toBe(0.3)
     expect(0.2 + 0.1).toBeCloseTo(0.3)
 
-    expect(NaN).toBeNaN()
-    expect(NaN).toBe(NaN)
+    expect(Number.NaN).toBeNaN()
+    expect(Number.NaN).toBe(Number.NaN)
 
     expect(+0).not.toBe(-0)
   })

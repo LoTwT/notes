@@ -9,7 +9,7 @@
 CSR 的 HTML 产物结构：
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -141,11 +141,12 @@ if (import.meta.env.SSR) {
 
 ```ts
 const jsdom = require("jsdom")
-const { window } = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`)
+
+const { window } = new JSDOM("<!DOCTYPE html><p>Hello world</p>")
 const { document } = window
 // 挂载到 node 全局
-global.window = window
-global.document = document
+globalThis.window = window
+globalThis.document = document
 ```
 
 ### 自定义 Head
@@ -154,27 +155,30 @@ global.document = document
 
 React 的 react-helmet 以及 Vue 的 vue-meta 就是为了解决这样的问题，可以直接在组件中写 Head 标签，在服务端能够拿到组件内部的状态。
 
-```ts
+```tsx
 // 前端组件逻辑
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet"
 
 function App(props) {
-  const { data } = props;
-  return {
+  const { data } = props
+  return (
     <div>
-       <Helmet>
-        <title>{ data.user }的页面</title>
+      <Helmet>
+        <title>{data.user}的页面</title>
         <link rel="canonical" href="http://mysite.com/example" />
       </Helmet>
     </div>
-  }
+  )
 }
+```
+
+```tsx
 // 服务端逻辑
-import Helmet from 'react-helmet';
+import Helmet from "react-helmet"
 
 // renderToString 执行之后
-const helmet = Helmet.renderStatic();
-console.log("title 内容: ", helmet.title.toString());
+const helmet = Helmet.renderStatic()
+console.log("title 内容: ", helmet.title.toString())
 console.log("link 内容: ", helmet.link.toString())
 ```
 
@@ -201,6 +205,7 @@ stream.on("end", () => {
   // 发送响应
 })
 
+// eslint-disable-next-line n/handle-callback-err
 stream.on("error", (err) => {
   // 错误处理
 })
@@ -264,7 +269,7 @@ SSR 是一种典型的 CPU 密集型操作，为了尽可能降低线上机器�
 可以通过 `perf_hooks` 完成数据采集：
 
 ```ts
-import { performance, PerformanceObserver } from "perf_hooks"
+import { PerformanceObserver, performance } from "node:perf_hooks"
 
 // 初始化监听器逻辑
 const perfObserver = new PerformanceObserver((items) => {

@@ -145,6 +145,7 @@ async updateModuleInfo(
 
 ```ts
 // packages/vite/src/node/server/index.ts
+import chokidar from "chokidar" // packages/vite/src/node/server/index.ts
 import chokidar from "chokidar"
 
 // 监听根目录下的文件
@@ -162,8 +163,7 @@ watcher.on("add", (file) => {
 // 删除文件
 watcher.on("unlink", (file) => {
   handleFileAddUnlink(normalizePath(file), server, true)
-}) // packages/vite/src/node/server/index.ts
-import chokidar from "chokidar"
+})
 
 // 监听根目录下的文件
 const watcher = chokidar.watch(path.resolve(root))
@@ -271,7 +271,7 @@ socket.addEventListener("message", async ({ data }) => {
 async function handleMessage(payload: HMRPayload) {
   switch (payload.type) {
     case "connected":
-      console.log(`[vite] connected.`)
+      console.log("[vite] connected.")
       // 心跳检测
       setInterval(() => socket.send("ping"), __HMR_TIMEOUT__)
       break
@@ -351,13 +351,13 @@ async function fetchUpdate({ path, acceptedPath, timestamp }: Update) {
     Array.from(modulesToUpdate).map(async (dep) => {
       const disposer = disposeMap.get(dep)
       if (disposer) await disposer(dataMap.get(dep))
-      const [path, query] = dep.split(`?`)
+      const [path, query] = dep.split("?")
       try {
         const newMod = await import(
           /* @vite-ignore */
-          base +
-            path.slice(1) +
-            `?import&t=${timestamp}${query ? `&${query}` : ""}`
+          `${base +
+            path.slice(1) 
+            }?import&t=${timestamp}${query ? `&${query}` : ""}`
         )
         moduleMap.set(dep, newMod)
       } catch (e) {
@@ -409,7 +409,7 @@ export const createHotContext = (ownerPath: string) => {
       } else if (Array.isArray(deps)) {
         acceptDeps(deps, callback)
       } else {
-        throw new Error(`invalid hot.accept() usage.`)
+        throw new TypeError("invalid hot.accept() usage.")
       }
     },
     // import.meta.hot.dispose

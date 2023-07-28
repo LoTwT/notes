@@ -238,7 +238,7 @@ type RemoveFirstDelimiter<S extends string> = S extends `${string}${infer R}`
   ? R
   : S
 
-let res = join("-")("guang", "and", "dong") // let res: "guang-and-dong"
+const res = join("-")("guang", "and", "dong") // let res: "guang-and-dong"
 ```
 
 ### DeepCamelize

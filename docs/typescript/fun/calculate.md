@@ -28,8 +28,10 @@ type Sum<A extends number, B extends number> = [
 type Res = Sum<1, 1> // 2
 type Res1 = Sum<999, 999> // 1998
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 type Res2 = Sum<999, 1000> // 报错：类型实例化过深，且可能无限。ts(2589)
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 type Res3 = Sum<-1, 0> // 报错：类型实例化过深，且可能无限。ts(2589)
 ```
@@ -55,6 +57,7 @@ type Res = Subtract<2, 1> // 1
 type Res1 = Subtract<0, 1> // never
 type Res2 = Subtract<999, 998> // 1
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 type Res3 = Subtract<1000, 999> // 报错：类型实例化过深，且可能无限。ts(2589)
 ```

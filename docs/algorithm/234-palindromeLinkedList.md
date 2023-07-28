@@ -12,7 +12,7 @@ function isPalindrome(head: ListNode | null): boolean {
   while (fast && fast.next) {
     fast = fast.next.next
 
-    let next = slow.next
+    const next = slow.next
     slow.next = prev
     prev = slow
     slow = next

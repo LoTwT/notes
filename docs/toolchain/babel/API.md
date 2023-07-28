@@ -110,7 +110,7 @@ traverse(ast, {
 
 // 进入 FunctionDeclaration 和 VariableDeclaration 节点时调用
 traverse(ast, {
-  "FunctionDeclaration|VariableDeclaration"(path, state) {},
+  "FunctionDeclaration|VariableDeclaration": function(path, state) {},
 })
 
 // 通过别名指定离开各种 Declaration 节点时调用
@@ -188,9 +188,10 @@ export interface TemplateBuilder<T> {
   /**
    * Building from a template literal produces an AST builder function by default.
    */
-  (tpl: TemplateStringsArray, ...args: unknown[]): (
-    arg?: PublicReplacements,
-  ) => T
+  (
+    tpl: TemplateStringsArray,
+    ...args: unknown[]
+  ): (arg?: PublicReplacements) => T
 
   /**
    * Allow users to explicitly create templates that produce ASTs,
@@ -232,7 +233,7 @@ export default templateBuilder
 - 模板内可以添加占位符
 
   ```js
-  const fn = template(`console.log(NAME)`)
+  const fn = template("console.log(NAME)")
   const ast = fn({
     NAME: t.stringLiteral("guang"),
   })
@@ -241,7 +242,7 @@ export default templateBuilder
   或
 
   ```js
-  const fn = template(`console.log(%%NAME%%)`)
+  const fn = template("console.log(%%NAME%%)")
 
   const ast = fn({
     NAME: t.stringLiteral("guang"),
@@ -313,7 +314,7 @@ try {
 } catch (err) {
   console.error(
     codeFrameColumns(
-      `const name = guang`,
+      "const name = guang",
       {
         start: { line: 1, column: 14 },
       },

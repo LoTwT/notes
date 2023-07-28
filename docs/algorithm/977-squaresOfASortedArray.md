@@ -11,13 +11,13 @@ function sortedSquares(nums: number[]): number[] {
   let head = 0
   let tail = nums.length - 1
   // 结果数组
-  let result = new Array(nums.length)
+  const result = Array.from({length: nums.length})
   // 结果数组当前位的下标
   let cur = tail
 
   while (head <= tail) {
-    let h = nums[head] * nums[head]
-    let t = nums[tail] * nums[tail]
+    const h = nums[head] * nums[head]
+    const t = nums[tail] * nums[tail]
 
     // 比较平方值，大的放进结果数组
     if (h < t) {

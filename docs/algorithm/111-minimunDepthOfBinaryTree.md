@@ -35,7 +35,7 @@ function minDepth(root: TreeNode | null): number {
 
     // 精确控制遍历的个数
     while (size--) {
-      let node = stack.shift()
+      const node = stack.shift()
 
       // 找到叶子节点即返回当前层级
       if (!node.left && !node.right) return dep

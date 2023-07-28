@@ -208,7 +208,7 @@ export default {
 ```ts
 // vite.config.ts
 {
-  build {
+  build: {
     rollupOptions: {
       output: {
         // 1. 对象配置
@@ -240,11 +240,11 @@ export default {
 
 在一个完整的 Web 应用中，对于某些模块当前页面可能并不需要，如果浏览器在加载当前页面的同时也需要加载这些不必要的模块，那么可能会带来严重的性能问题。一个比较好的方式是对路由组件进行动态引入，比如在 React 应用中使用 @loadable/component 进行组件异步加载：
 
-```ts
+```tsx
 import React from "react"
 import ReactDOM from "react-dom"
 import loadable from "@loadable/component"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes } from "react-router-dom"
 
 const Foo = loadable(() => import("./routes/Foo"))
 const Bar = loadable(() => import("./routes/Bar"))
@@ -266,7 +266,7 @@ ReactDOM.render(
 
 当然，对于组件内部的逻辑，也可以通过动态 import 的方式来延迟执行，进一步优化首屏的加载性能，如下代码所示：
 
-```ts
+```tsx
 function App() {
   const computeFunc = async () => {
     // 延迟加载第三方库

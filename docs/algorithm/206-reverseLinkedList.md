@@ -11,7 +11,7 @@ function reverseList(head: ListNode | null): ListNode | null {
 
   while (curr) {
     // 取出下一个节点
-    let next = curr.next
+    const next = curr.next
     // 将当前节点指向原本的前一个节点 (反转)
     curr.next = prev
     // 将反转完的当前节点赋值给 prev

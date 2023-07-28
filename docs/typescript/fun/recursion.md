@@ -159,7 +159,7 @@ type Res1 = ReverseStr1<"abcd"> // "dcba"
 type DeepReadonly<O extends Record<string, any>> = O extends any
   ? {
       readonly [P in keyof O]: O[P] extends object
-        ? O[P] extends Function
+        ? O[P] extends () => void
           ? O[P]
           : DeepReadonly<O[P]>
         : O[P]

@@ -16,6 +16,6 @@ function lowestCommonAncestor(
 
   if (left && right) return root
 
-  return left ? left : right
+  return left || right
 }
 ```

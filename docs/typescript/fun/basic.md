@@ -118,8 +118,8 @@ interface PersonClassConstructor {
   new (name: string, age: number): IPerson
 }
 
-function createPerson(ctor: PersonClassConstructor): IPerson {
-  return new ctor("user", 18)
+function createPerson(Ctor: PersonClassConstructor): IPerson {
+  return new Ctor("user", 18)
 }
 ```
 
@@ -151,7 +151,9 @@ enum Direction {
 ```ts
 type Str1 = "aaa"
 type Num = 1
-type Obj = { a: 1 }
+interface Obj {
+  a: 1
+}
 
 // 字符串的第二种字面量类型 - 模板字面量
 type Str2 = `#${string}`

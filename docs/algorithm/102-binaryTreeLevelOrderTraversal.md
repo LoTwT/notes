@@ -17,7 +17,7 @@ function levelOrder(root: TreeNode | null): number[][] {
     // 当前层的节点数
     let len = queue.length
     // 当前层的节点值
-    let currLevel = []
+    const currLevel = []
 
     while (len > 0) {
       // 按照从左往右的顺序，取出节点

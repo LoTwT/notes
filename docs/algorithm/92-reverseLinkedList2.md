@@ -7,7 +7,7 @@ function reverseBetween(
   right: number,
 ): ListNode | null {
   // 哨兵节点
-  let dummy = new ListNode(undefined, head)
+  const dummy = new ListNode(undefined, head)
   let temp = dummy
 
   // 先遍历到 left 的前一个位置 (因为使用了哨兵节点)
@@ -22,7 +22,7 @@ function reverseBetween(
   // 反转节点
   // 注意循环次数 ( 3 个节点反转 2 次)
   for (let j = 0; j < right - left; j++) {
-    let next = curr.next
+    const next = curr.next
     curr.next = prev
     prev = curr
     curr = next
