@@ -9,7 +9,6 @@ export const test: DefaultTheme.SidebarMulti = {
     {
       text: "单元测试",
       collapsed: true,
-      collapsible: true,
       items: [
         {
           text: "概述",
