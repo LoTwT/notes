@@ -139,19 +139,16 @@ const myPlugin = () => ({
 ```ts
 const htmlPlugin = () => {
   return {
-    name: 'html-transform',
+    name: "html-transform",
     transformIndexHtml(html) {
-      return html.replace(
-        /<title>(.*?)</title>/,
-        `<title>换了个标题</title>`
-      )
-    }
+      return html.replace(/<title>(.*?)<\/title>/, "<title>换了个标题</title>")
+    },
   }
 }
 // 也可以返回如下的对象结构，一般用于添加某些标签
 const htmlPlugin = () => {
   return {
-    name: 'html-transform',
+    name: "html-transform",
     transformIndexHtml(html) {
       return {
         html,
@@ -159,15 +156,15 @@ const htmlPlugin = () => {
         tags: [
           {
             // 放到 body 末尾，可取值还有`head`|`head-prepend`|`body-prepend`，顾名思义
-            injectTo: 'body',
+            injectTo: "body",
             // 标签属性定义
-            attrs: { type: 'module', src: './index.ts' },
+            attrs: { type: "module", src: "./index.ts" },
             // 标签名
-            tag: 'script',
+            tag: "script",
           },
         ],
       }
-    }
+    },
   }
 }
 ```
@@ -229,42 +226,43 @@ if (import.meta.hot) {
 // 注: 请求响应阶段的钩子
 // 如 resolveId, load, transform, transformIndexHtml在下文介绍
 // 以下为服务启动和关闭的钩子
-export default function testHookPlugin () {
+export default function testHookPlugin() {
   return {
-    name: 'test-hooks-plugin',
+    name: "test-hooks-plugin",
     // Vite 独有钩子
     config(config) {
-      console.log('config');
+      console.log("config")
     },
     // Vite 独有钩子
     configResolved(resolvedCofnig) {
-      console.log('configResolved');
+      console.log("configResolved")
     },
     // 通用钩子
     options(opts) {
-      console.log('options');
-      return opts;
+      console.log("options")
+      return opts
     },
     // Vite 独有钩子
     configureServer(server) {
-      console.log('configureServer');
+      console.log("configureServer")
       setTimeout(() => {
         // 手动退出进程
-        process.kill(process.pid, 'SIGTERM');
+        process.kill(process.pid, "SIGTERM")
       }, 3000)
     },
     // 通用钩子
     buildStart() {
-      console.log('buildStart');
+      console.log("buildStart")
     },
     // 通用钩子
     buildEnd() {
-      console.log('buildEnd');
+      console.log("buildEnd")
     },
     // 通用钩子
     closeBundle() {
-      console.log('closeBundle');
-    }
+      console.log("closeBundle")
+    },
+  }
 }
 ```
 

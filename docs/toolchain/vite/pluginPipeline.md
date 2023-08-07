@@ -260,7 +260,7 @@ new URL("./foo.png", import.meta.url)
 
 ```ts
 // 使用 self.location 来保证低版本浏览器和 Web Worker 环境的兼容性
-new URL('./assets.a4b3d56d.png, self.location)
+new URL("./assets.a4b3d56d.png", self.location)
 ```
 
 同时也能支持动态 import ，如：
@@ -300,9 +300,9 @@ if (isCss) {
 
 ```ts
 // 转换前
-import('a')
+import("a")
 // 转换后
-__vitePreload(() => 'a', __VITE_IS_MODERN__ ?"__VITE_PRELOAD__":void)
+__vitePreload(() => "a", __VITE_IS_MODERN__ ? "__VITE_PRELOAD__" : void)
 ```
 
 其中，`__vitePreload` 会被加载为前文中的 `preload` 工具函数，`__VITE_IS_MODERN__` 会在 renderChunk 中被替换成 true 或者 false ，表示是否为 Modern 模式打包，而对于 `__VITE_PRELOAD__` ，Vite 会在 `generateBundle` 阶段，分析出 a 模块所有依赖文件 ( 包括 CSS ) ，将依赖文件名的数组作为 preload 工具函数的第二个参数。
@@ -345,7 +345,7 @@ Vite 提供了两种 JS 代码压缩工具，Esbuild 和 Terser ，分别由两�
 
 在开发环境中，Vite 会自动往 HTML 中注入一段 client 的脚本：
 
-```ts
+```html
 <script type="module" src="/@vite/client"></script>
 ```
 

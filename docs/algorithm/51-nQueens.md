@@ -19,7 +19,7 @@ function solveNQueens(n: number): string[][] {
     if (row === n) {
       ret.push(
         tmp.map((t) => {
-          const arr = new Array(n).fill(".")
+          const arr = Array.from({ length: n }).fill(".")
           arr[t] = "Q"
           return arr.join("")
         }),

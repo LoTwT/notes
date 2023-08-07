@@ -124,15 +124,13 @@ es-module-shims 基于 WASM 实现，性能并不差，相比浏览器原生的�
   ```json
   {
     "exports": {
-      {
-        ".": {
+      ".": {
         "node": {
           "import": "./main.js",
           "require": "./main.cjs"
-          }
         }
       }
-    },
+    }
   }
   ```
 

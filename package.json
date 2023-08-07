@@ -53,7 +53,15 @@
       "node_modules",
       "docs/.vitepress/dist",
       "docs/.vitepress/cache",
-      "*.md"
+      "docs/toolchain/vite/prebuild.md",
+      "docs/toolchain/vite/pluginPipeline.md",
+      "docs/toolchain/vite/plugin.md",
+      "docs/toolchain/vite/optimize.md",
+      "docs/toolchain/vite/hmr.md",
+      "docs/toolchain/vite/hmr2.md",
+      "docs/toolchain/vite/config.md",
+      "docs/toolchain/babel/traverse.md",
+      "docs/toolchain/babel/API.md"
     ]
   }
 }

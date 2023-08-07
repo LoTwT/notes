@@ -9,7 +9,7 @@ function lowestCommonAncestor(
   if (root === null) return null
 
   // 当前节点 root 如果就是 p 或 q，就返回 root
-  if (root == p || root == q) return root
+  if (root === p || root === q) return root
 
   const left = lowestCommonAncestor(root.left, p, q)
   const right = lowestCommonAncestor(root.right, p, q)

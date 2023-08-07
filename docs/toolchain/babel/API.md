@@ -110,7 +110,7 @@ traverse(ast, {
 
 // 进入 FunctionDeclaration 和 VariableDeclaration 节点时调用
 traverse(ast, {
-  "FunctionDeclaration|VariableDeclaration": function(path, state) {},
+  "FunctionDeclaration|VariableDeclaration": function (path, state) {},
 })
 
 // 通过别名指定离开各种 Declaration 节点时调用

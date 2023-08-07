@@ -10,12 +10,11 @@
 
 ```json
 {
-  ...，
   "scripts": {
     "build": "npm run build:js && npm run build:dts",
     "build:js": "rimraf dist && rollup -c ./rollup.config.js", // 构建 js
     "build:dts": "api-extractor run --local --verbose" // 构建 ts 类型声明文件 d.ts
-  }，
+  }
 }
 ```
 
