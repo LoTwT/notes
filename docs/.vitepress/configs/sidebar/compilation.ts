@@ -18,5 +18,15 @@ export const compilation: DefaultTheme.SidebarMulti = {
         },
       ],
     },
+    {
+      text: "前端依赖治理：代码分析工具",
+      collapsed: true,
+      items: [
+        {
+          text: "AST 抽象语法树",
+          link: "/compilation/code-analyze/ast",
+        },
+      ],
+    },
   ],
 }
