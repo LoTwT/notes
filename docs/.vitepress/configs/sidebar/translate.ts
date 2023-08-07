@@ -4,7 +4,6 @@ export const translate: DefaultTheme.SidebarMulti = {
   "/translate/": [
     {
       text: "翻译",
-      collapsible: true,
       items: [
         {
           text: "Node.js 18 发布公告",

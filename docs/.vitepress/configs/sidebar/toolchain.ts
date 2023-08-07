@@ -7,7 +7,7 @@ export const toolchain: DefaultTheme.SidebarMulti = {
     },
     {
       text: "Vite",
-      collapsible: true,
+      collapsed: true,
       items: [
         { text: "概览", link: "/toolchain/vite/overview" },
         { text: "模块规范", link: "/toolchain/vite/module" },
@@ -28,7 +28,7 @@ export const toolchain: DefaultTheme.SidebarMulti = {
     },
     {
       text: "工程化",
-      collapsible: true,
+      collapsed: true,
       items: [
         { text: "前端工程化", link: "/toolchain/engineering/engineering" },
         { text: "规范", link: "/toolchain/engineering/standard" },
@@ -43,12 +43,12 @@ export const toolchain: DefaultTheme.SidebarMulti = {
     },
     {
       text: "Rollup",
-      collapsible: true,
+      collapsed: true,
       items: [{ text: "构建 ts package", link: "/toolchain/rollup/tspackage" }],
     },
     {
       text: "Babel",
-      collapsible: true,
+      collapsed: true,
       items: [
         { text: "Babel", link: "/toolchain/babel/babel" },
         { text: "AST", link: "/toolchain/babel/AST" },

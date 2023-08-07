@@ -5,7 +5,6 @@ export const typescript: DefaultTheme.SidebarMulti = {
     {
       text: "Typescript",
       collapsed: true,
-      collapsible: true,
       items: [
         { text: "基础", link: "/typescript/fun/basic" },
         { text: "模式匹配", link: "/typescript/fun/patternMatching" },
@@ -22,19 +21,16 @@ export const typescript: DefaultTheme.SidebarMulti = {
     {
       text: "类型体操",
       collapsed: true,
-      collapsible: true,
       items: [{ text: "twoSum", link: "/typescript/challenges/two-sum" }],
     },
     {
       text: "issues",
       collapsed: true,
-      collapsible: true,
       items: [{ text: "CJS in ESM", link: "/typescript/issues/cjs-in-esm" }],
     },
     {
       text: "其他",
       collapsed: true,
-      collapsible: true,
       items: [
         { text: "分布式类型声明？", link: "/typescript/others/distributedDts" },
       ],

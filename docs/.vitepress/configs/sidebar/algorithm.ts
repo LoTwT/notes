@@ -4,7 +4,6 @@ export const algorithm: DefaultTheme.SidebarMulti = {
   "/algorithm/": [
     {
       text: "计算机基础",
-      collapsible: true,
       collapsed: true,
       items: [
         { text: "冒泡排序", link: "/algorithm/bubbleSort" },

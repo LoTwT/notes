@@ -1,6 +1,5 @@
 node_modules
 .temp
 .cache
-.vscode
 dist
 docs/.vitepress/cache

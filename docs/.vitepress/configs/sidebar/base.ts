@@ -4,7 +4,6 @@ export const base: DefaultTheme.SidebarMulti = {
   "/base/": [
     {
       text: "计算机基础",
-      collapsible: true,
       collapsed: true,
       items: [
         { text: "位运算", link: "/base/bitwiseOperation" },

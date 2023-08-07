@@ -4,7 +4,6 @@ export const devops: DefaultTheme.SidebarMulti = {
   "/devops/": [
     {
       text: "DevOps",
-      collapsible: true,
       collapsed: true,
       items: [
         { text: "AWS Ubuntu", link: "/devops/aws-ubuntu" },
@@ -14,7 +13,6 @@ export const devops: DefaultTheme.SidebarMulti = {
     },
     {
       text: "Linux",
-      collapsible: true,
       collapsed: true,
       items: [
         {
