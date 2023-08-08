@@ -26,6 +26,10 @@ export const compilation: DefaultTheme.SidebarMulti = {
           text: "AST 抽象语法树",
           link: "/compilation/code-analyze/ast",
         },
+        {
+          text: "从分析一段 TS 代码开始",
+          link: "/compilation/code-analyze/start",
+        },
       ],
     },
   ],
