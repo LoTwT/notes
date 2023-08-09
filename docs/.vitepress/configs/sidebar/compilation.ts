@@ -30,6 +30,10 @@ export const compilation: DefaultTheme.SidebarMulti = {
           text: "从分析一段 TS 代码开始",
           link: "/compilation/code-analyze/start",
         },
+        {
+          text: "架构设计 & 分析范式",
+          link: "/compilation/code-analyze/design",
+        },
       ],
     },
   ],
