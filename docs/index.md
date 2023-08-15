@@ -1,8 +1,8 @@
 ---
 layout: home
 
-title: Vite
-titleTemplate: Next Generation Frontend Tooling
+title: Notes
+titleTemplate: Ayingott's Notes
 
 hero:
   name: Ayingott's notes
