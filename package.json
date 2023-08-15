@@ -28,16 +28,16 @@
   },
   "devDependencies": {
     "@ayingott/eslint-config": "^0.2.7",
-    "@types/node": "^20.4.8",
-    "eslint": "^8.46.0",
-    "lint-staged": "^13.2.3",
+    "@types/node": "^20.5.0",
+    "eslint": "^8.47.0",
+    "lint-staged": "^14.0.0",
     "pnpm": "^8.6.12",
     "prettier": "^3.0.1",
     "simple-git-hooks": "^2.9.0",
     "taze": "^0.11.2",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6",
-    "vitepress": "1.0.0-beta.7",
+    "vitepress": "1.0.0-rc.4",
     "vue": "^3.3.4"
   },
   "simple-git-hooks": {
