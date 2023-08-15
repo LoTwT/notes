@@ -1,5 +1,6 @@
 {
   "name": "notes",
+  "type": "module",
   "version": "0.0.0",
   "packageManager": "pnpm@8.6.12",
   "description": "",
