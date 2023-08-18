@@ -25,7 +25,8 @@
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --write .",
     "prepare": "simple-git-hooks",
-    "up": "taze latest -I"
+    "up": "taze latest -I",
+    "build:play": "pnpm -C playground run build"
   },
   "devDependencies": {
     "@ayingott/eslint-config": "^0.2.7",
