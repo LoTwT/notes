@@ -12,6 +12,8 @@ export default defineConfig({
 
   lastUpdated: true,
 
+  head: [["link", { rel: "icon", href: "/mea.jpg" }]],
+
   themeConfig: {
     logo: "/mea.jpg",
 
