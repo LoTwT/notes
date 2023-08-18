@@ -17,18 +17,15 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "dev": "vitepress dev docs --open",
-    "build": "vitepress build docs",
-    "serve": "vitepress serve docs",
+    "dev": "vitepress dev --open",
+    "build": "vitepress build",
+    "serve": "vitepress serve",
     "sum:al": "tsx scripts/sumOfAlgorithm.ts",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --write .",
     "prepare": "simple-git-hooks",
     "up": "taze latest -I"
-  },
-  "dependencies": {
-    "vite-plugin-sirv": "^0.0.2"
   },
   "devDependencies": {
     "@ayingott/eslint-config": "^0.2.7",
@@ -55,17 +52,17 @@
     "ignorePatterns": [
       "dist",
       "node_modules",
-      "docs/.vitepress/dist",
-      "docs/.vitepress/cache",
-      "docs/docs/toolchain/vite/prebuild.md",
-      "docs/docs/toolchain/vite/pluginPipeline.md",
-      "docs/docs/toolchain/vite/plugin.md",
-      "docs/docs/toolchain/vite/optimize.md",
-      "docs/docs/toolchain/vite/hmr.md",
-      "docs/docs/toolchain/vite/hmr2.md",
-      "docs/docs/toolchain/vite/config.md",
-      "docs/docs/toolchain/babel/traverse.md",
-      "docs/docs/toolchain/babel/API.md"
+      ".vitepress/dist",
+      ".vitepress/cache",
+      "docs/toolchain/vite/prebuild.md",
+      "docs/toolchain/vite/pluginPipeline.md",
+      "docs/toolchain/vite/plugin.md",
+      "docs/toolchain/vite/optimize.md",
+      "docs/toolchain/vite/hmr.md",
+      "docs/toolchain/vite/hmr2.md",
+      "docs/toolchain/vite/config.md",
+      "docs/toolchain/babel/traverse.md",
+      "docs/toolchain/babel/API.md"
     ]
   }
 }
