@@ -27,6 +27,9 @@
     "prepare": "simple-git-hooks",
     "up": "taze latest -I"
   },
+  "dependencies": {
+    "vite-plugin-sirv": "^0.0.2"
+  },
   "devDependencies": {
     "@ayingott/eslint-config": "^0.2.7",
     "@types/node": "^20.5.0",

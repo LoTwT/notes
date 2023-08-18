@@ -1,4 +1,6 @@
+import path from "node:path"
 import { defineConfig } from "vitepress"
+import VitePluginSirv from "vite-plugin-sirv"
 import { nav, sidebar } from "./configs"
 
 export default defineConfig({
@@ -17,5 +19,17 @@ export default defineConfig({
 
     nav,
     sidebar,
+  },
+
+  vite: {
+    plugins: [
+      VitePluginSirv({
+        route: "/raw",
+        dir: path.resolve(__dirname, "../docs"),
+        options: {
+          extensions: ["md"],
+        },
+      }),
+    ],
   },
 })
