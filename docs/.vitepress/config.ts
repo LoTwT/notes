@@ -6,6 +6,8 @@ export default defineConfig({
   title: "Ayingotts's notes",
   description: "useless and naive notes",
 
+  srcDir: "./docs",
+
   lastUpdated: true,
 
   themeConfig: {

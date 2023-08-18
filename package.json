@@ -54,15 +54,15 @@
       "node_modules",
       "docs/.vitepress/dist",
       "docs/.vitepress/cache",
-      "docs/toolchain/vite/prebuild.md",
-      "docs/toolchain/vite/pluginPipeline.md",
-      "docs/toolchain/vite/plugin.md",
-      "docs/toolchain/vite/optimize.md",
-      "docs/toolchain/vite/hmr.md",
-      "docs/toolchain/vite/hmr2.md",
-      "docs/toolchain/vite/config.md",
-      "docs/toolchain/babel/traverse.md",
-      "docs/toolchain/babel/API.md"
+      "docs/docs/toolchain/vite/prebuild.md",
+      "docs/docs/toolchain/vite/pluginPipeline.md",
+      "docs/docs/toolchain/vite/plugin.md",
+      "docs/docs/toolchain/vite/optimize.md",
+      "docs/docs/toolchain/vite/hmr.md",
+      "docs/docs/toolchain/vite/hmr2.md",
+      "docs/docs/toolchain/vite/config.md",
+      "docs/docs/toolchain/babel/traverse.md",
+      "docs/docs/toolchain/babel/API.md"
     ]
   }
 }
