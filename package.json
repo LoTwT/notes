@@ -17,9 +17,9 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "dev": "vitepress dev --open",
-    "build": "vitepress build",
-    "serve": "vitepress serve",
+    "dev": "TARGET=dev vitepress dev --open",
+    "build": "TARGET=prod vitepress build && tsx scripts/copy.ts",
+    "preview": "TARGET=prod vitepress preview",
     "sum:al": "tsx scripts/sumOfAlgorithm.ts",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
@@ -27,8 +27,14 @@
     "prepare": "simple-git-hooks",
     "up": "taze latest -I"
   },
+  "dependencies": {
+    "fs-extra": "^11.1.1",
+    "vite-plugin-sirv": "^0.0.2"
+  },
   "devDependencies": {
     "@ayingott/eslint-config": "^0.2.7",
+    "@ayingott/sucrose": "^0.0.31",
+    "@types/fs-extra": "^11.0.1",
     "@types/node": "^20.5.0",
     "eslint": "^8.47.0",
     "lint-staged": "^14.0.0",
