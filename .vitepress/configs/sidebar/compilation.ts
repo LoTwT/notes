@@ -38,6 +38,10 @@ export const compilation: DefaultTheme.SidebarMulti = {
           text: "扫描 & 解析 TS 文件",
           link: "/compilation/code-analyze/scan-parse",
         },
+        {
+          text: "分析 Import 节点",
+          link: "/compilation/code-analyze/analyze-import",
+        },
       ],
     },
   ],

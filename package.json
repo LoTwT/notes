@@ -68,7 +68,8 @@
       "docs/toolchain/vite/hmr2.md",
       "docs/toolchain/vite/config.md",
       "docs/toolchain/babel/traverse.md",
-      "docs/toolchain/babel/API.md"
+      "docs/toolchain/babel/API.md",
+      "docs/compilation/code-analyze/analyze-import.md"
     ]
   }
 }
