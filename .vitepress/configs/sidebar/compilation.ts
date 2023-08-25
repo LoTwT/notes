@@ -42,6 +42,10 @@ export const compilation: DefaultTheme.SidebarMulti = {
           text: "分析 Import 节点",
           link: "/compilation/code-analyze/analyze-import",
         },
+        {
+          text: "判定 API 调用",
+          link: "/compilation/code-analyze/judge-call",
+        },
       ],
     },
   ],
