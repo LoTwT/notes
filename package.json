@@ -1,9 +1,9 @@
 {
   "name": "notes",
-  "type": "module",
   "version": "0.0.0",
-  "packageManager": "pnpm@8.6.12",
   "description": "",
+  "type": "module",
+  "packageManager": "pnpm@8.7.1",
   "author": "LoTwT",
   "license": "ISC",
   "homepage": "https://github.com/LoTwT/notes#readme",
@@ -20,7 +20,7 @@
     "dev": "TARGET=dev vitepress dev --open",
     "build": "TARGET=prod vitepress build && tsx scripts/copy.ts",
     "preview": "TARGET=prod vitepress preview",
-    "sum:al": "tsx scripts/sumOfAlgorithm.ts",
+    "sum:al": "tsx scripts/sum-of-algorithm.ts",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --write .",
@@ -32,44 +32,30 @@
     "vite-plugin-sirv": "^0.0.2"
   },
   "devDependencies": {
-    "@ayingott/eslint-config": "^0.2.7",
-    "@ayingott/sucrose": "^0.0.31",
+    "@ayingott/eslint-config": "^0.5.2",
+    "@ayingott/prettier-config": "^0.1.0",
+    "@ayingott/sucrose": "^0.0.32",
     "@types/fs-extra": "^11.0.1",
-    "@types/node": "^20.5.6",
-    "eslint": "^8.47.0",
+    "@types/node": "^20.5.9",
+    "eslint": "^8.48.0",
     "lint-staged": "^14.0.1",
-    "pnpm": "^8.6.12",
-    "prettier": "^3.0.2",
+    "pnpm": "^8.7.1",
+    "prettier": "^3.0.3",
     "simple-git-hooks": "^2.9.0",
     "taze": "^0.11.2",
-    "tsx": "^3.12.7",
+    "tsx": "^3.12.8",
     "typescript": "^5.2.2",
-    "vitepress": "1.0.0-rc.4",
+    "vitepress": "1.0.0-rc.10",
     "vue": "^3.3.4"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"
   },
   "lint-staged": {
-    "*": "eslint --fix"
-  },
-  "eslintConfig": {
-    "extends": "@ayingott/eslint-config",
-    "ignorePatterns": [
-      "dist",
-      "node_modules",
-      ".vitepress/dist",
-      ".vitepress/cache",
-      "docs/toolchain/vite/prebuild.md",
-      "docs/toolchain/vite/pluginPipeline.md",
-      "docs/toolchain/vite/plugin.md",
-      "docs/toolchain/vite/optimize.md",
-      "docs/toolchain/vite/hmr.md",
-      "docs/toolchain/vite/hmr2.md",
-      "docs/toolchain/vite/config.md",
-      "docs/toolchain/babel/traverse.md",
-      "docs/toolchain/babel/API.md",
-      "docs/compilation/code-analyze/analyze-import.md"
+    "*": [
+      "eslint --fix",
+      "prettier --write --ignore-unknown"
     ]
-  }
+  },
+  "prettier": "@ayingott/prettier-config"
 }

@@ -5,7 +5,7 @@ const sum = async () => {
   const targetPath = resolve(__dirname, "../docs/algorithm")
   const files = await readdir(targetPath)
 
-  const reg = /^\d{0,}-.*.md$/
+  const reg = /^\d*-.+md$/
 
   const len = files.filter((f) => reg.test(f)).length
 

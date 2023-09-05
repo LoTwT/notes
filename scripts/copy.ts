@@ -1,8 +1,8 @@
 import { resolve } from "node:path"
 import fse from "fs-extra"
-import { useDirname } from "@ayingott/sucrose"
+import { getDirname } from "@ayingott/sucrose"
 
-const __dirname = useDirname(import.meta.url)
+const __dirname = getDirname(import.meta.url)
 
 const copy = () => {
   if (!fse.pathExistsSync(resolve(__dirname, "../.vitepress/dist"))) {
