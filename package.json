@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "",
   "type": "module",
-  "packageManager": "pnpm@8.8.0",
+  "packageManager": "pnpm@8.12.0",
   "author": "LoTwT",
   "license": "ISC",
   "homepage": "https://github.com/LoTwT/notes#readme",
@@ -28,25 +28,25 @@
     "up": "taze latest -I"
   },
   "dependencies": {
-    "fs-extra": "^11.1.1",
+    "fs-extra": "^11.2.0",
     "vite-plugin-sirv": "^0.0.2"
   },
   "devDependencies": {
-    "@ayingott/eslint-config": "^0.7.0",
+    "@ayingott/eslint-config": "^0.7.5",
     "@ayingott/prettier-config": "^0.1.2",
     "@ayingott/sucrose": "^0.0.34",
-    "@types/fs-extra": "^11.0.2",
-    "@types/node": "^20.8.0",
-    "eslint": "^8.50.0",
-    "lint-staged": "^14.0.1",
-    "pnpm": "^8.8.0",
-    "prettier": "^3.0.3",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.10.4",
+    "eslint": "^8.55.0",
+    "lint-staged": "^15.2.0",
+    "pnpm": "^8.12.0",
+    "prettier": "^3.1.1",
     "simple-git-hooks": "^2.9.0",
-    "taze": "^0.11.3",
-    "tsx": "^3.13.0",
-    "typescript": "^5.2.2",
+    "taze": "^0.13.0",
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.3",
     "vitepress": "1.0.0-rc.20",
-    "vue": "^3.3.4"
+    "vue": "^3.3.11"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"
